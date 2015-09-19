@@ -10,7 +10,7 @@ class MerchantsController < ApplicationController
     @name = User.friendly.find(params[:id]).name
     if User.friendly.find(params[:id]).account_approved? || User.friendly.find(params[:id]).admin?
       @merchant = User.friendly.find(params[:id])
-      @products = @merchant.products.where(active:true)
+      @products = @merchant.fundraising_goals.where(active:true)
       # if current_user != @merchant || !current_user
       #   if current_user
       #     User.profile_views(current_user.id, request.remote_ip, request.location.data, @merchant)

@@ -8,8 +8,6 @@ class User < ActiveRecord::Base
 
   mount_uploader :logo, PhotoUploader
   
-  has_many :orders, dependent: :destroy
-  has_many :products
   
   has_many :purchases
   has_many :donation_plans
@@ -18,8 +16,6 @@ class User < ActiveRecord::Base
   has_many :text_lists
   has_many :email_lists
   has_many :donations, dependent: :destroy
-  has_many :transfers
-  has_many :shipping_addresses
   has_many :stripe_customer_ids, dependent: :destroy
   has_many :fundraising_goals
 
@@ -33,9 +29,7 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :donation_plans, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :team_members, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :shipping_addresses, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :stripe_customer_ids, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :orders, reject_if: :all_blank, allow_destroy: true
 
   def admin?
     role == "admin"

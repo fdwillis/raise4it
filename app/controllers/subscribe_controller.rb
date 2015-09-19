@@ -115,22 +115,16 @@ before_filter :authenticate_user!
     customer = Stripe::Customer.retrieve(current_user.marketplace_stripe_id)
     customer.subscriptions.retrieve(current_user.stripe_plan_id).delete
 
-    if current_user.products.present?
-      current_user.products.each do |p|
-        p.update_attributes(active: false)
-      end
-    end
-
     if current_user.fundraising_goals.present?
       current_user.fundraising_goals.each do |goal|
         goal.update_attributes(active: false)
       end
     end
-    merchant_orders = Order.all.where(merchant_id: current_user.id)
-    User.merchant_cancled(current_user, (merchant_orders.map(&:total_price).sum - merchant_orders.map(&:refund_amount).sum))
+    merchant_funds = Donation.all.where(organization: current_user.username)
+    User.merchant_cancled(current_user, ((merchant_funds.map(&:amount).sum) / 100))
 
     current_user.update_attributes(role: 'buyer', stripe_plan_id: nil, stripe_plan_name: nil)
     redirect_to edit_user_registration_path
-    flash[:error] = "You No Longer Are A Merchant"
+    flash[:error] = "You No Longer Are A Fundraiser"
   end
 end

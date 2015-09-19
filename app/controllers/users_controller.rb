@@ -94,15 +94,13 @@ class UsersController < ApplicationController
 
 private
   def user_params
-     params.require(:user).permit(:logo, :shipping_address, :return_policy, :address, :currency, :address_country, 
+     params.require(:user).permit(:logo, :return_policy, :address, :currency, :address_country, 
                                   :address_state, :address_zip, :address_city, :stripe_account_type, :dob_day, 
                                   :dob_month, :dob_year, :first_name, :last_name, :statement_descriptor, :support_url, 
                                   :account_approved, :support_phone, :support_email, :business_url, :merchant_id, :business_name,
                                   :stripe_recipient_id, :name, :username, :legal_name, :card_number, :exp_month, 
                                   :exp_year, :cvc_number, :tax_id, :account_number, :routing_number, :country_name, 
-                                  :tax_rate,:bank_currency, shipping_addresses_attributes: [:id, :street, :city, :state, :region, :zip, :_destroy],
-                                  stripe_customer_ids_attributes: [:business_name, :customer_id, :customer_card, :_destroy],
-                                  orders_attributes: [:id, :status, :ship_to, :customer_name, :tracking_number, :shipping_option, :total_price, :user_id, :_destroy], 
+                                  :tax_rate,:bank_currency, stripe_customer_ids_attributes: [:business_name, :customer_id, :customer_card, :_destroy],
                                   donation_plans_attributes: [:id, :amount, :interval, :name, :currency, :uuid, :_destroy],
                                   team_members_attributes: [:id, :name, :percent, :stripe_bank_id, :uuid, :routing_number, :country, :account_number, :_destroy])
   end
