@@ -209,7 +209,7 @@ private
         {
           property_name: "marketplace_name", 
           operator: "eq", 
-          property_value: "MarketplaceBase"
+          property_value: ENV["MARKETPLACE_NAME"]
         },
         {
           property_name: "merchant_id",
@@ -234,7 +234,7 @@ private
         {
           property_name: "marketplace_name", 
           operator: "eq", 
-          property_value: "MarketplaceBase"
+          property_value: ENV["MARKETPLACE_NAME"]
         }
       ]
     )
@@ -249,7 +249,7 @@ private
        {
         property_name: "marketplace_name", 
         operator: "eq", 
-        property_value: "MarketplaceBase"
+        property_value: ENV["MARKETPLACE_NAME"]
        } 
       ]
     )
@@ -275,7 +275,7 @@ private
         {
           property_name: "marketplace_name", 
           operator: "eq", 
-          property_value: "MarketplaceBase"
+          property_value: ENV["MARKETPLACE_NAME"]
         }
       ]  )
   end
@@ -295,7 +295,7 @@ private
         {
           property_name: "marketplace_name", 
           operator: "eq", 
-          property_value: "MarketplaceBase"
+          property_value: ENV["MARKETPLACE_NAME"]
         }
       ]
     )
@@ -309,7 +309,7 @@ private
         {
           property_name: "marketplace_name",
           operator: "eq", 
-          property_value: "MarketplaceBase"
+          property_value: ENV["MARKETPLACE_NAME"]
         }, 
         property_name: "merchant_id", 
         operator: "eq", 
