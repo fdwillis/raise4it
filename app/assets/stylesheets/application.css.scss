@@ -12,11 +12,11 @@
  *
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
  
 @import "bootstrap-sprockets";
 @import "bootstrap";
-
 
 .dashboard {
   width: 1400px;

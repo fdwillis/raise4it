@@ -49,6 +49,7 @@ source 'https://rubygems.org'
   gem 'browser'
   gem 'acts_as_votable'
   gem 'faker'
+  gem "font-awesome-rails"
   # ffaker
   # gem 'rack-mini-profiler', require: false
 
