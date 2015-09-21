@@ -47,43 +47,42 @@
       <%= yield %>
     </body>
   <% else %>  
-  <body>
-    <%= render 'layouts/skinconfig' %>
-    <div id="wrapper">
-      <%= render 'layouts/navigation'%>
-      <div class="container">
-        <% if flash[:notice] %>
-          <div class="text-center alert alert-success">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h3 class="tex-center"><%= flash[:notice] %></h3>
-          </div>
-        <% elsif flash[:error] %>
-          <div class="text-center alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h3 class="tex-center"><%= flash[:error] %></h3>
-          </div>
-        <% elsif flash[:alert] %>
-          <div class="text-center alert alert-warning">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h3 class="tex-center"><%= flash[:alert] %></h3>
-          </div>
-        <% end %>
+    <body>
+      <div id="wrapper">
+        <%= render 'layouts/navigation'%>
+        <div class="container">
+          <% if flash[:notice] %>
+            <div class="text-center alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:notice] %></h3>
+            </div>
+          <% elsif flash[:error] %>
+            <div class="text-center alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:error] %></h3>
+            </div>
+          <% elsif flash[:alert] %>
+            <div class="text-center alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:alert] %></h3>
+            </div>
+          <% end %>
+        </div>
+        <div id="page-wrapper" class="gray-bg">
+          <%= render 'layouts/topnavbar' %>
+          <%= yield %>
+          <%= render 'layouts/footer' %>
+        </div>
+        <%= render 'layouts/rightsidebar' %>
       </div>
-      <div id="page-wrapper" class="gray-bg">
-        <%= render 'layouts/topnavbar' %>
-        <%= yield %>
-        <%= render 'layouts/footer' %>
-      </div>
-      <%= render 'layouts/rightsidebar' %>
-    </div>
-    <script src="/assets/jquery-2.1.1.js"></script>
-    <script src="/assets/bootstrap.min.js"></script>
-    <script src="/assets/jquery.metisMenu.js"></script>
-    <script src="/assets/jquery.slimscroll.min.js"></script>
-    <script src="/assets/inspinia.js"></script>
-    <script src="/assets/pace.min.js"></script>
-    <script src="/assets/jquery-ui.min.js"></script>
-    <script src="/assets/wow.min.js"></script>
-  </body>
+      <script src="/assets/jquery-2.1.1.js"></script>
+      <script src="/assets/bootstrap.min.js"></script>
+      <script src="/assets/jquery.metisMenu.js"></script>
+      <script src="/assets/jquery.slimscroll.min.js"></script>
+      <script src="/assets/inspinia.js"></script>
+      <script src="/assets/pace.min.js"></script>
+      <script src="/assets/jquery-ui.min.js"></script>
+      <script src="/assets/wow.min.js"></script>
+    </body>
   <% end %>
 </html>
