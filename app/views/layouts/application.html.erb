@@ -1,42 +1,88 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= ENV["MARKETPLACE_NAME"] %></title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-  </head>
-  <body>
-    <div class="header">
-      <div class='topbar'>
-        <div class='container'>
-          <ul class=''>
-            <%= render partial: 'layouts/nav'%>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <% if flash[:notice] %>
-        <div class="text-center alert alert-success">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h3 class="tex-center"><%= flash[:notice] %></h3>
-        </div>
-      <% elsif flash[:error] %>
-        <div class="text-center alert alert-danger">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h3 class="tex-center"><%= flash[:error] %></h3>
-        </div>
-      <% elsif flash[:alert] %>
-        <div class="text-center alert alert-warning">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h3 class="tex-center"><%= flash[:alert] %></h3>
-        </div>
-      <% end %>
-    </div>
-    <%= yield %>
-    <%= render partial: 'layouts/footer'%>
+    <link href="/assets/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/font-awesome.css" rel="stylesheet">
 
+    <link href="/assets/animate.css" rel="stylesheet">
+    <link href="/assets/style.css" rel="stylesheet">
+  </head>
+
+  <% if fundraising_goals_path && !current_user %>
+    <body id="page-top" class="landing-page">
+      <div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="index.html">WEBAPPLAYERS</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li><%= link_to "Home", root_path %></li>
+                <li><a class="page-scroll" href="#features">Features</a></li>
+                <li><a class="page-scroll" href="#team">Team</a></li>
+                <li><a class="page-scroll" href="#testimonials">Testimonials</a></li>
+                <li><a class="page-scroll" href="#pricing">Pricing</a></li>
+                <li><a class="page-scroll" href="#contact">Contact</a></li>
+                <li><%= link_to "Sign In", new_user_session_path %></li>
+                <li><%= link_to "Sign Up", new_user_registration_path %></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <%= yield %>
+    </body>
+  <% else %>  
+  <body>
+    <%= render 'layouts/skinconfig' %>
+    <div id="wrapper">
+      <%= render 'layouts/navigation'%>
+      <div class="container">
+        <% if flash[:notice] %>
+          <div class="text-center alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h3 class="tex-center"><%= flash[:notice] %></h3>
+          </div>
+        <% elsif flash[:error] %>
+          <div class="text-center alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h3 class="tex-center"><%= flash[:error] %></h3>
+          </div>
+        <% elsif flash[:alert] %>
+          <div class="text-center alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h3 class="tex-center"><%= flash[:alert] %></h3>
+          </div>
+        <% end %>
+      </div>
+      <div id="page-wrapper" class="gray-bg">
+        <%= render 'layouts/topnavbar' %>
+        <%= yield %>
+        <%= render 'layouts/footer' %>
+      </div>
+      <%= render 'layouts/rightsidebar' %>
+    </div>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
   </body>
+  <% end %>
 </html>

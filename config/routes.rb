@@ -32,5 +32,5 @@ Rails.application.routes.draw do
   post 'notifications/remove_email' => 'notifications#remove_email'
   post 'notifications/stop_notifications' => 'notifications#stop_notifications'
 
-  root to: 'fundraising_goals#index'
+  root to: 'home#home'
 end
