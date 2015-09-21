@@ -18,7 +18,6 @@
             <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">Business/Fundraising</a></li>
           <% end %>
           <li class=""><a href="#basic_info" data-toggle="tab" aria-expanded="false">Account Info </a></li>
-          <li class=""><a href="#shipping" data-toggle="tab" aria-expanded="false">Shipping Addresses</a></li>
         <% end %>
         <li class=""><a href="#payment_info" data-toggle="tab" aria-expanded="false">Payment Source</a></li>
         <% if current_user.donations.present? %>
@@ -230,28 +229,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="shipping">
-        <div class='row'>  
-          <%= form_for(current_user) do |f| %>  
-            <h2 class='text-center'>Shipping Addresses</h2>
-            <div class='form-group'>  
-              <%= f.simple_fields_for :shipping_addresses do |address| %>
-                <%= render 'shipping_address_fields', f: address %>
-              <% end %>
-            </div>
-            <div class="links form-group">
-              <div class='row form-group'>    
-                <%= link_to_add_association 'Add Shipping Option', f, :shipping_addresses, class: 'btn btn-info col-md-6 col-md-offset-3' %>
-              </div>
-            </div>
-            <div class="actions form-group">
-              <div class='row form-group'>    
-                <%= f.submit "Update", class: 'btn btn-success col-md-6 col-md-offset-3' %>
-              </div>
-            </div>
-          <% end %>
         </div>
       </div>
       <div class="tab-pane fade" id="donation_plans">
