@@ -102,14 +102,10 @@ merchant.save!
 merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
 
 20.times do
-  Product.create!(
+  FundraisingGoal.create!(
     user_id: 2,
     title: Faker::Name.name,
-    price: 100,
-    uuid: SecureRandom.uuid,
     active: true,
-    product_image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/2000px-Logo_NIKE.svg.png',
-    quantity: 10
     )
 end
 
