@@ -7,7 +7,12 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <link href="/assets/footable.core.css" rel="stylesheet">
+    <link href="/assets/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="/assets/animate.css" rel="stylesheet">
+    <link href="/assets/style.css" rel="stylesheet">
     <script src="/assets/jquery-2.1.1.js"></script>
     <script src="/assets/bootstrap.min.js"></script>
     <script src="/assets/jquery.metisMenu.js"></script>
@@ -16,14 +21,7 @@
     <script src="/assets/pace.min.js"></script>
     <script src="/assets/jquery-ui.min.js"></script>
     <script src="/assets/wow.min.js"></script>
-    <link href="/assets/footable.core.css" rel="stylesheet">
-    <link href="/assets/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href="/assets/animate.css" rel="stylesheet">
-    <link href="/assets/style.css" rel="stylesheet">
   </head>
-
   <% if fundraising_goals_path && current_user %>
     <body class='mini-navbar'>
       <div id="wrapper">

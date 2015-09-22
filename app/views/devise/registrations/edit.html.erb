@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content animated fadeIn">  
+<div class="wrapper wrapper-content">  
   <div class="row m-t-lg">  
     <div class="col-lg-12">
       <div class="tabs-container">
@@ -158,71 +158,58 @@
               </div>
               <div class="tab-pane" id="donations">
                 <div class='panel-body'>
-                  <div class='container'>
-                    <h1>Donations</h1>
-                    <br>
-                    <div class='row'>
-                      <div class="tab-v2">
+                  <h1 class='text-center'>Donations</h1>
+                  <ul class="nav nav-tabs col-md-6 col-md-offset-4">
+                    <li class=""><a href="#one_time" data-toggle="tab" aria-expanded="false">One Time Donations </a></li>
+                    <li class=""><a href="#subscription" data-toggle="tab" aria-expanded="false">Monthly Donations</a></li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane" id="one_time">
+                      <%= form_for(current_user) do |f| %>
                         <div class='row'>
-                          <ul class="nav nav-pills col-md-6 col-md-offset-4">
-                            <li class=""><a href="#one_time" data-toggle="tab" aria-expanded="false">One Time Donations </a></li>
-                            <li class=""><a href="#subscription" data-toggle="tab" aria-expanded="false">Monthly Donations</a></li>
-                          </ul>
+                          <% current_user.donations.where(donation_type: 'one-time').each do |d| %>
+                            <div class='col-md-4'>  
+                              <div class='form-group'> 
+                                <%= "Donation Amount: #{number_to_currency(d.amount/100, precision: 2)}" %>
+                              </div>
+                              <div class='form-group'> 
+                                <%= "Organization: #{d.organization}" %>
+                              </div>
+                              <div class='form-group'> 
+                                <% if d.fundraising_goal %>
+                                  Fundraiser: <%= link_to "#{d.fundraising_goal.title}", fundraising_goal_path(id: d.fundraising_goal.slug) %>
+                                <% else %>
+                                  Fundraiser: Direct Donation
+                                <% end %>
+                              </div>
+                            </div>
+                          <% end %>
                         </div>
-                        <div class="tab-content">
-                            <div class="tab-pane" id="one_time">
-                              <%= form_for(current_user) do |f| %>
-                                <h1>One Time Donations</h1>
-                                <div class='row'>
-                                  <div class='col-md-4'>  
-                                    <% current_user.donations.where(donation_type: 'one-time').each do |d| %>
-                                      <div class='form-group'> 
-                                        <%= "Donation Amount: #{number_to_currency(d.amount/100, precision: 2)}" %>
-                                      </div>
-                                      <div class='form-group'> 
-                                        <%= "Organization: #{d.organization}" %>
-                                      </div>
-                                      <div class='form-group'> 
-                                        <% if d.fundraising_goal %>
-                                          Fundraiser: <%= link_to "#{d.fundraising_goal.title}", fundraising_goal_path(id: d.fundraising_goal.slug) %>
-                                        <% else %>
-                                          Fundraiser: Direct Donation
-                                        <% end %>
-                                      </div>
-                                    <% end %>
-                                  </div>
-                                </div>
+                      <% end %>
+                    </div>
+                    <div class="tab-pane" id="subscription">
+                      <%= form_for(current_user) do |f| %>
+                        <div class='col-md-4'>  
+                          <% current_user.donations.where(donation_type: 'subscription', active: true).each do |d| %>
+                            <div class='form-group'> 
+                              <%= "Donation Amount: #{number_to_currency(d.amount/100, precision: 2)}" %>
+                            </div>
+                            <div class='form-group'> 
+                              <%= "Organization: #{d.organization}" %>
+                            </div>
+                            <div class='form-group'> 
+                              <% if d.fundraising_goal %>
+                                Fundraiser: <%= link_to "#{d.fundraising_goal.title}", fundraising_goal_path(id: d.fundraising_goal.slug) %>
+                              <% else %>
+                                Direct Donation
                               <% end %>
                             </div>
-                            <div class="tab-pane" id="subscription">
-                              <%= form_for(current_user) do |f| %>
-                                <h1>Monthly Donations</h1>
-                                <div class='row'>
-                                  <div class='col-md-4'>  
-                                    <% current_user.donations.where(donation_type: 'subscription', active: true).each do |d| %>
-                                      <div class='form-group'> 
-                                        <%= "Donation Amount: #{number_to_currency(d.amount/100, precision: 2)}" %>
-                                      </div>
-                                      <div class='form-group'> 
-                                        <%= "Organization: #{d.organization}" %>
-                                      </div>
-                                      <div class='form-group'> 
-                                        <% if d.fundraising_goal %>
-                                          Fundraiser: <%= link_to "#{d.fundraising_goal.title}", fundraising_goal_path(id: d.fundraising_goal.slug) %>
-                                        <% else %>
-                                          Direct Donation
-                                        <% end %>
-                                      </div>
-                                      <div class='form-group'> 
-                                        <%= link_to "Suspend Donation", cancel_donation_plan_path(uuid: d.uuid, fundraiser_username: d.organization, subscription_id: d.subscription_id), method: :put, class: 'btn btn-warning form-control', data: { confirm: 'Are you sure?' } %>
-                                      </div>
-                                    <% end %>
-                                  </div>
-                                </div>
-                              <% end %>
+                            <div class='form-group'> 
+                              <%= link_to "Suspend Donation", cancel_donation_plan_path(uuid: d.uuid, fundraiser_username: d.organization, subscription_id: d.subscription_id), method: :put, class: 'btn btn-warning form-control', data: { confirm: 'Are you sure?' } %>
                             </div>
+                          <% end %>
                         </div>
-                      </div>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -482,34 +469,39 @@
               <div class="tab-pane" id="notifications">
                 <div class='panel-body'>  
                   <div class="col-lg-12">  
-                    <div class='col-md-4 col-md-offset-4'>  
-                      <h3 class='text-center'>Notifications</h3>
-                      <%= form_tag notifications_stop_notifications_path, method: :post do |f| %>
-                        <div class='form-group text-center'>  
-                          <%= radio_button_tag :stop_notifications, "true" %> Off
-                          <%= radio_button_tag :stop_notifications, "false" %> On
-                        </div>
-                        <div class='actions form-group text-center'>
-                          <%= submit_tag "Submit", class: 'btn btn-success btn-rounded btn-block' %>
-                        </div>
-                        <% if current_user.notifications == true %>
-                          <h3 class='text-center'>Notifications: On </h3>
-                        <% else %>
-                          <h3 class='text-center'>Notifications Currently: Off </h3>
+                    <div class='row'>  
+                      <div class='col-md-4 col-md-offset-4'>  
+                        <h3 class='text-center'>Notifications</h3>
+                        <%= form_tag notifications_stop_notifications_path, method: :post do |f| %>
+                          <div class='form-group text-center'>  
+                            <%= radio_button_tag :stop_notifications, "true" %> Off
+                            <%= radio_button_tag :stop_notifications, "false" %> On
+                          </div>
+                          <div class='actions form-group text-center'>
+                            <%= submit_tag "Submit", class: 'btn btn-success btn-rounded btn-block' %>
+                          </div>
+                          <% if current_user.notifications == true %>
+                            <h3 class='text-center'>Notifications: On </h3>
+                          <% else %>
+                            <h3 class='text-center'>Notifications Currently: Off </h3>
+                          <% end %>
                         <% end %>
-                      <% end %>
+                      </div>
+                    </div>
+                    <div class='row'>  
                       <div class="tabs-container">
                         <ul class="nav nav-tabs">
-                          <% if TextList.all.map(&:phone_number).include?(current_user.support_phone) %>
-                            <li class=""><a href="#text_notifi" data-toggle="tab" aria-expanded="false">Text Notifications</a></li>
-                          <% end %>
-                          <% if EmailList.all.map(&:email).include?(current_user.email) %>
-                              <li class=""><a href="#email_notifi" data-toggle="tab" aria-expanded="false">Email Notifications</a></li>
-                          <% end %>
+                          <div class='col-md-4 col-md-offset-4'>  
+                            <% if TextList.all.map(&:phone_number).include?(current_user.support_phone) %>
+                              <li class=""><a href="#text_notifi" data-toggle="tab" aria-expanded="false">Text Notifications</a></li>
+                            <% end %>
+                            <% if EmailList.all.map(&:email).include?(current_user.email) %>
+                                <li class=""><a href="#email_notifi" data-toggle="tab" aria-expanded="false">Email Notifications</a></li>
+                            <% end %>
+                          </div>
                         </ul>
                         <div class='tab-content'>
                           <div class="tab-pane" id="text_notifi">
-                            <div class='panel-body'>  
                               <h3 class='text-center'>You may receive <em><strong>text</strong></em> notifications from the following organizations</h3>
                               <%= form_for notifications_remove_text_path, method: :post do |f| %>
                                 <% TextList.all.where(phone_number: current_user.support_phone).each do |text| %>
@@ -522,14 +514,12 @@
                                   <%= submit_tag "Remove", class: 'btn btn-warning' %>
                                 </div>
                               <% end %>
-                            </div>
                           </div>
                           <div class="tab-pane" id="email_notifi">
-                            <div class='panel-body'>  
                               <h3 class='text-center'>You may receive <em><strong>email</strong></em> notifications from the following organizations</h3>
                               <%= form_for notifications_remove_email_path, method: :post do |f| %>
                                 <% EmailList.all.where(email: current_user.email).each do |email| %>
-                                  <div class='col-md-2 text-center'>  
+                                  <div class='col-md-4 text-center'>  
                                     <%= link_to email.user.username, merchant_path(id: email.user.username) %>
                                     <%= check_box_tag "email_id[]", email.id, nil %>
                                   </div>
@@ -538,10 +528,10 @@
                                   <%= submit_tag "Remove", class: 'btn btn-warning' %>
                                 </div>
                               <% end %>
-                            </div>
                           </div>
                         </div>
                       </div>                    
+                    </div>                    
                   </div>
                 </div>
               </div>

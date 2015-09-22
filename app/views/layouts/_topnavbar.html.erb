@@ -29,11 +29,7 @@
             </li>
             <li>
               <div class="btn-group">
-                <button type="button" class="btn btn-primary">Shortcuts</button>
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="caret"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Shortcuts <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><%= link_to "View Profile", merchant_path(current_user.username) %></li>
                   <li><%= link_to "Settings", edit_user_registration_path, 'data-toggle' => 'modal' %></li>
@@ -51,11 +47,7 @@
           <% if current_user.admin? %>
             <li>
               <div class="btn-group">
-                <button type="button" class="btn btn-warning">Pendings</button>
-                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="caret"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
+                <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Pending <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li role="separator" class="divider"></li>
                   <li><%= link_to "Pending Goals", pending_goals_path %></li>

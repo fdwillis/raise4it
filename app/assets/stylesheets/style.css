@@ -3333,15 +3333,15 @@ video {
   position: relative;
 }
 .modal-dialog {
-  z-index: 2200;
+  z-index: 100;
 }
 .modal-body {
   padding: 20px 30px 30px 30px;
 }
-.inmodal .modal-body {
+.inmodal.modal-body {
   background: #f8fafb;
 }
-.inmodal .modal-header {
+.inmodal.modal-header {
   padding: 30px 15px;
   text-align: center;
 }
@@ -3970,12 +3970,7 @@ a.close-canvas-menu:hover {
   width: 240px;
   float: left;
 }
-.modal-backdrop {
-  z-index: 2040 !important;
-}
-.modal {
-  z-index: 2050 !important;
-}
+
 .spiner-example {
   height: 200px;
   padding-top: 70px;
@@ -4255,12 +4250,7 @@ body.fullscreen-ibox-mode {
 .ibox.fullscreen .ibox-content {
   min-height: calc(100% - 48px);
 }
-body.modal-open {
-  padding-right: inherit !important;
-}
-body.modal-open .animated {
-  animation-fill-mode: initial;
-}
+
 /* Show profile dropdown on fixed sidebar */
 body.mini-navbar.fixed-sidebar .profile-element,
 .block {
