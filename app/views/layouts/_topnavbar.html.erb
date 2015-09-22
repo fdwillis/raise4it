@@ -8,22 +8,24 @@
           Hello <%= link_to (current_user.email), edit_user_registration_path %>!
           <% if current_user.account_approved? || current_user.admin? %>
             <li>
-              <div class="btn-group">
-                <button type="button" class="btn btn-info">Message Blasts</button>
-                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="caret"></span>
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                <% if current_user.text_lists.present?  %>
-                  <li><%= link_to "Text Blast", "#text_blast", 'data-toggle' => 'modal' %></li>
-                <% end %>
-                <% if current_user.email_lists.present?  %>
-                  <li role="separator" class="divider"></li>
-                  <li><%= link_to "Email Blast", "#email_blast", 'data-toggle' => 'modal' %></li>
-                <% end %>
-                </ul>
-              </div>
+              <% if current_user.text_lists.present? || current_user.email_lists.present? %>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info">Message Blasts</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                  <% if current_user.text_lists.present?  %>
+                    <li><%= link_to "Text Blast", "#text_blast", 'data-toggle' => 'modal' %></li>
+                  <% end %>
+                  <% if current_user.email_lists.present?  %>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to "Email Blast", "#email_blast", 'data-toggle' => 'modal' %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
             </li>
             <li>
               <div class="btn-group">

@@ -1,8 +1,31 @@
-<% @fundraising_goals.each do |frg| %>
-<%= image_tag(frg.goal_image.url(:p400x400)) %>
-	<div class='row'>  
-    <%= link_to "Donate Now", "##{frg.uuid}", class: 'btn btn-info', 'data-toggle' => 'modal' %>
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModal" id="<%= frg.uuid %>">
+<div class="wrapper wrapper-content animated fadeInRight">
+  <% @fundraising_goals.each do |frg| %>
+    <div class="col-md-3">
+      <div class="ibox">
+        <div class="ibox-content product-box">
+          <div class="product-imitation">
+            <%= image_tag(frg.goal_image.url(:p400x400)) %>
+          </div>
+          <div class="product-desc">
+            <span class="product-price">
+              <%= number_to_currency(frg.goal_amount, precision: 2) %>
+            </span>
+            <a href="#" class="product-name"> <%= frg.title %></a>
+            <div class="small m-t-xs text-justify">
+              <%= frg.description.truncate(130, omission: '...' )%>
+            </div>
+            <div class="m-t">
+              <%= link_to "VIEW", "##{frg.uuid}", class: 'btn btn-primary', 'data-toggle' => 'modal' %>
+              <% if policy(frg).edit? %>  
+                <%= link_to 'Edit', edit_fundraising_goal_path(frg) %>
+                <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModal" id="<%= frg.uuid %>">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header text-center">
@@ -14,7 +37,7 @@
               <div class="modal-body">
                 <div class="container-fluid">  
                   <div class="col-md-9">
-                  	<h1>HI</h1>
+                    <h1>HI</h1>
                   </div>
                   <div class="col-md-3 text-center">
                     <h4>One Time Donation</h4>
@@ -31,13 +54,13 @@
                         <% frg.user.donation_plans.each do |plan| %>
                           <% if !current_user.donations.where(active: true).map(&:stripe_subscription_id).include?(plan.uuid) %>
                             <div class='row'>
-                            	<%= f.radio_button(:donation_type, "#{plan.uuid}")%>  <%= number_to_currency(plan.amount, precision: 2) %>/month
+                              <%= f.radio_button(:donation_type, "#{plan.uuid}")%>  <%= number_to_currency(plan.amount, precision: 2) %>/month
                             </div>
                           <% end %>
                         <% end %>
                       </div>
                     <% end %>
-  	              </div>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer actions">
@@ -51,13 +74,5 @@
         </div>
       </div>
     </div>
-	  <%= frg.title %>
-	  <%= number_to_currency(frg.goal_amount, precision: 2) %>
-	  <%= frg.description %>
-		<% if policy(frg).edit? %>  
-		  <%= link_to 'Show', frg %>
-		  <%= link_to 'Edit', edit_fundraising_goal_path(frg) %>
-		  <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' } %>
-		<% end %>
-	</div>
-<% end %>
+  <% end %>
+</div>

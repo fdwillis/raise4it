@@ -90,11 +90,14 @@ a = User.create!(
 )
 
 a.skip_confirmation!
+a.save!
 
 admin.skip_confirmation!
+admin.save!
 admin.roles.create(title: 'admin')
 
 merchant.skip_confirmation!
+merchant.save!
 merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
 
 20.times do
@@ -103,6 +106,8 @@ merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
     title: Faker::Name.name,
     active: true,
     goal_amount: 90,
+    uuid: SecureRandom.uuid,
+    description: Faker::Lorem.paragraph,
     )
 end
 
