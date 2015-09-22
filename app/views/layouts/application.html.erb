@@ -8,6 +8,14 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script src="/assets/jquery-2.1.1.js"></script>
+    <script src="/assets/bootstrap.min.js"></script>
+    <script src="/assets/jquery.metisMenu.js"></script>
+    <script src="/assets/jquery.slimscroll.min.js"></script>
+    <script src="/assets/inspinia.js"></script>
+    <script src="/assets/pace.min.js"></script>
+    <script src="/assets/jquery-ui.min.js"></script>
+    <script src="/assets/wow.min.js"></script>
     <link href="/assets/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -73,16 +81,7 @@
           <%= yield %>
           <%= render 'layouts/footer' %>
         </div>
-        <%= render 'layouts/rightsidebar' %>
       </div>
-      <script src="/assets/jquery-2.1.1.js"></script>
-      <script src="/assets/bootstrap.min.js"></script>
-      <script src="/assets/jquery.metisMenu.js"></script>
-      <script src="/assets/jquery.slimscroll.min.js"></script>
-      <script src="/assets/inspinia.js"></script>
-      <script src="/assets/pace.min.js"></script>
-      <script src="/assets/jquery-ui.min.js"></script>
-      <script src="/assets/wow.min.js"></script>
     </body>
   <% end %>
 </html>
