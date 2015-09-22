@@ -4,6 +4,8 @@
       <div class="tabs-container">
           <div class="tabs-left">
               <ul class="nav nav-tabs">
+                <li class=""><a href="#basic_info" data-toggle="tab" aria-expanded="false">Account Info </a></li>
+                <li class=""><a href="#payment_info" data-toggle="tab" aria-expanded="false">Payment Source</a></li>
                 <% if current_user.admin? || current_user.account_approved? %> 
                   <li class=""><a href="#donation_plans" data-toggle="tab" aria-expanded="false">Donation Plans</a></li>
                   <% if current_user.team_members.present? %>
@@ -18,8 +20,6 @@
                     <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">Business/Fundraising</a></li>
                   <% end %>
                 <% end %>
-                <li class=""><a href="#basic_info" data-toggle="tab" aria-expanded="false">Account Info </a></li>
-                <li class=""><a href="#payment_info" data-toggle="tab" aria-expanded="false">Payment Source</a></li>
                 <% if current_user.donations.present? %>
                   <li class=""><a href="#donations" data-toggle="tab" aria-expanded="false">My Donations</a></li>
                 <% end %>
@@ -28,7 +28,6 @@
             <div class="tab-content">
               <div class="tab-pane" id="basic_info">
                 <div class='panel-body'>
-                  <div class='container'>
                     <h2 class='text-center'>Basic Information For <%= (current_user.email || current_user.username.capitalize) %></h2>
                     <div class="col-md-8 col-md-offset-2">
                       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :patch }) do |f| %>
@@ -57,17 +56,15 @@
                           <%= f.label :password_confirmation, 'Change Password' %>
                           <%= f.password_field :password_confirmation, class: 'form-control text-center', placeholder: "Enter new password" %>
                         </div>
-                        <div class="form-group text-center">
-                          <%= f.submit "Update", class: 'btn btn-success form-control text-center' %>
+                        <div class="actions text-center">
+                          <%= f.submit "Update", class: 'btn btn-primary btn-rounded btn-block' %>
                         </div>
                       <% end %>
                     </div>
-                  </div>
                 </div>
               </div>
               <div class="tab-pane" id="payment_info">
                 <div class='panel-body'>
-                  <div class='container'>
                     <h2 class='text-center'>Payment &amp; Credit Card Information</h2>
                     <br>
                     <div class='row'>
@@ -150,13 +147,12 @@
                               </div>
                             </div>
                             <div class="actions">
-                              <%= f.submit "Update", class: 'btn btn-success form-control' %>
+                              <%= f.submit "Update", class: 'btn btn-primary btn-rounded btn-block' %>
                             </div>
                           </div>
                         </div>
                       <% end %>
                     </div>
-                  </div>
                 </div>
               </div>
               <div class="tab-pane" id="donations">
@@ -241,7 +237,7 @@
                           <%= number_to_currency(plan.amount, precision: 2) %>
                           <%= plan.name %>
                           <%= plan.interval %>
-                          <%= link_to "Delete Plan", plan_path(id: plan.uuid), class: 'btn btn-danger', method: :delete, data: {confirm: "Delete #{plan.name} Plan?"} %>
+                          <%= link_to "Delete Plan", plan_path(id: plan.uuid), class: 'btn btn-danger btn-rounded', method: :delete, data: {confirm: "Delete #{plan.name} Plan?"} %>
                         </div>
                       <% end %>
                     </div>
@@ -271,9 +267,15 @@
                     <div class="col-lg-12">
                       <div class="tabs-container">
                         <ul class="nav nav-tabs">
-                          <li class=""><a href="#business_info" data-toggle="tab" aria-expanded="false"><i class="fa fa-laptop"></i>Basic Information </a></li>
-                          <li class=""><a href="#bank_account" data-toggle="tab" aria-expanded="false"><i class="fa fa-laptop"></i>Bank Account</a></li>
-                          <li class=""><a href="#seller_plan" data-toggle="tab" aria-expanded="false"><i class="fa fa-laptop"></i>Current Plan</a></li>
+                          <div class="col-md-4 text-center">
+                            <li class=""><a href="#business_info" data-toggle="tab" aria-expanded="false"><i class="fa fa-file"></i>  Basic Information </a></li>
+                          </div>
+                          <div class="col-md-4 text-center">
+                            <li class=""><a href="#bank_account" data-toggle="tab" aria-expanded="false"><i class="fa fa-dollar"></i>  Bank Account</a></li>
+                          </div>
+                          <div class="col-md-4 text-center">
+                            <li class=""><a href="#seller_plan" data-toggle="tab" aria-expanded="false"><i class="fa fa-retweet"></i>  Current Plan</a></li>
+                          </div>
                         </ul>
                         <div class="tab-content">
                           <div class="tab-pane" id="business_info">
@@ -356,7 +358,7 @@
                                 <%= f.text_field :statement_descriptor, class: 'form-control text-center', placeholder: "Enter Business URL or Link to Profile Page",value: "Purchased from #{current_user.username} via #{ENV["MARKETPLACE_NAME"]}"%>
                               </div>
                               <div class="form-group text-center">
-                                <%= f.submit "Update", class: 'btn btn-success' %>
+                                <%= f.submit "Update", class: 'btn btn-primary btn-rounded btn-block' %>
                               </div>
                             <% end %>
                           </div>
@@ -384,7 +386,7 @@
                                   <%= f.text_field :bank_currency, class: 'form-control text-center', placeholder: "USD"%>
                                 </div>
                                 <div class="form-group text-center">
-                                  <%= f.submit "Update", class: 'btn btn-success' %>
+                                  <%= f.submit "Update", class: 'btn btn-primary btn-rounded btn-block' %>
                                 </div>
                               <% else %>
                                 <div class="form-group text-center">
@@ -426,7 +428,6 @@
                     </div>
                   </div>
                 </div>
-                
               </div>
               <div class="tab-pane" id="team">
                 <div class='panel-body'>
@@ -494,68 +495,70 @@
               </div>
               <div class="tab-pane" id="notifications">
                 <div class='panel-body'>  
-                  <h3 class='text-center'>Notifications</h3>
-                  <%= form_tag notifications_stop_notifications_path, method: :post do |f| %>
-                    <div class='form-group text-center'>  
-                      <%= radio_button_tag :stop_notifications, "true" %> Off
-                      <%= radio_button_tag :stop_notifications, "false" %> On
-                    </div>
-                    <div class='actions form-group text-center'>
-                      <%= submit_tag "Submit", class: 'btn btn-success' %>
-                    </div>
-                    <% if current_user.notifications == true %>
-                      <h3 class='text-center'>Notifications: On </h3>
-                    <% else %>
-                      <h3 class='text-center'>Notifications Currently: Off </h3>
-                    <% end %>
-                  <% end %>
-                  <div class="tab-v2">
-                    <div class='panel-body'>
-                      <ul class="nav nav-pills col-md-6 col-md-offset-4">
-                        <% if TextList.all.map(&:phone_number).include?(current_user.support_phone) %>
-                          <li class=""><a href="#text_notifi" data-toggle="tab" aria-expanded="false">Text Notifications</a></li>
+                  <div class="col-lg-12">  
+                    <div class='col-md-4 col-md-offset-4'>  
+                      <h3 class='text-center'>Notifications</h3>
+                      <%= form_tag notifications_stop_notifications_path, method: :post do |f| %>
+                        <div class='form-group text-center'>  
+                          <%= radio_button_tag :stop_notifications, "true" %> Off
+                          <%= radio_button_tag :stop_notifications, "false" %> On
+                        </div>
+                        <div class='actions form-group text-center'>
+                          <%= submit_tag "Submit", class: 'btn btn-success btn-rounded btn-block' %>
+                        </div>
+                        <% if current_user.notifications == true %>
+                          <h3 class='text-center'>Notifications: On </h3>
+                        <% else %>
+                          <h3 class='text-center'>Notifications Currently: Off </h3>
                         <% end %>
-                        <% if EmailList.all.map(&:email).include?(current_user.email) %>
-                          <li class=""><a href="#email_notifi" data-toggle="tab" aria-expanded="false">Email Notifications</a></li>
-                        <% end %>
-                      </ul>
-                    </div>
+                      <% end %>
+                      <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                          <% if TextList.all.map(&:phone_number).include?(current_user.support_phone) %>
+                            <li class=""><a href="#text_notifi" data-toggle="tab" aria-expanded="false">Text Notifications</a></li>
+                          <% end %>
+                          <% if EmailList.all.map(&:email).include?(current_user.email) %>
+                              <li class=""><a href="#email_notifi" data-toggle="tab" aria-expanded="false">Email Notifications</a></li>
+                          <% end %>
+                        </ul>
+                        <div class='tab-content'>
+                          <div class="tab-pane" id="text_notifi">
+                            <div class='panel-body'>  
+                              <h3 class='text-center'>You may receive <em><strong>text</strong></em> notifications from the following organizations</h3>
+                              <%= form_for notifications_remove_text_path, method: :post do |f| %>
+                                <% TextList.all.where(phone_number: current_user.support_phone).each do |text| %>
+                                  <div class='col-md-2 text-center'>  
+                                    <%= link_to text.user.username, merchant_path(id: text.user.username) %>
+                                    <%= check_box_tag "text_id[]", text.id, nil %>
+                                  </div>
+                                <% end %>
+                                <div class='actions'>
+                                  <%= submit_tag "Remove", class: 'btn btn-warning' %>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="email_notifi">
+                            <div class='panel-body'>  
+                              <h3 class='text-center'>You may receive <em><strong>email</strong></em> notifications from the following organizations</h3>
+                              <%= form_for notifications_remove_email_path, method: :post do |f| %>
+                                <% EmailList.all.where(email: current_user.email).each do |email| %>
+                                  <div class='col-md-2 text-center'>  
+                                    <%= link_to email.user.username, merchant_path(id: email.user.username) %>
+                                    <%= check_box_tag "email_id[]", email.id, nil %>
+                                  </div>
+                                <% end %>
+                                <div class='actions'>
+                                  <%= submit_tag "Remove", class: 'btn btn-warning' %>
+                                </div>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>                    
                   </div>
                 </div>
               </div>
-              <div class="tab-pane" id="text_notifi">
-                <div class='panel-body'>  
-                  <h3 class='text-center'>You may receive <em><strong>text</strong></em> notifications from the following organizations</h3>
-                  <%= form_for notifications_remove_text_path, method: :post do |f| %>
-                    <% TextList.all.where(phone_number: current_user.support_phone).each do |text| %>
-                      <div class='col-md-2 text-center'>  
-                        <%= link_to text.user.username, merchant_path(id: text.user.username) %>
-                        <%= check_box_tag "text_id[]", text.id, nil %>
-                      </div>
-                    <% end %>
-                    <div class='actions'>
-                      <%= submit_tag "Remove", class: 'btn btn-warning' %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-              <div class="tab-pane" id="email_notifi">
-                <div class='panel-body'>  
-                  <h3 class='text-center'>You may receive <em><strong>email</strong></em> notifications from the following organizations</h3>
-                  <%= form_for notifications_remove_email_path, method: :post do |f| %>
-                    <% EmailList.all.where(email: current_user.email).each do |email| %>
-                      <div class='col-md-2 text-center'>  
-                        <%= link_to email.user.username, merchant_path(id: email.user.username) %>
-                        <%= check_box_tag "email_id[]", email.id, nil %>
-                      </div>
-                    <% end %>
-                    <div class='actions'>
-                      <%= submit_tag "Remove", class: 'btn btn-warning' %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-              
             </div>
           </div>
       </div>
