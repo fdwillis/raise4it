@@ -1,5 +1,4 @@
 User.destroy_all
-Product.destroy_all
 
 @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
 
@@ -110,7 +109,6 @@ merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
 end
 
 p "Created #{User.count} Users"
-p "Created #{Product.count} Products"
 
 
 stripe_plan_id = [987654345678, 98765436789087, 34938872387398]
