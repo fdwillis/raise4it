@@ -73,7 +73,6 @@ merchant = User.create!(
               legal_name: "Full Test Merch",
 )
 
-@crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
 a = User.create!(
   email: 'a@a.com',
   password: 'pa',
@@ -88,16 +87,14 @@ a = User.create!(
   currency: "USD",
   country_name: "United States",
   support_phone: 4143997341
-  )
+)
+
 a.skip_confirmation!
-a.save!
 
 admin.skip_confirmation!
-admin.save!
 admin.roles.create(title: 'admin')
 
 merchant.skip_confirmation!
-merchant.save!
 merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
 
 20.times do
@@ -105,10 +102,11 @@ merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
     user_id: 2,
     title: Faker::Name.name,
     active: true,
+    goal_amount: 90,
     )
 end
 
-p "Created #{User.count} Users"
+puts "Created #{User.count} Users"
 
 
 stripe_plan_id = [987654345678, 98765436789087, 34938872387398]
@@ -127,22 +125,5 @@ stripe_plan_id.each do |id|
   )
   puts "Created #{stripe_plans.id}"
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

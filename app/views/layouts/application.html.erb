@@ -23,7 +23,39 @@
     <link href="/assets/style.css" rel="stylesheet">
   </head>
 
-  <% if fundraising_goals_path && !current_user %>
+  <% if fundraising_goals_path && current_user %>
+    <body>
+      <div id="wrapper">
+        <%= render 'layouts/navigation'%>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+          <% if flash[:notice] %>
+            <div class="text-center alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:notice] %></h3>
+            </div>
+          <% elsif flash[:error] %>
+            <div class="text-center alert alert-danger">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:error] %></h3>
+            </div>
+          <% elsif flash[:alert] %>
+            <div class="text-center alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h3 class="tex-center"><%= flash[:alert] %></h3>
+            </div>
+          <% end %>
+        </div>
+        <div id="page-wrapper" class="gray-bg">
+          <%= render 'layouts/topnavbar' %>
+          <%= yield %>
+          <%= render 'layouts/footer' %>
+        </div>
+      </div>
+    </body>
+  <% else %>  
     <br>
     <br>
     <br>
@@ -74,38 +106,6 @@
         </nav>
       </div>
       <%= yield %>
-    </body>
-  <% else %>  
-    <body>
-      <div id="wrapper">
-        <%= render 'layouts/navigation'%>
-        <br>
-        <br>
-        <br>
-        <div class="container">
-          <% if flash[:notice] %>
-            <div class="text-center alert alert-success">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <h3 class="tex-center"><%= flash[:notice] %></h3>
-            </div>
-          <% elsif flash[:error] %>
-            <div class="text-center alert alert-danger">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <h3 class="tex-center"><%= flash[:error] %></h3>
-            </div>
-          <% elsif flash[:alert] %>
-            <div class="text-center alert alert-warning">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <h3 class="tex-center"><%= flash[:alert] %></h3>
-            </div>
-          <% end %>
-        </div>
-        <div id="page-wrapper" class="gray-bg">
-          <%= render 'layouts/topnavbar' %>
-          <%= yield %>
-          <%= render 'layouts/footer' %>
-        </div>
-      </div>
     </body>
   <% end %>
 </html>

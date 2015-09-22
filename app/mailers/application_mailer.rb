@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@marketplacebase.com"
+  default from: "team@#{ENV['MARKETPLACE_NAME'].gsub(' ', '').downcase}.com"
 	layout 'mailer'
 end

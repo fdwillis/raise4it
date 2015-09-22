@@ -1,5 +1,5 @@
 class Notify < ApplicationMailer
-	default from: "no-reply@marketplacebase.com", return_path: 'fdwillis7@gmail.com'
+	default from: "team@#{ENV['MARKETPLACE_NAME'].gsub(' ', '').downcase}.com", return_path: 'fdwillis7@gmail.com'
 
   def account_approved(user)
     @user = user
