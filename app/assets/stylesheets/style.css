@@ -5197,6 +5197,18 @@ del {
   top: -32px;
   left: 0 !important;
 }
+
+.product-backers {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #1ab394;
+  padding: 6px 12px;
+  position: absolute;
+  top: -32px;
+  right: 0 !important;
+}
+
 .product-detail .ibox-content {
   padding: 30px 30px 50px 30px;
 }

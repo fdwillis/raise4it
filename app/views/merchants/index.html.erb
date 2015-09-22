@@ -1,4 +1,15 @@
 <h1>Merchants</h1>
 <% @accounts.each do |mer| %>
-  <%= link_to mer.username.capitalize, merchant_path(mer.username) %>
+	<div class="col-md-3">
+	  <div class="ibox">
+	    <div class="ibox-content product-box">
+	      <div class="product-imitation">
+	        <%= image_tag(mer.logo.url(:p400x400)) %>
+	      </div>
+	      <div class="product-desc">
+	        <%= link_to mer.username, merchant_path(mer.username), class: 'product-name' %>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 <% end %>

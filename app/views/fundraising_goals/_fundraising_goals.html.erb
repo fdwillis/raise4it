@@ -8,16 +8,15 @@
           </div>
           <div class="product-desc">
             <span class="product-price">
-              <div class='row'>
-                <div class='col-md-6'>  
-                  Goal: <%= number_to_currency(frg.goal_amount, precision: 2) %>
-                </div>
-                <div class='col-md-6'>  
-                  Donations: <%= frg.backers %>
-                </div>
-              </div>
+              Goal: <%= number_to_currency(frg.goal_amount, precision: 2) %>
             </span>
-            <a href="#" class="product-name"> <%= frg.title %></a>
+            <span class="product-backers">
+              Donations: <%= frg.backers %>
+            </span>
+            <a class="product-name"> <%= frg.title %></a>
+            <div class="small m-t-xs text-justify">
+              By: <%= link_to frg.user.username.capitalize, merchant_path(frg.user.username)%>
+            </div>
             <div class="small m-t-xs text-justify">
               <%= frg.description.truncate(50, omission: '...' )%>
             </div>
