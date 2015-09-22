@@ -240,7 +240,7 @@ h5 {
   margin-bottom: 10px;
 }
 body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li.active > .nav-second-level,
-.mini-navbar .nav li:focus > .nav-second-level {
+.mini-navbar .nav li.active > .nav-second-level {
   display: block;
   border-radius: 0 2px 2px 0;
   min-width: 140px;
@@ -398,8 +398,8 @@ body.body-small.fixed-sidebar.mini-navbar #page-wrapper {
 body.body-small.fixed-sidebar.mini-navbar .navbar-static-side {
   width: 220px;
 }
-.fixed-sidebar.mini-navbar .nav li:focus > .nav-second-level,
-.canvas-menu.mini-navbar .nav li:focus > .nav-second-level {
+.fixed-sidebar.mini-navbar .nav li.active > .nav-second-level,
+.canvas-menu.mini-navbar .nav li.active > .nav-second-level {
   display: block;
   height: auto;
 }
