@@ -24,6 +24,9 @@
   </head>
 
   <% if fundraising_goals_path && !current_user %>
+    <br>
+    <br>
+    <br>
     <div class="container">
       <% if flash[:notice] %>
         <div class="text-center alert alert-success">
@@ -76,6 +79,9 @@
     <body>
       <div id="wrapper">
         <%= render 'layouts/navigation'%>
+        <br>
+        <br>
+        <br>
         <div class="container">
           <% if flash[:notice] %>
             <div class="text-center alert alert-success">

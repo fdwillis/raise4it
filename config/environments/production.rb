@@ -76,7 +76,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.action_mailer.default_url_options = { host: 'marketplace-base.herokuapp.com'}
+  config.action_mailer.default_url_options = { host: 'raiser-base.herokuapp.com'}
 
   config.middleware.use Rack::TwilioWebhookAuthentication, ENV["TWILIO_AUTH_TOKEN"] , '/voice'
 end
