@@ -196,11 +196,7 @@ $(document).ready(function () {
         var body = $('body');
 
         if (fixedsidebar == 'on') {
-            body.addClass('fixed-sidebar');
-            $('.sidebar-collapse').slimScroll({
-                height: '100%',
-                railOpacity: 0.9
-            });
+            body.addClass('mini-navbar');
         }
 
         if (collapse == 'on') {
