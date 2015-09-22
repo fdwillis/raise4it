@@ -1,21 +1,41 @@
-<h1>Pending Products</h1>
-<% if policy(FundraisingGoal.new).new? %>
-  <%= link_to 'New Goal', new_fundraising_goal_path %>
-<% end %>
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @pendings.each do |pending| %>
-      <tr>
-        <td><%= pending.title %></td>
-        <td><%= number_to_currency(pending.goal_amount, precision: 2) %></td>
-        <td><%= link_to 'Show', pending %></td>
-        <td><%= link_to 'Approve', approve_goal_path(id: pending.id), method: :put %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <h1 class='text-center'>Pending Merchants</h1>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+            <thead>
+              <tr>
+                <th>Goal Name</th>
+                <th>Goal Amount</th>
+                <th>Page</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @pendings.each do |pending| %>
+                <tr>
+                  <td><%= pending.title %></td>
+                  <td><%= number_to_currency(pending.goal_amount, precision: 2) %></td>
+                  <td><%= link_to 'Show', pending %></td>
+                  <td><%= link_to 'Approve', approve_goal_path(id: pending.id), method: :put %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/footable.all.min.js"></script>
+<script>
+  $(document).ready(function() {
+
+      $('.footable').footable();
+      $('.footable2').footable();
+
+  });
+
+</script>

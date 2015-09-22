@@ -9853,7 +9853,7 @@ del {
   padding: 6px 12px;
   position: absolute;
   top: -32px;
-  right: 0;
+  left: 0;
 }
 .product-detail .ibox-content {
   padding: 30px 30px 50px 30px;

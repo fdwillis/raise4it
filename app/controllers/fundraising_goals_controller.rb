@@ -6,7 +6,7 @@ class FundraisingGoalsController < ApplicationController
   # GET /fundraising_goals.json
   def index
     @search = FundraisingGoal.search(params[:q])
-    @fundraising_goals = @search.result.where(active: true).page(params[:page]).per_page(5)
+    @fundraising_goals = @search.result.where(active: true).page(params[:page])
   end
 
   # GET /fundraising_goals/1

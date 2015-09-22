@@ -8,17 +8,32 @@
           </div>
           <div class="product-desc">
             <span class="product-price">
-              <%= number_to_currency(frg.goal_amount, precision: 2) %>
+              <div class='row'>
+                <div class='col-md-6'>  
+                  Goal: <%= number_to_currency(frg.goal_amount, precision: 2) %>
+                </div>
+                <div class='col-md-6'>  
+                  Donations: <%= frg.backers %>
+                </div>
+              </div>
             </span>
             <a href="#" class="product-name"> <%= frg.title %></a>
             <div class="small m-t-xs text-justify">
-              <%= frg.description.truncate(130, omission: '...' )%>
+              <%= frg.description.truncate(50, omission: '...' )%>
             </div>
             <div class="m-t">
-              <%= link_to "VIEW", "##{frg.uuid}", class: 'btn btn-primary', 'data-toggle' => 'modal' %>
+              <div class'row'>
+                <%= link_to "VIEW", "##{frg.uuid}", class: 'btn btn-primary col-md-12', 'data-toggle' => 'modal' %>
+              </div>
               <% if policy(frg).edit? %>  
-                <%= link_to 'Edit', edit_fundraising_goal_path(frg) %>
-                <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <div class='row text-center'>
+                  <div class='col-md-6'>
+                    <%= link_to 'Edit', edit_fundraising_goal_path(frg) %>
+                  </div>
+                  <div class='col-md-6'>
+                    <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  </div>
+                </div>
               <% end %>
             </div>
           </div>
@@ -76,3 +91,4 @@
     </div>
   <% end %>
 </div>
+

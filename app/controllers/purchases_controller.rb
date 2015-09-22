@@ -45,9 +45,6 @@ class PurchasesController < ApplicationController
                 Stripe.api_key = Rails.configuration.stripe[:secret_key]
                 @donation = current_user.donations.create(application_fee: ((Stripe::ApplicationFee.retrieve(@charge.application_fee).amount) / 100).to_f , donation_type: 'one-time', organization: @fund.user.username, amount: @price, uuid: SecureRandom.uuid, fundraising_goal_id: @fund.id)
               end
-              
-              @fund.increment!(:backers, by = 1)
-
             rescue Stripe::CardError => e
               redirect_to edit_user_registration_path
               flash[:error] = "#{e}"
