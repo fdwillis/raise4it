@@ -11,7 +11,9 @@
                   <% if current_user.team_members.present? %>
                     <li class=""><a href="#team" data-toggle="tab" aria-expanded="false">Team Members</a></li>
                   <% end %>
-                  <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">Business/Fundraising</a></li>
+                  <li class=""><a href="#business_info" data-toggle="tab" aria-expanded="false">  Business Information </a></li>
+                  <li class=""><a href="#bank_account" data-toggle="tab" aria-expanded="false">  Bank Account</a></li>
+                  <li class=""><a href="#seller_plan" data-toggle="tab" aria-expanded="false"> Current Plan</a></li>
                   <% if current_user.text_lists.present? %>
                     <li class=""><a href="#text_list" data-toggle="tab" aria-expanded="false">Text List</a></li>
                   <% end %>

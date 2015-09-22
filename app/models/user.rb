@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
 
   def phone_number
     if support_phone
-      write_attribute(:support_phone, support_phone.gsub(/\D/, ''))
+      write_attribute(:support_phone, support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-'))
     end
   end
 
@@ -76,6 +76,10 @@ class User < ActiveRecord::Base
 
   def basic_biz_info?
     tax_rate.present? && return_policy.present? && address_city.present? && address_state.present? && address_zip.present? && address.present? && address_country.present? && statement_descriptor.present? && business_name.present? && business_url.present? && support_email.present? && support_phone.present? && support_url.present? && first_name.present? && last_name.present? && dob_day.present? && dob_month.present? && dob_year.present?
+  end
+
+  def business_address
+    [address, address_city, address_state, address_zip, address_country].join(", ")
   end
 
   def merchant_bank_account?

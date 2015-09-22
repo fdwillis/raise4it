@@ -5,8 +5,13 @@ class MerchantsController < ApplicationController
   end
 
   def pending
-    no_buyers = User.joins(:roles).where.not(roles: {title: 'buyer'})
-    @pending = no_buyers.where(account_approved: false).uniq
+    if current_user.admin? 
+      no_buyers = User.joins(:roles).where.not(roles: {title: 'buyer'})
+      @pending = no_buyers.where(account_approved: false).uniq
+    else
+      redirect_to request.referrer
+      flash[:error] = "You Don't Have Permission To Access This"
+    end
   end
 
   def show
