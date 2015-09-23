@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923210944) do
+ActiveRecord::Schema.define(version: 20150923221928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,6 +383,8 @@ ActiveRecord::Schema.define(version: 20150923210944) do
     t.boolean  "notifications",                                               default: true
     t.float    "average_web_donation"
     t.float    "average_text_donation"
+    t.float    "next_transfer"
+    t.float    "pending_amount"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

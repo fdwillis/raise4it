@@ -83,9 +83,9 @@ namespace :payout do
               puts "No Team Payout"
             end
           end
-          Stripe.api_key = ENV['SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
         else
-          Stripe.api_key = ENV['SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
           User.decrypt_and_verify(user.merchant_secret_key)          
           amount = Stripe::Balance.retrieve()['available'][0].amount
           if  amount > 10000  
@@ -100,9 +100,9 @@ namespace :payout do
             puts "No Solo payout"
           end
         end
-        Stripe.api_key = ENV['SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
       else
-        Stripe.api_key = ENV['SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
         if user.admin?  
           bal = Stripe::Balance.retrieve()['available'][0].amount
           if bal >= 10000  
@@ -122,7 +122,7 @@ namespace :payout do
       end
     end
   end
-  Stripe.api_key = ENV['SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
 end
 
 namespace :stripe do
@@ -137,9 +137,9 @@ namespace :stripe do
           platform_for: 'donations',
           revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100)
         })
-        Stripe.api_key = ENV['SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
       else
-        Stripe.api_key = ENV['SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
         if user.admin?
           Keen.publish("Subscription Revenue", {
             merchant_id: user.id, 
@@ -151,7 +151,7 @@ namespace :stripe do
       end
     end
   end
-  Stripe.api_key = ENV['SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
 end
 
 namespace :keen do
@@ -194,4 +194,46 @@ namespace :keen do
     end
   end
 
+  desc "Stripe Next Transfer and Pending"
+  task stripe_amounts: :environment do
+    User.all.each do |user|
+      if user.merchant_secret_key.present? 
+        if user.admin?
+
+        else
+          User.decrypt_and_verify(user.merchant_secret_key)
+        end
+      else
+        if user.admin?
+        end
+      end
+    end
+  end
 end
+
+namespace :stripe_amounts do 
+  desc "Grab stripe amounts"
+  task fetch: :environment do
+    User.all.each do |user|
+      if user.merchant_secret_key.present?
+        if user.admin?
+          Stripe.api_key = Rails.configuration.stripe[:secret_key]
+          User.stripe_amounts(user)
+        else
+          User.decrypt_and_verify(user.merchant_secret_key)
+          User.stripe_amounts(user)
+        end
+      else
+        if user.admin?
+          Stripe.api_key = Rails.configuration.stripe[:secret_key]
+          User.stripe_amounts(user)
+        end
+      end
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+    end
+  end
+end
+
+
+
+

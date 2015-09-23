@@ -100,6 +100,13 @@ class User < ActiveRecord::Base
 
   protected
 
+    def self.stripe_amounts(user)
+      next_transfer = Stripe::Balance.retrieve.available[0].amount.to_f / 100
+      pending_amount = Stripe::Balance.retrieve.pending[0].amount.to_f / 100
+      user.update_attributes(next_transfer: next_transfer)
+      user.update_attributes(pending_amount: pending_amount)
+    end
+
     def self.profile_views(user_id, ip_address, location, merchant)
       Keen.publish("Profile Views", {
         marketplace_name: ENV["MARKETPLACE_NAME"],
