@@ -193,22 +193,6 @@ namespace :keen do
       end
     end
   end
-
-  desc "Stripe Next Transfer and Pending"
-  task stripe_amounts: :environment do
-    User.all.each do |user|
-      if user.merchant_secret_key.present? 
-        if user.admin?
-
-        else
-          User.decrypt_and_verify(user.merchant_secret_key)
-        end
-      else
-        if user.admin?
-        end
-      end
-    end
-  end
 end
 
 namespace :stripe_amounts do 
