@@ -4,8 +4,6 @@ class ReportsController < ApplicationController
   def index
     if (current_user.account_approved? && !current_user.roles.nil?) || current_user.admin? 
       if current_user.admin?
-        @admin_total = admin_revenue("this_year")
-
         signup_data = [
           {
             'data' => sign_ups("this_month", "daily")
@@ -230,21 +228,6 @@ private
           operator: "eq", 
           property_value: ENV["MARKETPLACE_NAME"]
         }
-      ]
-    )
-  end
-
-  def admin_revenue(timeframe)
-    Keen.sum("Donations", 
-      max_age: 300, 
-      target_property: "donation_amount",
-      timeframe: timeframe,
-      filters: [
-       {
-        property_name: "marketplace_name", 
-        operator: "eq", 
-        property_value: ENV["MARKETPLACE_NAME"]
-       } 
       ]
     )
   end

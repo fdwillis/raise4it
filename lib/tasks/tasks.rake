@@ -156,13 +156,12 @@ end
 
 namespace :keen do
   desc "Average Web Donation"
-  task average_donations: :environment do
+  task donations: :environment do
     User.all.each do |user|
       types = ['web', 'text']
       types.each do |type|
         if user.merchant_secret_key.present?
           donation = Keen.average("Donations", {
-            max_age: 300, 
             target_property: "donation_amount",
             filters: [
               {
@@ -190,6 +189,23 @@ namespace :keen do
             puts "Text: #{donation}"
           end
         end
+      end
+
+      if user.admin?
+        total_donations = Keen.sum("Donations", 
+          target_property: "donation_amount",
+          timeframe: 'this_year',
+          filters: [
+           {
+            property_name: "marketplace_name", 
+            operator: "eq", 
+            property_value: ENV["MARKETPLACE_NAME"]
+           } 
+          ]
+        )
+
+        user.update_attributes(total_donation_revenue: total_donations)
+        puts total_donations
       end
     end
   end

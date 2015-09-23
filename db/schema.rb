@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923233716) do
+ActiveRecord::Schema.define(version: 20150923234144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,6 +386,7 @@ ActiveRecord::Schema.define(version: 20150923233716) do
     t.float    "next_transfer"
     t.float    "pending_amount"
     t.float    "monthly_revenue"
+    t.float    "total_donation_revenue"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

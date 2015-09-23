@@ -1,55 +1,53 @@
-<% cache do %>  
-  <h1>Donation Revenue</h1>
-  <div class='dashboard_ana'>  
-    <h1 class='text-center'> Next Transfer Date <%= (Date.today.monday + 4.days).strftime("%B %d, %Y") %></h1>
-    <h1 class='text-center'> Next Transfer Amount <%= number_to_currency(current_user.next_transfer, precision: 2) %></h1>
-    <h1 class='text-center'> Pending Revenue <%= number_to_currency(current_user.pending_amount, precision: 2) %></h1>
-    <h1 class='text-center'> Average <em><strong>Text</strong></em> Donation <%= number_to_currency(current_user.average_text_donation, precision: 2) %></h1>
-    <h1 class="text-center">Monthly Subscription Revenue <%= number_to_currency(current_user.monthly_revenue, precision: 2) %><small>Stripe Fees Not Included</small></h1>
-    <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
-    <% if current_user.admin? %>  
-      <div class='row form-group'>
-        <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(@admin_total, precision: 2) %></h1>
-      </div>
-      <div class='row form-group'>
-      </div>
-      <div class='row form-group'>
-        <%= high_chart('signup_month', @sign_ups_month) %>
-      </div>
-      <div class='row form-group'>
-        <%= high_chart('signup_week', @sign_ups_week) %>
-      </div>
-      <div class='row form-group'>
-        <%= high_chart('signup_year', @sign_ups_year) %>
-      </div>
-    <% end %>
-    <br>
-    <br>
+<h1>Donation Revenue</h1>
+<div class='dashboard_ana'>  
+  <h1 class='text-center'> Next Transfer Date <%= (Date.today.monday + 4.days).strftime("%B %d, %Y") %></h1>
+  <h1 class='text-center'> Next Transfer Amount <%= number_to_currency(current_user.next_transfer, precision: 2) %></h1>
+  <h1 class='text-center'> Pending Revenue <%= number_to_currency(current_user.pending_amount, precision: 2) %></h1>
+  <h1 class="text-center">Monthly Subscription Revenue <%= number_to_currency(current_user.monthly_revenue, precision: 2) %><small>Stripe Fees Not Included</small></h1>
+  <h1 class='text-center'> Average <em><strong>Text</strong></em> Donation <%= number_to_currency(current_user.average_text_donation, precision: 2) %></h1>
+  <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
+  <% if current_user.admin? %>  
     <div class='row form-group'>
-      <%= high_chart("bar_chart4", @area) %>
+      <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(current_user.total_donation_revenue, precision: 2) %></h1>
     </div>
     <div class='row form-group'>
-      <%= high_chart("colum_chart", @colum) %>
     </div>
     <div class='row form-group'>
-      <%= high_chart("column_chart", @column) %>
+      <%= high_chart('signup_month', @sign_ups_month) %>
     </div>
     <div class='row form-group'>
-      <div class='col-md-4'>
-        <%= high_chart("chart3", @pie_type) do |c| %>
-          <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-        <% end %>
-      </div>
-      <div class='col-md-4'>
-        <%= high_chart("harZ3", @pie_week) do |c| %>
-          <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-        <% end %>
-      </div>
-      <div class='col-md-4'>
-        <%= high_chart("char3", @pie_city) do |c| %>
-          <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-        <% end %>
-      </div>
+      <%= high_chart('signup_week', @sign_ups_week) %>
+    </div>
+    <div class='row form-group'>
+      <%= high_chart('signup_year', @sign_ups_year) %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class='row form-group'>
+    <%= high_chart("bar_chart4", @area) %>
+  </div>
+  <div class='row form-group'>
+    <%= high_chart("colum_chart", @colum) %>
+  </div>
+  <div class='row form-group'>
+    <%= high_chart("column_chart", @column) %>
+  </div>
+  <div class='row form-group'>
+    <div class='col-md-4'>
+      <%= high_chart("chart3", @pie_type) do |c| %>
+        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+      <% end %>
+    </div>
+    <div class='col-md-4'>
+      <%= high_chart("harZ3", @pie_week) do |c| %>
+        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+      <% end %>
+    </div>
+    <div class='col-md-4'>
+      <%= high_chart("char3", @pie_city) do |c| %>
+        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+      <% end %>
     </div>
   </div>
-<% end %>
+</div>
