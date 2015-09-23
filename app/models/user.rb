@@ -103,8 +103,10 @@ class User < ActiveRecord::Base
     def self.stripe_amounts(user)
       next_transfer = Stripe::Balance.retrieve.available[0].amount.to_f / 100
       pending_amount = Stripe::Balance.retrieve.pending[0].amount.to_f / 100
+      monthly_revenue = Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100
       user.update_attributes(next_transfer: next_transfer)
       user.update_attributes(pending_amount: pending_amount)
+      user.update_attributes(monthly_revenue: monthly_revenue)
     end
 
     def self.profile_views(user_id, ip_address, location, merchant)

@@ -5,13 +5,13 @@
     <h1 class='text-center'> Next Transfer Amount <%= number_to_currency(current_user.next_transfer, precision: 2) %></h1>
     <h1 class='text-center'> Pending Revenue <%= number_to_currency(current_user.pending_amount, precision: 2) %></h1>
     <h1 class='text-center'> Average <em><strong>Text</strong></em> Donation <%= number_to_currency(current_user.average_text_donation, precision: 2) %></h1>
+    <h1 class="text-center">Monthly Subscription Revenue <%= number_to_currency(current_user.monthly_revenue, precision: 2) %><small>Stripe Fees Not Included</small></h1>
     <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
     <% if current_user.admin? %>  
       <div class='row form-group'>
         <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(@admin_total, precision: 2) %></h1>
       </div>
       <div class='row form-group'>
-        <h1 class="text-center">Monthly Subscription Revenue <%= number_to_currency(@monthly_income, precision: 2) %><small>Stripe Fees Not Included</small></h1>
       </div>
       <div class='row form-group'>
         <%= high_chart('signup_month', @sign_ups_month) %>
