@@ -153,3 +153,45 @@ namespace :stripe do
   end
   Stripe.api_key = ENV['SECRET_KEY_TEST']
 end
+
+namespace :keen do
+  desc "Average Web Donation"
+  task average_donations: :environment do
+    User.all.each do |user|
+      types = ['web', 'text']
+      types.each do |type|
+        if user.merchant_secret_key.present?
+          donation = Keen.average("Donations", {
+            max_age: 300, 
+            target_property: "donation_amount",
+            filters: [
+              {
+                property_name: "marketplace_name", 
+                operator: "eq", 
+                property_value: ENV["MARKETPLACE_NAME"]
+              },
+              {
+                property_name: "merchant_id",
+                operator: "eq",
+                property_value: user.id
+              },
+              {
+                property_name: 'donate_by',
+                operator: "eq",
+                property_value: type
+              },
+            ]  
+          })
+          if type == types[0]
+            user.update_attributes(average_web_donation: donation)
+            puts "Web: #{donation}"
+          else
+            user.update_attributes(average_text_donation: donation)
+            puts "Text: #{donation}"
+          end
+        end
+      end
+    end
+  end
+
+end

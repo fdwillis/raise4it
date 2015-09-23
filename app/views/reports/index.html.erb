@@ -5,7 +5,7 @@
     <h1 class='text-center'> Next Transfer Amount <%= number_to_currency(@avail, precision: 2) %></h1>
     <h1 class='text-center'> Pending Revenue <%= number_to_currency(@pending, precision: 2) %></h1>
     <h1 class='text-center'> Average <em><strong>Text</strong></em> Donation <%= number_to_currency(@text_donation_ave, precision: 2) %></h1>
-    <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(@web_donation_ave, precision: 2) %></h1>
+    <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
     <% if current_user.admin? %>  
       <div class='row form-group'>
         <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(@admin_total, precision: 2) %></h1>
@@ -25,7 +25,6 @@
     <% end %>
     <br>
     <br>
-    <!-- Ave donations per day -->
     <div class='row form-group'>
       <%= high_chart("bar_chart4", @area) %>
     </div>
