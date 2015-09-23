@@ -21,17 +21,15 @@
               <%= frg.description.truncate(50, omission: '...' )%>
             </div>
             <div class="m-t">
-              <div class'row'>
-                <%= link_to "VIEW", "##{frg.uuid}", class: 'btn btn-primary col-md-12', 'data-toggle' => 'modal' %>
+              <div class='row form-group'>
+                <%= link_to "VIEW", "##{frg.uuid}", class: 'btn btn-primary col-md-12 col-xs-12 col-sm-12 form-group', 'data-toggle' => 'modal' %>
               </div>
               <% if policy(frg).edit? %>  
-                <div class='row text-center'>
-                  <div class='col-md-6'>
-                    <%= link_to 'Edit', edit_fundraising_goal_path(frg) %>
-                  </div>
-                  <div class='col-md-6'>
-                    <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' } %>
-                  </div>
+                <div class='row form-group text-center'>
+                  <%= link_to 'Edit', edit_fundraising_goal_path(frg), class: 'btn btn-warning col-md-12 col-xs-12 col-sm-12' %>
+                </div>
+                <div class='row form-group text-center'>
+                    <%= link_to 'Destroy', frg, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-md-12 col-xs-12 col-sm-12' %>
                 </div>
               <% end %>
             </div>

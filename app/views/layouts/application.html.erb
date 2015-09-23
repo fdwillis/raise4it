@@ -50,6 +50,194 @@
           <%= render 'layouts/footer' %>
         </div>
       </div>
+      <div class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id='create_member'>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h1 class='text-center'> New Team Member</h1>
+            </div>
+            <%= form_for :member, url: bank_accounts_path, method: :post do |f| %>
+              <div class="modal-body">
+                <div class="row">  
+                  <h5 class='text-center'>Team members are for organizations that need to split revenue amonsts themselves, employees,<br> or departments. Each 'Team Member' will have their own bank account in which the <br>percentage of revenue designated below will be transferred.</h5>
+                  <hr>
+                  <div class='row'>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Name Of Member</h4>
+                        <%= f.text_field :name, class: 'form-control text-center', required: true, placeholder: 'Jane G Doe' %>
+                      </div>
+                    </div>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Members Role</h4>
+                        <%= f.text_field :role, class: 'form-control text-center', required: true, placeholder: 'Head Of Marketing' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Account Number</h4>
+                        <%= f.text_field :acct_num, class: 'form-control text-center', required: true, placeholder: '000123456789' %>
+                      </div>
+                    </div>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Routing Number</h4>
+                        <%= f.text_field :rout_num, class: 'form-control text-center', required: true, placeholder: '110000000' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Country Code</h4>
+                        <%= f.text_field :country, class: 'form-control text-center', required: true, placeholder: 'US', maxlength: 2 %>
+                      </div>
+                    </div>
+                    <div class='col-md-6'>  
+                      <div class='form-group'>  
+                        <h4 class='text-center'>Percent Of Revenue</h4>
+                        <%= f.number_field :percent, class: 'form-control text-center', required: true, placeholder: '25', step: 'any' %>
+                        <%= f.hidden_field :uuid, class: 'form-control text-center', value: SecureRandom.uuid %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer actions">
+                <%= link_to "Cancel", '#', class: 'btn btn-danger', 'data-dismiss' => 'modal'%>
+                <%= f.submit "Create Member", class: 'btn btn-success' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id='create_dplan'>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h1 class='text-center'> New Donation Plan</h1>
+            </div>
+            <%= form_for :dplan, url: plans_path, method: :post do |f| %>
+              <div class="modal-body">
+                <div class="row">  
+                  <div class='col-md-8 col-md-offset-2'>
+                    <div class='form-group'>  
+                      <h4 class='text-center'>Name Of Plan</h4>
+                      <%= f.text_field :name, class: 'form-control text-center', required: true, placeholder: 'Test Plan' %>
+                    </div>
+                    <div class='form-group'>  
+                      <h4 class='text-center'>Monthly Donation Amount</h4>
+                      <%= f.number_field :amount, class: 'form-control text-center', required: true, placeholder: '25', step: 'any' %>
+                      <%= f.hidden_field :uuid, class: 'form-control text-center', value: SecureRandom.uuid %>
+                    </div>
+                  </div>
+              </div>
+              </div>
+              <div class="modal-footer actions">
+                <%= link_to "Cancel", '#', class: 'btn btn-danger', 'data-dismiss' => 'modal'%>
+                <%= f.submit "Create Plan", class: 'btn btn-success' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id='text_blast'>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h1> Text Message Blast (<%= current_user.text_lists.count %>)</h1>
+            </div>
+            <%= form_for :text_blast, url: twilio_text_blast_path, method: :put do |f| %>
+              <div class="modal-body">
+                <div class="row">  
+                  <div class='col-md-8 col-md-offset-2 form-group'>
+                    <h4 class='text-center'>Enter You Text Below</h4>
+                    <%= f.text_area :message, class: 'form-control', required: true %>
+                  </div>
+                </div>
+                <div class="text-center actions">
+                  <%= link_to "Cancel", '#', class: 'btn btn-danger', 'data-dismiss' => 'modal'%>
+                  <%= f.submit "Send Text", class: 'btn btn-success' %>
+                </div>
+              </div>
+            <% end %>
+            <%= form_tag notifications_import_numbers_path, multipart: true do %>
+              <div class="modal-body">
+                <hr>
+                <div class="row"> 
+                  <div class='col-md-8 col-md-offset-2'>
+                    <h4 class='text-center'>Import Phone Numbers</h4>
+                    <div class='form-group'>
+                      <%= file_field_tag :file, class: 'form-control' %>
+                    </div>
+                    <div class='form-group'>
+                      <%= submit_tag "Import", class: 'btn btn-primary form-control'  %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal inmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id='email_blast'>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h1> Email Blast (<%= current_user.email_lists.count %>)</h1>
+            </div>
+            <%= form_for :email_blast, url: twilio_email_blast_path, method: :put do |f| %>
+              <div class="modal-body">
+                <div class="row">  
+                  <div class='col-md-8 col-md-offset-2'>
+                    <div class="row">  
+                      <div class='col-md-6'>  
+                        <div class='form-group'>
+                          <h4 class='text-center'>From</h4>
+                          <%= f.text_field :email_from, class: 'form-control', required: true, disabled: true, value: current_user.support_email %>
+                        </div>
+                      </div>
+                      <div class='col-md-6'>  
+                        <div class='form-group'>
+                          <h4 class='text-center'>Email Subject</h4>
+                          <%= f.text_field :subject, class: 'form-control', required: true %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">  
+                      <h4 class='text-center'>Email Body</h4>
+                      <%= f.text_area :body, class: 'form-control', required: true %>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center actions">
+                  <%= link_to "Cancel", '#', class: 'btn btn-danger', 'data-dismiss' => 'modal'%>
+                  <%= f.submit "Send Email", class: 'btn btn-success' %>
+                </div>
+              </div>
+            <% end %>
+            <%= form_tag notifications_import_emails_path, multipart: true do %>
+              <div class="modal-body">
+                <hr>
+                <div class="row"> 
+                  <div class='col-md-8 col-md-offset-2'>
+                    <h4 class='text-center'>Import Emails</h4>
+                    <div class='form-group'>
+                      <%= file_field_tag :file, class: 'form-control' %>
+                    </div>
+                    <div class='form-group'>
+                      <%= submit_tag "Import", class: 'btn btn-primary form-control'  %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </body>
   <% else %>  
     <div class="container">

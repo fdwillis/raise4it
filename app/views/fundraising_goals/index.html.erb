@@ -7,15 +7,15 @@
 	<div class='row'>	
 		<%= search_form_for @search do |f| %>
 	    <div class='row'>  
-	      <div class='col-md-4 form-group'>
+	      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
 	        <%= f.text_field :title_cont, class: 'form-control text-center', placeholder: 'Title' %>
 	      </div>
-	      <div class='col-md-4 form-group'>
+	      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
 	        <%= f.text_field :keywords_cont, class: 'form-control text-center', placeholder: 'Keywords' %>
 	      </div>
 	    </div>
 	    <div class='actions'>
-	      <%= f.submit "Search", class: 'btn btn-success' %>
+	      <%= f.submit "Search", class: 'btn btn-success col-md-12 col-xs-12 col-sm-12' %>
 	    </div>
 	  <% end %>
   </div>

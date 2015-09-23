@@ -14,6 +14,8 @@ h5,
 h6 {
   font-weight: 100;
 }
+
+
 h1 {
   font-size: 30px;
 }
@@ -278,6 +280,15 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   background: #17987e !important;
   color: white;
 }
+
+body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-second-level,
+.mini-navbar .nav li:focus > .nav-second-level {
+  display: block;
+  border-radius: 0 2px 2px 0;
+  min-width: 140px;
+  height: auto;
+}
+
 .navbar-default .special_link a span.label {
   background: #fff;
   color: #1ab394;
@@ -340,6 +351,7 @@ body.top-navigation.fixed-nav #wrapper #page-wrapper {
 }
 body.mini-navbar .navbar-static-side {
   width: 70px;
+  position: fixed;
 }
 body.mini-navbar .profile-element,
 body.mini-navbar .nav-label,
@@ -3334,6 +3346,7 @@ video {
 }
 .modal-dialog {
   z-index: 100;
+  margin-top: 100px;
 }
 .modal-body {
   padding: 20px 30px 30px 30px;

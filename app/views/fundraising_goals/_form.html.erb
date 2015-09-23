@@ -1,11 +1,10 @@
 <%= simple_form_for(@fundraising_goal) do |f| %>
   <% if @fundraising_goal.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@fundraising_goal.errors.count, "error") %> prohibited this goal from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h2>Error</h2>
       <ul>
-        <% @fundraising_goal.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <% @fundraising_goal.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>

@@ -13,11 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require cocoon
-//= require highcharts
-//= require highcharts/modules/funnel
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+//= require highcharts
 
 $(document).ready(function() {
   if ($('.pagination').length) {
