@@ -30,17 +30,19 @@
                   <div class'row'>
                     <%= link_to "VIEW", "##{goal.uuid}", class: 'btn btn-primary col-md-12', 'data-toggle' => 'modal' %>
                   </div>
-                  <% if policy(goal).edit? %>  
-                    <div class='row text-center'>
-                      <div class='col-md-6'>
-                        <%= link_to 'Edit', edit_fundraising_goal_path(goal) %>
-                      </div>
-                      <div class='col-md-6'>
-                        <%= link_to 'Destroy', goal, method: :delete, data: { confirm: 'Are you sure?' } %>
-                      </div>
-                    </div>
-                  <% end %>
                 </div>
+                <% if policy(goal).edit? %>  
+                  <div class="m-t">
+                    <div class='row form-group text-center'>
+                      <%= link_to 'Edit', edit_fundraising_goal_path(goal), class: 'btn btn-warning col-md-12 col-xs-12 col-sm-12' %>
+                    </div>
+                  </div>
+                  <div class="m-t">
+                    <div class='row form-group text-center'>
+                        <%= link_to 'Destroy', goal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-md-12 col-xs-12 col-sm-12' %>
+                    </div>
+                  </div>
+                <% end %>
               </div>
             </div>
           </div>
