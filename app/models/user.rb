@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   
   
   has_many :purchases
+  has_many :sign_ups
   has_many :donation_plans
   has_many :team_members
   has_many :roles, dependent: :destroy

@@ -209,6 +209,36 @@ namespace :keen do
       end
     end
   end
+
+  desc "Get Signups For Admin"
+  task signups: :environment do
+    keen_signups = Keen.count("Sign Ups", 
+      max_age: 300, 
+      timeframe: 'this_year', 
+      interval: 'daily',
+      filters: [
+        {
+          property_name: "marketplace_name", 
+          operator: "eq", 
+          property_value: ENV["MARKETPLACE_NAME"]
+        }
+      ]
+    )
+
+    keen_signups.each do |su|
+      admin = User.all.where(role: 'admin')[0]
+      date_start = su['timeframe']['start']
+      date_end = su['timeframe']['end']
+      data = admin.sign_ups.find_or_create_by(start_year: date_start[0..3], start_month: date_start[5..6], start_day: date_start[8..9], 
+                                              end_year: date_end[0..3], end_month: date_end[5..6], end_day: date_end[8..9])
+      if !data.new_record?
+        data.update_attributes(value: su['value'])
+        data.save!
+      else
+        data.update_attributes(value: su['value'])
+      end
+    end
+  end
 end
 
 namespace :stripe_amounts do 

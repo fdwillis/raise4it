@@ -20,87 +20,85 @@ class ReportsController < ApplicationController
             'data' => sign_ups("this_year", "monthly")
           }
         ]
-        @sign_ups_month = area_chart(signup_data, "Sign Ups This Month #{signup_data[0]['data'].map{|d| d['value']}.sum}", "Sign Ups") 
-        @sign_ups_week = area_chart(signup_data, "Sign Ups This Week #{sign_up_week[0]['data'].map{|d| d['value']}.sum}", "Sign Ups") 
-        @sign_ups_year = area_chart(signup_data, "Sign Ups This Year #{sign_up_week[0]['data'].map{|d| d['value']}.sum}", "Sign Ups") 
+        @sign_ups_month = area_chart(current_user.sign_ups, "Sign Ups This Month #{signup_data[0]['data'].map{|d| d['value']}.sum}", "Sign Ups", :start_month, DateTime.now.strftime("%m"), :start_day)
+        @sign_ups_year = area_chart(current_user.sign_ups, "Sign Ups This Year #{sign_up_week[0]['data'].map{|d| d['value']}.sum}", "Sign Ups", :start_year, DateTime.now.strftime("%Y"), :start_month) 
       else
         User.decrypt_and_verify(current_user.merchant_secret_key)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
       end
-        #Donation column Chart
-          #Data
-          year_data = [
-            {
-              'name' => "Total Donations",
-              'data' => donation_revenue(current_user.id, "this_year", "monthly")
-            }, 
-            {
-              'name' => "Web Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_year", "monthly", "donate_by", "web")
-            }, 
-            {
-              "name" => "Text Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_year", "monthly", "donate_by", "text")
-            },
-          ]
-          week_data = [
-            {
-              'name' => "Total Donations",
-              'data' => donation_revenue(current_user.id, "this_week", "daily")
-            }, 
-            {
-              'name' => "Web Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_week", "daily", "donate_by", "web")
-            }, 
-            {
-              "name" => "Text Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_week", "daily", "donate_by", "text")
-            },
-          ]
+        # #Donation column Chart
+        #   #Data
+        #   year_data = [
+        #     {
+        #       'name' => "Total Donations",
+        #       'data' => donation_revenue(current_user.id, "this_year", "monthly")
+        #     }, 
+        #     {
+        #       'name' => "Web Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_year", "monthly", "donate_by", "web")
+        #     }, 
+        #     {
+        #       "name" => "Text Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_year", "monthly", "donate_by", "text")
+        #     },
+        #   ]
+        #   week_data = [
+        #     {
+        #       'name' => "Total Donations",
+        #       'data' => donation_revenue(current_user.id, "this_week", "daily")
+        #     }, 
+        #     {
+        #       'name' => "Web Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_week", "daily", "donate_by", "web")
+        #     }, 
+        #     {
+        #       "name" => "Text Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_week", "daily", "donate_by", "text")
+        #     },
+        #   ]
           
-          @column = column_chart(year_data, "Donations This Year #{number_to_currency(year_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", Date::MONTHNAMES.slice(1..12))
-          @colum = column_chart(week_data, "Donations This Week #{number_to_currency(week_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", Date::DAYNAMES)
-          #Chart
+        #   @column = column_chart(year_data, "Donations This Year #{number_to_currency(year_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", Date::MONTHNAMES.slice(1..12))
+        #   @colum = column_chart(week_data, "Donations This Week #{number_to_currency(week_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", Date::DAYNAMES)
 
-        #Donation pie Chart
-          pie_type_data = [
-            {
-              'data' => donation_pie(current_user.id, "donation_type")
-            }
-          ]
+        # #Donation pie Chart
+        #   pie_type_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "donation_type")
+        #     }
+        #   ]
 
-          pie_day_data = [
-            {
-              'data' => donation_pie(current_user.id, "day_of_week")
-              }
-          ]
-          pie_city_data = [
-            {
-              'data' => donation_pie(current_user.id, "customer_current_city")
-              }
-          ]
-          @pie_type = pie_chart(pie_type_data, 'donation_type', "Donations By Type")
-          @pie_week = pie_chart(pie_day_data, 'day_of_week', "Donations By Day")
-          @pie_city = pie_chart(pie_city_data, 'customer_current_city', "Donations By City")
+        #   pie_day_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "day_of_week")
+        #       }
+        #   ]
+        #   pie_city_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "customer_current_city")
+        #       }
+        #   ]
+        #   @pie_type = pie_chart(pie_type_data, 'donation_type', "Donations By Type")
+        #   @pie_week = pie_chart(pie_day_data, 'day_of_week', "Donations By Day")
+        #   @pie_city = pie_chart(pie_city_data, 'customer_current_city', "Donations By City")
 
-        # Donation area chart  
-          data = [
-            {
-              'name' => "All Donations",
-              'data' => donation_revenue(current_user.id, "this_month", "daily")
-            },
-            {
-              'name' => "Web Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_month", "daily", "donate_by", "web")
-            }, 
-            {
-              "name" => "Text Donations",
-              'data' => donation_rev_by_type(current_user.id, "this_month", "daily", "donate_by", "text")
-            },
-          ]
-          @area = area_chart(data, "Donation Revenue This Month #{number_to_currency(data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Dollars")
+        # # Donation area chart  
+        #   data = [
+        #     {
+        #       'name' => "All Donations",
+        #       'data' => donation_revenue(current_user.id, "this_month", "daily")
+        #     },
+        #     {
+        #       'name' => "Web Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_month", "daily", "donate_by", "web")
+        #     }, 
+        #     {
+        #       "name" => "Text Donations",
+        #       'data' => donation_rev_by_type(current_user.id, "this_month", "daily", "donate_by", "text")
+        #     },
+        #   ]
+        #   @area = area_chart(data, "Donation Revenue This Month #{number_to_currency(data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Dollars")
         
-        # Average donation metrics
+        # # Average donation metrics
           text_donation_ave_data = [
             {
               "data" => donation_average(current_user.id, "donate_by", "text" )
@@ -168,21 +166,26 @@ private
     end
   end
 
-  def area_chart(data, title, axis_title)
-    
+  def area_chart(data, title, axis_title, timeframe, date, interval)
     LazyHighCharts::HighChart.new('graph') do |f|
-      
       f.colors([ '#434348', '#7CB5EC','#90ED7D'])
       f.chart(type: 'area')
       f.title(text: title)
-      data.each do |data, index|
-        f.series(
-          name: data['name'],
-          data: data['data'].map{|d| d['value']}
-        )
+      if timeframe == :start_year
+        months = 1..12
+        data_values = []
+        months.each do |month|
+          data_values << SignUp.where(start_month: (sprintf '%02d', month), user_id: current_user.id).map(&:value).sum
+        end
+        f.series(data: data_values)
+        f.xAxis(type: 'datetime', categories: Date::MONTHNAMES.slice(1..12))
+      else
+        values = SignUp.where("user_id = ?", current_user.id).where("#{timeframe} = ? ", "#{date}")
+        f.series(data: values.map{|d| d.value}, 
+                 name: "Sign Ups" )
+        f.xAxis(type: 'datetime', categories: values.map{|d| d[interval]}.uniq)
       end
       f.yAxis(title: {text: axis_title})
-      f.xAxis(type: 'datetime', categories: data[0]['data'].map{|d| d['timeframe']['start'].to_date.strftime("%d")})
       f.tooltip(shared: true)
       f.legend(layout: "horizontal")
       f.plotOptions(

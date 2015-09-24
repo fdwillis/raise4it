@@ -16,38 +16,9 @@
       <%= high_chart('signup_month', @sign_ups_month) %>
     </div>
     <div class='row form-group'>
-      <%= high_chart('signup_week', @sign_ups_week) %>
-    </div>
-    <div class='row form-group'>
       <%= high_chart('signup_year', @sign_ups_year) %>
     </div>
   <% end %>
   <br>
   <br>
-  <div class='row form-group'>
-    <%= high_chart("bar_chart4", @area) %>
-  </div>
-  <div class='row form-group'>
-    <%= high_chart("colum_chart", @colum) %>
-  </div>
-  <div class='row form-group'>
-    <%= high_chart("column_chart", @column) %>
-  </div>
-  <div class='row form-group'>
-    <div class='col-md-4'>
-      <%= high_chart("chart3", @pie_type) do |c| %>
-        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-      <% end %>
-    </div>
-    <div class='col-md-4'>
-      <%= high_chart("harZ3", @pie_week) do |c| %>
-        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-      <% end %>
-    </div>
-    <div class='col-md-4'>
-      <%= high_chart("char3", @pie_city) do |c| %>
-        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
-      <% end %>
-    </div>
-  </div>
 </div>
