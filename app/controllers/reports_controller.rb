@@ -99,6 +99,21 @@ class ReportsController < ApplicationController
             },
           ]
           @area = area_chart(data, "Donation Revenue This Month #{number_to_currency(data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Dollars")
+        
+        # Average donation metrics
+          text_donation_ave_data = [
+            {
+              "data" => donation_average(current_user.id, "donate_by", "text" )
+            }
+          ]
+
+          web_donation_ave_data = [
+            {
+              "data" => donation_average(current_user.id, "donate_by", "web" )
+            }
+          ]
+          @text_donation_ave = text_donation_ave_data[0]['data']
+          @web_donation_ave = web_donation_ave_data[0]['data']
     else
       redirect_to plans_path
       flash[:error] = "You dont have permission to access reports. You must signup"
@@ -178,10 +193,35 @@ private
     end
   end
 
+  def donation_average(id, property_name, property_value)
+    Keen.average("Donations", {
+      max_age: 300, 
+      target_property: "donation_amount",
+      filters: [
+        {
+          property_name: "marketplace_name", 
+          operator: "eq", 
+          property_value: ENV["MARKETPLACE_NAME"]
+        },
+        {
+          property_name: "merchant_id",
+          operator: "eq",
+          property_value: id
+        },
+        {
+          property_name: property_name,
+          operator: "eq",
+          property_value: property_value
+        },
+      ]  
+    })
+  end
+
   def sign_ups(timeframe, interval)
     Keen.count("Sign Ups", 
-      timeframe: 'this_year', 
-      interval: 'daily',
+      max_age: 300, 
+      timeframe: timeframe, 
+      interval: interval,
       filters: [
         {
           property_name: "marketplace_name", 
