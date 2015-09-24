@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150924144744) do
+ActiveRecord::Schema.define(version: 20150924172401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,21 @@ ActiveRecord::Schema.define(version: 20150924144744) do
 
   add_index "purchases", ["product_id"], name: "index_purchases_on_product_id", using: :btree
   add_index "purchases", ["user_id"], name: "index_purchases_on_user_id", using: :btree
+
+  create_table "rake_donations", force: :cascade do |t|
+    t.string   "start_day"
+    t.string   "end_day"
+    t.string   "start_month"
+    t.string   "end_month"
+    t.string   "start_year"
+    t.string   "end_year"
+    t.float    "value"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "rake_donations", ["user_id"], name: "index_rake_donations_on_user_id", using: :btree
 
   create_table "refunds", force: :cascade do |t|
     t.integer  "order_id"
@@ -419,6 +434,7 @@ ActiveRecord::Schema.define(version: 20150924144744) do
   add_foreign_key "products", "users"
   add_foreign_key "purchases", "products"
   add_foreign_key "purchases", "users"
+  add_foreign_key "rake_donations", "users"
   add_foreign_key "refunds", "orders"
   add_foreign_key "returned_products", "refunds"
   add_foreign_key "roles", "users"

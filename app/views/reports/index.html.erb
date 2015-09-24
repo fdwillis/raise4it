@@ -1,11 +1,125 @@
-<h1>Donation Revenue</h1>
+<h1 class='text-center'>Donation Analytics</h1>
 <div class='dashboard_ana'>  
-  <h1 class='text-center'> Next Transfer Date <%= (Date.today.monday + 4.days).strftime("%B %d, %Y") %></h1>
-  <h1 class='text-center'> Next Transfer Amount <%= number_to_currency(current_user.next_transfer, precision: 2) %></h1>
-  <h1 class='text-center'> Pending Revenue <%= number_to_currency(current_user.pending_amount, precision: 2) %></h1>
-  <h1 class="text-center">Monthly Subscription Revenue <%= number_to_currency(current_user.monthly_revenue, precision: 2) %><small>Stripe Fees Not Included</small></h1>
-  <h1 class='text-center'> Average <em><strong>Text</strong></em> Donation <%= number_to_currency(current_user.average_text_donation, precision: 2) %></h1>
-  <h1 class='text-center'> Average <em><strong>Web</strong></em> Donation <%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
+  <div class="row">
+    <div class='col-md-8 col-md-offset-2'>    
+      <div class="widget lazur-bg no-padding text-center">
+        <div class="p-m">
+          <i class="fa fa-calendar fa-5x"></i>
+          <h1 class="m-xs"><%= (Date.today.monday + 4.days).strftime("%B %d, %Y") %></h1>
+          <h3 class="font-bold no-margins">
+            Next Transfer Date 
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-4'>
+      <div class="widget navy-bg no-padding text-center">
+        <div class="p-m">
+          <i class="fa fa-dollar fa-5x"></i>
+          <h1 class="m-xs"><%= number_to_currency(current_user.next_transfer, precision: 2)  %></h1>
+          <h3 class="font-bold no-margins">
+            Next Transfer Amount
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-4'>
+      <div class="widget yellow-bg no-padding text-center">
+        <div class="p-m">
+          <i class="fa fa-exclamation fa-5x"></i>
+          <h1 class="m-xs"><%= number_to_currency(current_user.pending_amount, precision: 2)  %></h1>
+          <h3 class="font-bold no-margins">
+            Pending Revenue
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-4'>
+      <div class="widget navy-bg no-padding text-center">
+        <div class="p-m">
+          <i class="fa fa-retweet fa-5x"></i>
+          <h1 class="m-xs"><%= number_to_currency(current_user.monthly_revenue, precision: 2) %></h1>
+          <h3 class="font-bold no-margins">
+            Monthly Subscription Revenue
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-6'>
+      <div class="widget red-bg p-lg text-center">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="m-b-md">
+          <i class="fa fa-bell fa-4x"></i>
+          <h1 class="m-xs"><%= number_to_currency(current_user.total_donation_revenue, precision: 2) %></h1>
+          <h3 class="font-bold no-margins">
+              Donation Volume
+          </h3>
+          <small>Total Sum Of All Your Donations</small>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class='col-md-6'>
+      <div class='row'>
+        <div class='col-md-6'>
+          <div class="widget lazur-bg no-padding text-center">
+            <div class="p-m">
+              <i class="fa fa-mobile fa-5x"></i>
+              <h1 class="m-xs"><%= number_to_currency(current_user.average_text_donation, precision: 2) %></h1>
+              <h3 class="font-bold no-margins">
+                Average <em><strong>Text</strong></em> Donation 
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-6'>
+          <div class="widget lazur-bg no-padding text-center">
+            <div class="p-m">
+              <i class="fa fa-phone fa-5x"></i>
+              <h1 class="m-xs"><%= current_user.text_lists.count %></h1>
+              <h3 class="font-bold no-margins">
+                Phone Number List 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-md-6'>
+      <div class='row'>
+        <div class='col-md-6'>
+          <div class="widget lazur-bg no-padding text-center">
+            <div class="p-m">
+              <i class="fa fa-desktop fa-5x"></i>
+              <h1 class="m-xs"><%= number_to_currency(current_user.average_web_donation, precision: 2) %></h1>
+              <h3 class="font-bold no-margins">Average <em><strong>Web</strong></em> Donation </h3>
+            </div>
+          </div>
+        </div>
+        <div class='col-md-6'>
+          <div class="widget lazur-bg no-padding text-center">
+            <div class="p-m">
+              <i class="fa fa-envelope-o fa-5x"></i>
+              <h1 class="m-xs"><%= current_user.email_lists.count %></h1>
+              <h3 class="font-bold no-margins">
+                Email List 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>      
   <% if current_user.admin? %>  
     <div class='row form-group'>
       <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(current_user.total_donation_revenue, precision: 2) %></h1>
@@ -21,4 +135,35 @@
   <% end %>
   <br>
   <br>
+  <div class='form-group'>
+    <div class='row'>  
+      <div class='col-md-8'>
+        <%= high_chart("bar_chart4", @area) %>
+      </div>
+      <div class='col-md-4'>
+        <%= high_chart("chart3", @pie_type) do |c| %>
+          <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class='form-group'>
+    <div class='row'>  
+      <div class='col-md-8'>
+        <%= high_chart("column_chart", @column) %>
+      </div>
+      <div class='col-md-4'>
+        <%= high_chart("harZ3", @pie_week) do |c| %>
+          <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class='row form-group'>    
+<!--     <div class='col-md-4'>
+      <%= high_chart("char3", @pie_city) do |c| %>
+        <%= raw "options.tooltip.formatter = function() {return '<b>' + this.point.name +'</b>: '+ this.y +'%';}" %>
+      <% end %>
+    </div> -->
+  </div>
 </div>

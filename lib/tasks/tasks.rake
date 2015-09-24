@@ -155,13 +155,13 @@ namespace :stripe do
 end
 
 namespace :keen do
-  desc "Average Web Donation"
-  task donations: :environment do
+  desc "Average Donation"
+  task average_donations: :environment do
     User.all.each do |user|
       types = ['web', 'text']
-      types.each do |type|
-        if user.merchant_secret_key.present?
-          donation = Keen.average("Donations", {
+      if user.merchant_secret_key.present?
+        types.each do |type|
+          donation_ave = Keen.average("Donations", {
             target_property: "donation_amount",
             filters: [
               {
@@ -181,32 +181,51 @@ namespace :keen do
               },
             ]  
           })
+
           if type == types[0]
-            user.update_attributes(average_web_donation: donation)
-            puts "Web: #{donation}"
+            user.update_attributes(average_web_donation: donation_ave.to_f)
+            puts "Web: #{donation_ave}"
           else
-            user.update_attributes(average_text_donation: donation)
-            puts "Text: #{donation}"
+            user.update_attributes(average_text_donation: donation_ave.to_f)
+            puts "Text: #{donation_ave}"
           end
+        end
+        if user.admin?
+          total_donations = Keen.sum("Donations", 
+            target_property: "donation_amount",
+            timeframe: 'this_year',
+            filters: [
+             {
+              property_name: "marketplace_name", 
+              operator: "eq", 
+              property_value: ENV["MARKETPLACE_NAME"]
+             } 
+            ]
+          )
+
+          user.update_attributes(total_donation_revenue: total_donations.to_f)
+          puts "Platform Total #{total_donations}"
+        else
+          donation = Keen.average("Donations", {
+            target_property: "donation_amount",
+            filters: [
+              {
+                property_name: "marketplace_name", 
+                operator: "eq", 
+                property_value: ENV["MARKETPLACE_NAME"]
+              },
+              {
+                property_name: "merchant_id",
+                operator: "eq",
+                property_value: user.id
+              },
+            ]  
+          })
+          user.update_attributes(total_donation_revenue: donation.to_f)
+          puts "Total Donations #{donation}"
         end
       end
 
-      if user.admin?
-        total_donations = Keen.sum("Donations", 
-          target_property: "donation_amount",
-          timeframe: 'this_year',
-          filters: [
-           {
-            property_name: "marketplace_name", 
-            operator: "eq", 
-            property_value: ENV["MARKETPLACE_NAME"]
-           } 
-          ]
-        )
-
-        user.update_attributes(total_donation_revenue: total_donations)
-        puts total_donations
-      end
     end
   end
 
@@ -236,6 +255,41 @@ namespace :keen do
         data.save!
       else
         data.update_attributes(value: su['value'])
+      end
+    end
+  end
+
+  desc "Getting Donation Data"
+  task donations: :environment do
+    User.all.each do |user|  
+      rake_donations = Keen.sum("Donations",
+        timeframe: 'this_year',
+        target_property: "donation_amount",
+        interval: 'daily',
+        filters: [
+          {
+            property_name: "merchant_id",
+            operator: "eq",
+            property_value: 1
+          },
+          {
+            property_name: "marketplace_name", 
+            operator: "eq", 
+            property_value: ENV["MARKETPLACE_NAME"]
+          }
+        ]
+      )
+      rake_donations.each do |d|
+        date_start = d['timeframe']['start']
+        date_end = d['timeframe']['end']
+        data = user.rake_donations.find_or_create_by(start_year: date_start[0..3], start_month: date_start[5..6], start_day: date_start[8..9], 
+                                              end_year: date_end[0..3], end_month: date_end[5..6], end_day: date_end[8..9])
+        if !data.new_record?
+          data.update_attributes(value: d['value'])
+          data.save!
+        else
+          data.update_attributes(value: d['value'])
+        end
       end
     end
   end
