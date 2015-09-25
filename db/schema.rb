@@ -64,9 +64,9 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.text     "description"
     t.integer  "user_id"
     t.decimal  "goal_amount", precision: 12, scale: 2
-    t.integer  "backers"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.integer  "backers",                              default: 0
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "uuid"
     t.string   "slug"
     t.text     "keywords"
@@ -371,7 +371,6 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.string   "routing_number"
     t.string   "account_number"
     t.string   "stripe_recipient_id"
-    t.integer  "pending_payment",                                             default: 0
     t.string   "stripe_id"
     t.boolean  "recipient_created"
     t.string   "slug"
@@ -405,18 +404,18 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.text     "return_policy",                                               default: "Our policy lasts 30 days. If 30 days have gone by since your purchase, unfortunately we can’t offer you a refund or exchange.\n\nTo be eligible for a return, your item must be unused and in the same condition that you received it. It must also be in the original packaging."
     t.string   "shipping_address"
     t.string   "country_name"
-    t.decimal  "tax_rate",                           precision: 12, scale: 2
+    t.decimal  "tax_rate",                           precision: 12, scale: 2, default: 0.0
     t.string   "bitly_link"
     t.string   "bank_currency"
     t.boolean  "account_approved"
     t.string   "logo"
     t.boolean  "notifications",                                               default: true
-    t.float    "average_web_donation"
-    t.float    "average_text_donation"
-    t.float    "next_transfer"
-    t.float    "pending_amount"
-    t.float    "monthly_revenue"
-    t.float    "total_donation_revenue"
+    t.float    "average_web_donation",                                        default: 0.0
+    t.float    "average_text_donation",                                       default: 0.0
+    t.float    "next_transfer",                                               default: 0.0
+    t.float    "pending_amount",                                              default: 0.0
+    t.float    "monthly_revenue",                                             default: 0.0
+    t.float    "total_donation_revenue",                                      default: 0.0
     t.boolean  "agreed_to_terms"
   end
 
