@@ -110,6 +110,7 @@ namespace :stripe do
           platform_for: 'donations',
           revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100)
         })
+        user.update_attributes(monthly_revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100))
         Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
       else
         Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
@@ -120,6 +121,7 @@ namespace :stripe do
             platform_for: 'donations',
             revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100)
           })
+          user.update_attributes(monthly_revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100))
         end
       end
     end
