@@ -35,7 +35,7 @@ class NotificationsController < ApplicationController
           if the_plan
             donation_plan = the_plan.uuid
           else
-            puts "There Is No Monthly Plan For That Amount Assigned To #{raiser_username}"
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "There Is No Monthly Plan For That Amount Assigned To #{raiser_username}"})
             return
           end
         end
@@ -92,8 +92,7 @@ class NotificationsController < ApplicationController
             @bitly_link = Bitly.client.shorten("#{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}").short_url
 
             # Link to enter card info and create user profile
-            puts "Please follow link to enter CC details #{@bitly_link}"
-            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter CC details #{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}"})
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}"})
             return
           end
         else
@@ -160,7 +159,7 @@ end
   # Tracking
     # curl -X POST -d "msg[checkpoints][][message]=bar&msg[tracking_number]=1Z0F28171596013711&msg[checkpoints][][tag]=tag&msg[checkpoints][][checkpoint_time]=2014-05-02T16:24:38" http://localhost:3000/notifications
   # twilio
-    # curl -X POST -d 'Body=900 admin&From=+14143997341' http://localhost:3000/notifications/twilio
+    # curl -X POST -d 'Body=77 admin monthly&From=+14143997341' http://localhost:3000/notifications/twilio
     # curl -X POST -d 'Body=90.30 admin_tes&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
 
 # Send Twilio Message

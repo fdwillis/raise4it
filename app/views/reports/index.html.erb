@@ -122,11 +122,6 @@
   </div>      
   <% if current_user.admin? %>  
     <div class='row form-group'>
-      <h1 class='text-center'> Total Volume Of Revenue <%= number_to_currency(current_user.total_donation_revenue, precision: 2) %></h1>
-    </div>
-    <div class='row form-group'>
-    </div>
-    <div class='row form-group'>
       <%= high_chart('signup_month', @sign_ups_month) %>
     </div>
     <div class='row form-group'>
@@ -135,20 +130,10 @@
   <% end %>
   <br>
   <br>
-  <div class='form-group'>
-    <div class='row'>  
-      <div class='col-md-8'>
-        <%= high_chart("bar_chart4", @area) %>
-      </div>
-    </div>
+  <div class='row form-group'>  
+    <%= high_chart("bar_chart4", @area) %>
   </div>
-  <div class='form-group'>
-    <div class='row'>  
-      <div class='col-md-8'>
-        <%= high_chart("column_chart", @column) %>
-      </div>
-    </div>
-  </div>
-  <div class='row form-group'>    
+  <div class='row form-group'>  
+    <%= high_chart("column_chart", @column) %>
   </div>
 </div>
