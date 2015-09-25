@@ -102,6 +102,7 @@ class User < ActiveRecord::Base
       user.update_attributes(next_transfer: next_transfer)
       user.update_attributes(pending_amount: pending_amount)
       user.update_attributes(monthly_revenue: monthly_revenue)
+      puts "Successful Stripe Grab"
     end
 
     def self.profile_views(user_id, ip_address, location, merchant)
