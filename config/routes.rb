@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :users, only: [:update]
 
   get 'donate' => 'donate#donate'
+  get 'terms' => 'home#terms'
 
   put 'approve_goal' => 'pending_goals#approve_goal'
   put 'approve_account' => 'merchants#approve_account'

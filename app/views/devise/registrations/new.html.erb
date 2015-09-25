@@ -20,12 +20,12 @@
 
       <div class="field form-group">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+        <%= f.email_field :email, autofocus: true, class: 'form-control text-center' %>
       </div>
 
       <div class="field form-group">
         <%= f.label :username %><br />
-        <%= f.text_field :username, required: true, class: 'form-control' %>
+        <%= f.text_field :username, required: true, class: 'form-control text-center' %>
       </div>
 
       <div class="field form-group">
@@ -33,13 +33,17 @@
         <% if @minimum_password_length %>
         <em>(<%= @minimum_password_length %> characters minimum)</em>
         <% end %><br />
-        <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control text-center' %>
       </div>
 
       <div class="field form-group">
         <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control text-center' %>
       </div>
+
+      <div class='field form-group'>
+        <%= f.check_box :agreed_to_terms, required: true %> I accept <%= link_to "Terms and Conditions", terms_path, 'target' => '_blank' %>
+      </div> 
 
       <div class="actions form-group">
         <%= f.submit "Sign up", class: 'btn btn-primary col-md-12' %>
