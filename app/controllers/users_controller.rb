@@ -43,7 +43,7 @@ class UsersController < ApplicationController
           refund = ch.refunds.create
           flash[:notice] = "Payment source successfully added!"
           if !current_user.roles.map(&:title).include?('buyer')
-            redirect_to plans_path
+            redirect_to request.referrer
           else
             redirect_to request.referrer
           end
