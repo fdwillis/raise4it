@@ -3,6 +3,7 @@ class DonateController < ApplicationController
   end
 
   def create_user
+    twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     if params[:create_user][:password] == params[:create_user][:password_confirm]
     	crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
       phone_number = params[:create_user][:phone_number]
@@ -30,7 +31,6 @@ class DonateController < ApplicationController
         customer = User.new_customer(token.id, new_user)
 
         a_token = User.new_token(new_user, card_number)
-
         if fundraiser.role == 'admin'
           if params[:create_user][:donation_plan].present?
             donation_plan = DonationPlan.find_by(uuid: params[:create_user][:donation_plan]).uuid
@@ -58,9 +58,9 @@ class DonateController < ApplicationController
         fundraiser.text_lists.find_or_create_by(phone_number: phone_number)
         fundraiser.email_lists.find_or_create_by(email: email)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
+        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.username.capitalize} Thanks You For Your Donation!"})
         redirect_to donate_path
         flash[:notice] = "Thanks For The Donation"
-        # Twilio text telling user they can text from now on and will be charged automatically
         return
       rescue Stripe::CardError => e
         if params[:create_user][:donation_plan].present?

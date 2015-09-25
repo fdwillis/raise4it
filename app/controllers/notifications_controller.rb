@@ -16,7 +16,9 @@ class NotificationsController < ApplicationController
     end
 
     if stripe_amount >= 100 && stripe_amount < 99999999
-      if text_message[1] && (User.find_by(username: text_message[1].downcase).merchant_secret_key? || User.find_by(username: text_message[1].downcase).admin?)
+
+      user_search = User.find_by(username: text_message[1].downcase)
+      if text_message[1] && user_search
         raiser_username = text_message[1].downcase
       
         location = {
@@ -25,7 +27,6 @@ class NotificationsController < ApplicationController
           'zipcode' => params[:FromZip],
           'country_code' => params[:FromCountry],
         }
-            
         phone_number = params[:From][2,params[:From].length]
         if text_message[2]  
           donation_type = text_message[2].downcase
@@ -74,24 +75,38 @@ class NotificationsController < ApplicationController
 
             Stripe.api_key = Rails.configuration.stripe[:secret_key]
             # Twilio message to thank user for donation
-            puts "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"
+            begin
+              twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"})
+            rescue Twilio::REST::RequestError => e
+              puts e.message
+            end
             return
           else
+            Bitly.use_api_version_3
+
+            Bitly.configure do |config|
+              config.api_version = 3
+              config.access_token = ENV['BITLY_ACCESS_TOKEN']
+            end
+
+            @bitly_link = Bitly.client.shorten("#{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}").short_url
+
             # Link to enter card info and create user profile
-            puts "Please follow link to enter CC details #{url_for controller: :donate, action: :donate, fundraiser_name: raiser_username, amount: stripe_amount, phone_number: phone_number, donation_plan: donation_plan}"
+            puts "Please follow link to enter CC details #{@bitly_link}"
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter CC details #{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}"})
             return
           end
         else
           #Twilio message back to donater
-          puts "Please enter a dollar amount first, then username of the fundraiser. Example: 90000 valid_username"
+          twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a dollar amount first, then username of the fundraiser. Example: 90 valid_username"})
           return
         end
       else
-        puts "Please enter a valid username to donate to. Example: 90000 valid_username"
+        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a valid username to donate to. Example: 90 valid_username"})
         return
       end
     else
-      puts "Please enter a minimum dollar amount of 1 or max of 999,999.99, then a valid username to donate to. Example: 90000 valid_username"
+      twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a minimum dollar amount of 1 or max of 999,999.99, then a valid username to donate to. Example: 90 valid_username"})
       return
     end
   end
@@ -145,9 +160,10 @@ end
   # Tracking
     # curl -X POST -d "msg[checkpoints][][message]=bar&msg[tracking_number]=1Z0F28171596013711&msg[checkpoints][][tag]=tag&msg[checkpoints][][checkpoint_time]=2014-05-02T16:24:38" http://localhost:3000/notifications
   # twilio
-    # curl -X POST -d 'Body=900 admin&From=+14143997348' http://localhost:3000/notifications/twilio
+    # curl -X POST -d 'Body=900 admin&From=+14143997341' http://localhost:3000/notifications/twilio
     # curl -X POST -d 'Body=90.30 admin_tes&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
 
 # Send Twilio Message
   # twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
   # message = twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: '4143997341', body: "Thanks for wanting to donate. https://www.google.com/ "
+

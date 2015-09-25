@@ -71,7 +71,7 @@ namespace :payout do
                     income: ((transfer.amount.to_f) / 100),
                     marketplace_name: ENV["MARKETPLACE_NAME"],
                     })
-                  # message = twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
+                  message = twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
                 else
                   Keen.publish("Payout", {
                     income: ((transfer.amount.to_f) / 100),
@@ -115,7 +115,7 @@ namespace :payout do
               income: ((transfer.amount.to_f) / 100),
               marketplace_name: ENV["MARKETPLACE_NAME"],
             })
-            # message = twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
+            message = twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
             puts "admin paid"
           end
         end
