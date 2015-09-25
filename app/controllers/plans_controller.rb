@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
 	def index
-
+    @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
 	end
   def create
   	

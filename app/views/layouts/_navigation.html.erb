@@ -10,7 +10,10 @@
         </li>
         </li>
         <li>
-            <a href="/merchants/<%= current_user.username %>"><i class="fa fa-user"></i></a>
+            <a href="/orgs/<%= current_user.username %>"><i class="fa fa-user"></i></a>
+        </li>
+        <li>
+            <a href="#fund_info" data-toggle= 'modal' ><i class="fa fa-exclamation-triangle"></i></a>
         </li>
         <li>
             <a href="/users/edit"><i class="fa fa-cogs"></i></a>
@@ -31,14 +34,13 @@
                   <% end %>
                 </ul>
             </li>
-            <li>
-                <a href="#create_dplan" data-toggle= 'modal' ><i class="fa fa-usd"></i></a>
-            </li>
-
-            <li>
-                <a href="#create_member" data-toggle= 'modal' ><i class="fa fa-group"></i></a>
-            </li>
           <% end %>
+        <li>
+          <a href="#create_member" data-toggle= 'modal' ><i class="fa fa-group"></i></a>
+        </li>
+        <li>
+          <a href="#create_dplan" data-toggle= 'modal' ><i class="fa fa-usd"></i></a>
+        </li>
         <% end %>
     </ul>
   </div>

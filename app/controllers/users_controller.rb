@@ -62,11 +62,14 @@ class UsersController < ApplicationController
       if !current_user.stripe_account_id? && current_user.account_ready?
         begin 
 
-          merchant = User.create_merchant(current_user, request.remote_ip, browser.user_agent )
+          merchant = User.create_merchant(current_user, request.remote_ip, browser.user_agent)
           
           @stripe_account_id = @crypt.encrypt_and_sign(merchant.id)
           @merchant_secret_key = @crypt.encrypt_and_sign(merchant.keys.secret)
           @merchant_publishable_key = @crypt.encrypt_and_sign(merchant.keys.publishable)
+          
+          token = User.new_token(current_user, @crypt.decrypt_and_verify(current_user.card_number))
+          User.charge_for_admin(current_user, 1000, token.id)
 
           current_user.update_attributes(account_approved: false, stripe_account_id:  @stripe_account_id , merchant_secret_key: @merchant_secret_key, merchant_publishable_key: @merchant_publishable_key, bitly_link: @bitly_link )
           flash[:notice] = "Application Submitted For Approval"

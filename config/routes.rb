@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :pending_goals, only: :index
   resources :fundraising_goals
 
-  resources :merchants, only: [:index, :show]
+  resources :merchants, only: [:index, :show], path: 'orgs'
   
   resources :notifications, only: [:create, :destroy]
   

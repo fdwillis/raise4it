@@ -1,61 +1,127 @@
-<h1>Plans</h1>
-<% if current_user %>
+<% if current_user && current_user.stripe_plan_id.nil? %>
   <div class="container top-space">
     <br>
-    <h1 class='text-center'>This is <em><strong><u>monthly</u></strong></em> subscription</h1>
+    <h1 class='text-center'>What You Get For<br><br><span class="text-navy">$36.35</span>/mo + <span class="text-navy">$10</span> Application Fee<small>(One-Time)</small> + <span class="text-navy">5%</span> Of Funds Raised</h1>
     <br>
     <br>
-    <div class="row">
-      <div class='col-md-4 col-sm-12 col-xs-12'>
-        <div class="form-group">
-          <div class="text-center">  
-            <h1>Basic Plan</h1>
-            <%= link_to "Choose Plan", '', class: 'btn btn-info btn-lg', 'data-toggle' => 'modal', 'data-target'=> '#basicPlan' %>
-          </div>
-          <div class="modal inmodal" id="basicPlan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h1 class="modal-title text-lcenter" id="myModalLabel">Basic Plan</h1>
-                </div>
-                <%= form_for current_user, :url => subscribe_path(987654345678), :html => { :method => :put } do |plan| %>
-                  <% if current_user.card? %>  
-                    <div class="modal-body">
-                      <% crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE']) %>
-                      <h3>Credit Card Number</h3>
+     <div class="row form-group">
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-mobile big-icon"></i>
+        <h2>Text-To Donate</h2>
+        <p>Accept money via text messaging. Users simply specify a dollar amount &amp; your user name.</p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-signal big-icon"></i>
+        <h2>Unlimited Campaigns</h2>
+        <p>Unlimited amount of campaigns for the community, your organization, or any individual you'd like to raise money for</p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-envelope big-icon"></i>
+        <h2>Message Blasts</h2>
+        <p>When people donate to you, they are added to your notification.  You can email &amp; text them directly afterwards!</p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-globe big-icon"></i>
+        <h2>International</h2>
+        <p>Accept payments from 22 different countries... a global audience.</p>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-retweet big-icon"></i>
+        <h2>Subscriptions</h2>
+        <p>As a fundraising organization, you can create monthly plans that your donors and organization members can subscribe to!</p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-calendar big-icon"></i>
+        <h2>Weekly Payout</h2>
+        <p>All funds are paid on Friday of every week. All transactions &amp; transfers are subject to Stripe fees</p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-exchange big-icon"></i>
+        <h2>Split Payments</h2>
+        <p>Our payment splitting allows your to add "Team Members" that will recieve a percentage of funds specified by you. </p>
+      </div>
+      <div class="col-sm-3 text-center">
+        <i class="fa fa-users big-icon"></i>
+        <h2>Customer Support</h2>
+        <p>Email us anytime for questions, concerns, and or bug issues you find!</p>
+      </div>
+    </div>
+    <% if current_user.card? %>  
+      <div class="ibox">
+        <div class="panel-group payments-method" id="accordion">
+          <div class="panel panel-default">
+            <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-8 col-md-offset-2 col-xs-12 col-sm-12">
+                    <%= form_for current_user, :url => subscribe_path(987654345678), :html => { :method => :put } do |plan| %>
                       <% if current_user.card_number?%>
-                        <%= plan.text_field :card_number, class: 'form-control', maxlength: 16, value: "#{crypt.decrypt_and_verify(current_user.card_number)}" %>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                              <label>CARD NUMBER</label>
+                              <div class="input-group">
+                                <%= plan.text_field :card_number, class: 'form-control', maxlength: 16, value: "#{@crypt.decrypt_and_verify(current_user.card_number)}" %>
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       <% else %>
-                        <%= plan.text_field :card_number, class: 'form-control', required: true, maxlength: 16 %>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                              <label>CARD NUMBER</label>
+                              <div class="input-group">
+                                <%= plan.text_field :card_number, class: 'form-control', required: true, maxlength: 16 %>
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       <% end %>
-                      <h3>Expiration Month</h3>
-                      <%= plan.text_field :exp_month, class: 'form-control', required: true, maxlength: 2, minlength: 2, value: current_user.exp_month || nil %>
+                      <div class="row">
+                        <div class="col-xs-4 col-md-4">
+                          <div class="form-group">
+                            <label>EXPIRATION MONTH</label>
+                            <%= plan.text_field :exp_month, class: 'form-control', required: true, maxlength: 2, minlength: 2, value: current_user.exp_month || nil %>
+                          </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4">
+                          <div class="form-group">
+                            <label>EXPIRATION YEAR</label>
+                            <%= plan.text_field :exp_year, class: 'form-control', required: true, maxlength: 4, minlength: 4, greater_than_or_equal_to: Time.now.year, value: current_user.exp_year || nil %>
+                          </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4 pull-right">
+                          <div class="form-group">
+                            <label>CVC NUMBER</label>
+                            <%= plan.text_field :cvc_number, class: 'form-control', required: true, maxlength: 4, minlength: 3, value: current_user.cvc_number || nil %>
+                          </div>
+                        </div>
+                      </div>
 
-                      <h3>Expiration Year</h3>
-                      <%= plan.text_field :exp_year, class: 'form-control', required: true, maxlength: 4, minlength: 4, greater_than_or_equal_to: Time.now.year, value: current_user.exp_year || nil %>
-
-                      <h3>CVC Number</h3>
-                      <%= plan.text_field :cvc_number, class: 'form-control', required: true, maxlength: 4, minlength: 3, value: current_user.cvc_number || nil %>
-
-                      <h3>Username</h3>
-                      <%= plan.text_field :username, class: 'form-control', required: true, value: ("#{current_user.username}" || nil ) %>
-                    </div>
-                    <div class="actions modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <%= plan.submit 'Submit', class: 'btn btn-success' %>
-                    </div>
-                  <% else %>
-                    <h3 class="text-center">Please Add Payment Source <%= link_to "Here", edit_user_registration_path, class: 'btn btn-info' %> </h3>
-                  <% end %>
-                <% end %>
+                      <%= plan.hidden_field :username, class: 'form-control', required: true, value: ("#{current_user.username}" || nil ), disabled: true %>
+                      <div class="actions modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <%= plan.submit 'Submit', class: 'btn btn-primary' %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <% else %>
+      <h3 class="text-center">Please Add Payment Source <%= link_to "Here", edit_user_registration_path, class: 'btn btn-info' %> </h3>
+    <% end %>
   </div>
+<% elsif current_user && current_user.stripe_plan_id.present? %>
+  <h1>You've Already Signed Up</h1>
 <% else %>
   <div class="container top-space">
     <br>

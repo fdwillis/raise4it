@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def phone_number
-    if support_phone
+    if support_phone.present?
       write_attribute(:support_phone, support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-'))
     end
   end

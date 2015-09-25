@@ -67,8 +67,8 @@ before_filter :authenticate_user!
         customer = Stripe::Customer.retrieve(current_user.marketplace_stripe_id)
         subscription = customer.subscriptions.create(plan: plan)
 
-        if current_user.products.present?
-          current_user.products.each do |p|
+        if current_user.fundraising_goals.present?
+          current_user.fundraising_goals.each do |p|
             p.update_attributes(active: true)
           end
         end
