@@ -43,26 +43,26 @@ class ReportsController < ApplicationController
           @colum = area_chart(current_user.rake_donations, "Donations This Month #{number_to_currency(week_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Donations", :start_month, DateTime.now.strftime("%m"), :start_day)
           @column = area_chart(current_user.rake_donations, "Donations This Year #{number_to_currency(year_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Donations", :start_year, DateTime.now.strftime("%Y"), :start_month) 
 
-        #Donation pie Chart
-          pie_type_data = [
-            {
-              'data' => donation_pie(current_user.id, "donation_type")
-            }
-          ]
+        # #Donation pie Chart
+        #   pie_type_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "donation_type")
+        #     }
+        #   ]
 
-          pie_day_data = [
-            {
-              'data' => donation_pie(current_user.id, "day_of_week")
-              }
-          ]
-          pie_city_data = [
-            {
-              'data' => donation_pie(current_user.id, "customer_current_city")
-              }
-          ]
-          @pie_type = pie_chart(pie_type_data, 'donation_type', "Donations By Type")
-          @pie_week = pie_chart(pie_day_data, 'day_of_week', "Donations By Day")
-          @pie_city = pie_chart(pie_city_data, 'customer_current_city', "Donations By City")
+        #   pie_day_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "day_of_week")
+        #       }
+        #   ]
+        #   pie_city_data = [
+        #     {
+        #       'data' => donation_pie(current_user.id, "customer_current_city")
+        #       }
+        #   ]
+        #   @pie_type = pie_chart(pie_type_data, 'donation_type', "Donations By Type")
+        #   @pie_week = pie_chart(pie_day_data, 'day_of_week', "Donations By Day")
+        #   @pie_city = pie_chart(pie_city_data, 'customer_current_city', "Donations By City")
 
         # Donation area chart  
           data = [
