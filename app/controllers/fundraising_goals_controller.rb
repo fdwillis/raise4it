@@ -97,7 +97,7 @@ class FundraisingGoalsController < ApplicationController
 
     donation.update_attributes(active: false)
 
-    # Donation.monthly_canceled(donation)
+    Notify.donation_canceled(fundraiser, current_user, donation.amount).deliver
 
     redirect_to edit_user_registration_path
     flash[:notice] = "You have suspended your monthly donation"

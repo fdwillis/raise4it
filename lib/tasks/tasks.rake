@@ -44,7 +44,7 @@ namespace :payout do
                     income: ((transfer.amount.to_f) / 100),
                     marketplace_name: ENV["MARKETPLACE_NAME"],
                     })
-                  message = twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
+                  twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
                 else
                   Keen.publish("Payout", {
                     income: ((transfer.amount.to_f) / 100),
@@ -88,7 +88,7 @@ namespace :payout do
               income: ((transfer.amount.to_f) / 100),
               marketplace_name: ENV["MARKETPLACE_NAME"],
             })
-            message = twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
+            twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
             puts "admin paid"
           end
         end
@@ -251,7 +251,7 @@ namespace :keen do
   desc "Getting Donation Data"
   task donations: :environment do
     User.all.each do |user|  
-      if user.merchant_secret_key.present? || user.admin?  
+      if user.merchant_secret_key.present?
         rake_donations = Keen.sum("Donations",
           timeframe: 'this_year',
           target_property: "donation_amount",
@@ -269,6 +269,21 @@ namespace :keen do
             }
           ]
         )
+      elsif user.admin?  
+          rake_donations = Keen.sum("Donations",
+          timeframe: 'this_year',
+          target_property: "donation_amount",
+          interval: 'daily',
+          filters: [
+            {
+              property_name: "marketplace_name", 
+              operator: "eq", 
+              property_value: ENV["MARKETPLACE_NAME"]
+            }
+          ]
+        )
+      end
+      if rake_donations.present?  
         rake_donations.each do |d|
           date_start = d['timeframe']['start']
           date_end = d['timeframe']['end']

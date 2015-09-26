@@ -8,7 +8,7 @@ class CreateSignUps < ActiveRecord::Migration
       t.string :end_month
       t.string :start_day
       t.string :end_day
-      t.float :value
+      t.float :value, default: 0
 
       t.timestamps null: false
     end

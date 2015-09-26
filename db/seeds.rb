@@ -55,7 +55,7 @@ merchant = User.create!(
               business_name: 'Merchant 98kj',
               business_url: 'https://www.merchant.com',
               support_email: 'support@fa.com',
-              support_phone: '4143997842',
+              support_phone: '4143997840',
               support_url: "https://team.com",
               dob_day: 02,
               dob_month: 12,
@@ -100,35 +100,15 @@ merchant.skip_confirmation!
 merchant.save!
 merchant.roles.create([{title: 'donations'}, {title: 'merchant'}])
 
-20.times do
-  FundraisingGoal.create!(
-    user_id: 2,
-    title: Faker::Name.name,
-    active: true,
-    goal_amount: 90,
-    uuid: SecureRandom.uuid,
-    description: Faker::Lorem.paragraph,
-    )
-end
-
 puts "Created #{User.count} Users"
 
-
-stripe_plan_id = [987654345678, 98765436789087, 34938872387398]
-
-amount = [3000,50000,8000,90000,1000]
-
-names = ['bull', 'new', 'old', 'safe', 'gold', 'apple']
-
-stripe_plan_id.each do |id|
-  stripe_plans = Stripe::Plan.create(
-    amount: amount.sample,
-    interval: 'month',
-    name: names.sample,
-    currency: 'usd',
-    id: id
-  )
-  puts "Created #{stripe_plans.id}"
-end
+stripe_plans = Stripe::Plan.create(
+  amount: 8000,
+  interval: 'month',
+  name: ENV['MARKETPLACE_NAME'],
+  currency: 'USD',
+  id: 987654345678
+)
+puts "Created #{stripe_plans.id}"
 
 

@@ -178,10 +178,10 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.string   "end_month"
     t.string   "start_year"
     t.string   "end_year"
-    t.float    "value"
+    t.float    "value",       default: 0.0
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "rake_donations", ["user_id"], name: "index_rake_donations_on_user_id", using: :btree
@@ -267,9 +267,9 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.string   "end_month"
     t.string   "start_day"
     t.string   "end_day"
-    t.float    "value"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.float    "value",       default: 0.0
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "sign_ups", ["user_id"], name: "index_sign_ups_on_user_id", using: :btree
@@ -416,7 +416,7 @@ ActiveRecord::Schema.define(version: 20150925144941) do
     t.float    "pending_amount",                                              default: 0.0
     t.float    "monthly_revenue",                                             default: 0.0
     t.float    "total_donation_revenue",                                      default: 0.0
-    t.boolean  "agreed_to_terms"
+    t.boolean  "agreed_to_terms",                                             default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

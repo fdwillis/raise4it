@@ -7,7 +7,7 @@ class CreateRakeDonations < ActiveRecord::Migration
       t.string :end_month
       t.string :start_year
       t.string :end_year
-      t.float :value
+      t.float :value, default: 0
       t.belongs_to :user, index: true
 
       t.timestamps null: false

@@ -1,10 +1,10 @@
 class Notify < ApplicationMailer
-	default from: "team@#{ENV['MARKETPLACE_NAME'].gsub(' ', '').downcase}.com", return_path: 'fdwillis7@gmail.com'
+	default from: "#{ENV['MARKETPLACE_NAME'].gsub(' ', '').downcase}team@#{ENV['MARKETPLACE_NAME'].gsub(' ', '').downcase}.com", return_path: 'fdwillis7@gmail.com'
 
   def account_approved(user)
     @user = user
     if !@user.admin?  
-      @mail = mail(to: user.email, subject: "Business/Fundraising Account Approved") do |format|
+      @mail = mail(to: user.email, subject: "Fundraising Account Approved") do |format|
         format.text
         format.html
       end
@@ -19,6 +19,16 @@ class Notify < ApplicationMailer
         format.text
         format.html
       end
+    end
+  end
+
+  def donation_canceled(raiser, canceled_donor, amount)
+    @canceled_donor = canceled_donor
+    @raiser = raiser
+    @amount = (amount.to_f / 100)
+    @mail = mail(to: raiser.email, subject: "Canceled Subscription") do |format|
+      format.text
+      format.html
     end
   end
 end

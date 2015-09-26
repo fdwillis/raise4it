@@ -76,7 +76,8 @@ class NotificationsController < ApplicationController
             Stripe.api_key = Rails.configuration.stripe[:secret_key]
             # Twilio message to thank user for donation
             begin
-              twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"})
+              puts "thanks"
+              # twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"})
             rescue Twilio::REST::RequestError => e
               puts e.message
             end
@@ -159,7 +160,7 @@ end
   # Tracking
     # curl -X POST -d "msg[checkpoints][][message]=bar&msg[tracking_number]=1Z0F28171596013711&msg[checkpoints][][tag]=tag&msg[checkpoints][][checkpoint_time]=2014-05-02T16:24:38" http://localhost:3000/notifications
   # twilio
-    # curl -X POST -d 'Body=77 admin monthly&From=+14143997341' http://localhost:3000/notifications/twilio
+    # curl -X POST -d 'Body=22 admin monthly&From=+14143997341' http://localhost:3000/notifications/twilio
     # curl -X POST -d 'Body=90.30 admin_tes&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
 
 # Send Twilio Message

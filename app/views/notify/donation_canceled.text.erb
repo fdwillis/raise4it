@@ -1,0 +1,11 @@
+<h3>Attention <%= @raiser.username %>,</h3>
+
+<p><%= @canceled_donor.username %>Canceled Your Donation Plan For <%= number_to_currency((@amount), precision: 2) %></p>
+
+<p>Here is their contact information.  It's in your best interest to gain feedback from them on why they decided to cancel!</p>
+
+<h4>Good Luck!</h4>
+
+<p>Donor Name: <%= @canceled_donor.legal_name %></p>
+<p>Donor Email: <%= @canceled_donor.email %></p>
+<p>Donor Phone Number: <%= @canceled_donor.support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-') %></p>

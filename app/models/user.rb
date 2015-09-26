@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :purchases
   has_many :sign_ups
   has_many :donation_plans
+  has_many :rake_monthlies
   has_many :rake_donations
   has_many :team_members
   has_many :roles, dependent: :destroy
@@ -20,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :stripe_customer_ids, dependent: :destroy
   has_many :fundraising_goals
 
-  validates_uniqueness_of :username, allow_blank: false, format: { without: /\s/ }
+  validates_uniqueness_of :username, :support_phone, allow_blank: false, format: { without: /\s/ }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
