@@ -76,8 +76,7 @@ class NotificationsController < ApplicationController
             Stripe.api_key = Rails.configuration.stripe[:secret_key]
             # Twilio message to thank user for donation
             begin
-              puts "thanks"
-              # twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"})
+              twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Thanks for your #{number_to_currency(text_message[0], precision: 2)} donation to #{raiser_username}"})
             rescue Twilio::REST::RequestError => e
               puts e.message
             end

@@ -55,7 +55,7 @@ class PurchasesController < ApplicationController
               return
             end
           else
-            redirect_to fundraising_goal_path(id: @fund.slug)
+            redirect_to request.referrer
             flash[:error] = "Please Specify A Valid Donation Amount"
             return
           end
@@ -82,7 +82,7 @@ class PurchasesController < ApplicationController
           end
         end
       else
-        redirect_to fundraising_goal_path(id: @fund.slug)
+        redirect_to request.referrer
         flash[:error] = "Please Specify A Donation Type"
         return
       end
@@ -131,14 +131,6 @@ class PurchasesController < ApplicationController
     return
   end
 
-  def update
-    AfterShip.api_key = ENV['AFTERSHIP_KEY']
-    @tracking_number = params[:tracking_number]
-    @purchase = Purchase.find_by(uuid: params[:uuid])
-    @s = AfterShip::V4::Tracking.create( @tracking_number, {:emails => ["#{@purchase.user.email}"]})
-    @purchase.update_attributes(tracking_number: @tracking_number, carrier: @s['data']['tracking']['slug'])
-    redirect_to purchases_path
-  end
 private
   # Never trust parameters from the scary internet, only allow the white list through.
   def purchase_params
