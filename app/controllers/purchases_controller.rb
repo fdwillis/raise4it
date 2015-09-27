@@ -55,7 +55,7 @@ class PurchasesController < ApplicationController
               return
             end
           else
-            redirect_to request.referrer
+            redirect_to fundraising_goal_path(id: @fund.slug)
             flash[:error] = "Please Specify A Valid Donation Amount"
             return
           end
@@ -82,7 +82,7 @@ class PurchasesController < ApplicationController
           end
         end
       else
-        redirect_to request.referrer
+        redirect_to fundraising_goal_path(id: @fund.slug)
         flash[:error] = "Please Specify A Donation Type"
         return
       end
