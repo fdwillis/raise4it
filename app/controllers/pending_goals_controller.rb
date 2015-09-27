@@ -1,6 +1,11 @@
 class PendingGoalsController < ApplicationController
   def index
-  	 @pendings = FundraisingGoal.all.where(active: false)
+    if current_user.admin?
+    	@pendings = FundraisingGoal.all.where(active: false)
+    else
+      redirect_to root_path
+      flash[:error] = "You Dont Have Permission To Access That Page"
+    end
   end
 
   def approve_goal

@@ -1,4 +1,4 @@
-<h1>Listing Fundraising Goals</h1>
+<h1>All Fundraising Goals</h1>
 
 <div class='container'>
 	<% if policy(FundraisingGoal.new).new? %>
@@ -7,15 +7,17 @@
 	<div class='row'>	
 		<%= search_form_for @search do |f| %>
 	    <div class='row'>  
-	      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
-	        <%= f.text_field :title_cont, class: 'form-control text-center', placeholder: 'Title' %>
-	      </div>
-	      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
-	        <%= f.text_field :keywords_cont, class: 'form-control text-center', placeholder: 'Keywords' %>
-	      </div>
-	    </div>
-	    <div class='actions'>
-	      <%= f.submit "Search", class: 'btn btn-success col-md-12 col-xs-12 col-sm-12' %>
+		    <div class='col-md-4 col-md-offset-4 col-xs-12 col-sm-12'> 
+		      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
+		        <%= f.text_field :title_cont, class: 'form-control text-center', placeholder: 'Title' %>
+		      </div>
+		      <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
+		        <%= f.text_field :keywords_cont, class: 'form-control text-center', placeholder: 'Keywords' %>
+		      </div>
+			    <div class='actions'>
+			      <%= f.submit "Search", class: 'btn btn-success col-md-12 col-xs-12 col-sm-12' %>
+			    </div>
+		    </div>
 	    </div>
 	  <% end %>
   </div>

@@ -9,8 +9,8 @@ class MerchantsController < ApplicationController
       no_buyers = User.joins(:roles).where.not(roles: {title: 'buyer'})
       @pending = no_buyers.where(account_approved: false).uniq
     else
-      redirect_to request.referrer
-      flash[:error] = "You Don't Have Permission To Access This"
+      redirect_to root_path
+      flash[:error] = "You Don't Have Permission To Access That Page"
     end
   end
 

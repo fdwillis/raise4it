@@ -76,16 +76,16 @@
                           <div class='col-md-6'>
                             <div class="form-group text-center">
                               <%= f.label :legal_name, 'Full Legal Name' %>
-                              <%= f.text_field :legal_name, class: 'form-control text-center', placeholder: "John G Doe"%>
+                              <%= f.text_field :legal_name, class: 'form-control text-center', required: true, placeholder: "John G Doe"%>
                             </div>
                           </div>
                           <div class='col-md-6'>
                             <div class="form-group text-center">
                               <%= f.label :username %>
                               <% if current_user.username %>
-                                <%= f.text_field :username, class: 'form-control text-center', placeholder: "Enter Username", disabled: true%>
+                                <%= f.text_field :username, class: 'form-control text-center', required: true, placeholder: "Enter Username", disabled: true%>
                               <% else %>
-                                <%= f.text_field :username, class: 'form-control text-center', placeholder: "Enter Username"%>
+                                <%= f.text_field :username, class: 'form-control text-center', required: true, placeholder: "Enter Username"%>
                               <% end %>
                             </div>
                           </div>
@@ -96,28 +96,28 @@
                             <div class="form-group text-center">
                               <%= f.label :card_number, "Card Number" %>
                               <% if current_user.card_number? %>
-                                <%= f.text_field :card_number, class: 'form-control text-center', placeholder: "4000000000000077", maxlength: 16, value: @crypt.decrypt_and_verify(current_user.card_number) %>
+                                <%= f.text_field :card_number, class: 'form-control text-center', required: true, placeholder: "4000000000000077", maxlength: 16, value: @crypt.decrypt_and_verify(current_user.card_number) %>
                               <% else %>
-                                <%= f.text_field :card_number, class: 'form-control text-center', placeholder: "Enter card number", maxlength: 16 %>
+                                <%= f.text_field :card_number, class: 'form-control text-center', required: true, placeholder: "Enter card number", maxlength: 16 %>
                               <% end %>
                             </div>
                           </div>
                           <div class='col-md-3'>  
                             <div class="form-group text-center">
                               <%= f.label :exp_month, 'Exp Month (2 Digits)' %>
-                              <%= f.text_field :exp_month, class: 'form-control text-center', placeholder: "01", minlength: 2, maxlength: 2 %>
+                              <%= f.text_field :exp_month, class: 'form-control text-center', required: true, placeholder: "01", minlength: 2, maxlength: 2 %>
                             </div>
                           </div>
                           <div class='col-md-3'>  
                             <div class="form-group text-center">
                               <%= f.label :exp_year, 'Exp Year (4 Digits)' %>
-                              <%= f.text_field :exp_year, class: 'form-control text-center', placeholder: "2023", minlength: 4, maxlength: 4 %>
+                              <%= f.text_field :exp_year, class: 'form-control text-center', required: true, placeholder: "2023", minlength: 4, maxlength: 4 %>
                             </div>
                           </div>
                           <div class='col-md-3'>  
                             <div class="form-group text-center">
                               <%= f.label :cvc_number, 'CVC Number' %>
-                              <%= f.text_field :cvc_number, class: 'form-control text-center', placeholder: "3432", maxlength: 4%>
+                              <%= f.text_field :cvc_number, class: 'form-control text-center', required: true, placeholder: "3432", maxlength: 4%>
                             </div>
                           </div>
                         </div>
@@ -125,13 +125,13 @@
                           <div class='col-md-6'>    
                             <div class="form-group text-center">
                               <%= f.label :support_phone, 'Phone Number (For Notifications)' %>
-                              <%= f.text_field :support_phone, class: 'form-control text-center', placeholder: "4143997432", value: (current_user.support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-') || nil)%>
+                              <%= f.text_field :support_phone, class: 'form-control text-center', required: true, placeholder: "4143997432", value: (current_user.support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-') || nil)%>
                             </div>
                           </div>
                           <div class='col-md-6'>  
                             <div class="form-group text-center">
                               <%= f.label :country_name, 'Country Name' %>
-                              <%= f.text_field :country_name, class: 'form-control text-center', placeholder: "France" %>
+                              <%= f.text_field :country_name, class: 'form-control text-center', required: true, placeholder: "France" %>
                             </div>
                           </div>
                         </div>
@@ -139,13 +139,13 @@
                           <div class='col-md-6'>  
                             <div class="form-group text-center">
                               <%= f.label :address_country, 'Country Code (2 letters)' %>
-                              <%= f.text_field :address_country, class: 'form-control text-center', placeholder: "US", minlength: 2, maxlength: 2%>
+                              <%= f.text_field :address_country, class: 'form-control text-center', required: true, placeholder: "US", minlength: 2, maxlength: 2%>
                             </div>
                           </div>
                           <div class='col-md-6'>  
                             <div class="form-group text-center">
                               <%= f.label :currency, 'Currency Code (3 Letter ISO Code)' %>
-                              <%= f.text_field :currency, class: 'form-control text-center', placeholder: "USD", minlength: 3, maxlength: 3%>
+                              <%= f.text_field :currency, class: 'form-control text-center', required: true, placeholder: "USD", minlength: 3, maxlength: 3%>
                             </div>
                           </div>
                           <div class="actions">
