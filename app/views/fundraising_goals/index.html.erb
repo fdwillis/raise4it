@@ -2,7 +2,7 @@
 
 <div class='container'>
 	<% if policy(FundraisingGoal.new).new? %>
-	  <%= link_to 'New Fundraising goal', new_fundraising_goal_path %>
+	  <%= link_to 'New Goal', new_fundraising_goal_path, class: 'btn btn-primary pull-right' %>
 	<% end %>
 	<div class='row'>	
 		<%= search_form_for @search do |f| %>

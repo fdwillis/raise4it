@@ -17,6 +17,9 @@ class MerchantsController < ApplicationController
   def show
     #Track for Merchant and Admin
     @name = User.friendly.find(params[:id]).name
+    @search = current_user.fundraising_goals.search(params[:q])
+    @fundraising_goals = @search.result.where(active: true).page(params[:page]).order('updated_at DESC')
+    
     if User.friendly.find(params[:id]).account_approved? || User.friendly.find(params[:id]).admin?
       @merchant = User.friendly.find(params[:id])
       @goals = @merchant.fundraising_goals.where(active:true)
@@ -30,6 +33,15 @@ class MerchantsController < ApplicationController
     else
       redirect_to root_path
       flash[:error] = "#{@name} is no longer selling items"
+    end
+  end
+
+  def approved_accounts
+    if current_user.admin?
+      @approved_accounts = User.all.where(account_approved: true)
+    else
+      redirect_to root_path
+      flash[:error] = "You Don't Have Permission To Access That Page"
     end
   end
 

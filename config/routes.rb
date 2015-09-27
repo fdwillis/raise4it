@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   put 'approve_goal' => 'pending_goals#approve_goal'
   put 'approve_account' => 'merchants#approve_account'
   get 'pending' => 'merchants#pending'
+  get 'approved_accounts' => 'merchants#approved_accounts'
   put 'cancel_donation_plan' => 'fundraising_goals#cancel_donation_plan'
   put 'create_user' => 'donate#create_user'
   put 'twilio/text_blast' => 'twilio#text_blast'

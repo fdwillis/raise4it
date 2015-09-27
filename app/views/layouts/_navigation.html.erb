@@ -12,6 +12,11 @@
         <li>
             <a href="/orgs/<%= current_user.username %>"><i class="fa fa-user"></i></a>
         </li>
+        <% if current_user.admin? %>
+          <li>
+              <a href="/approved_accounts/"><i class="fa fa-sitemap"></i></a>
+          </li>
+        <% end %>
         <li>
             <a href="#fund_info" data-toggle= 'modal' ><i class="fa fa-exclamation-triangle"></i></a>
         </li>

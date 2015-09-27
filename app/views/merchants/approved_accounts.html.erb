@@ -1,0 +1,45 @@
+<div class="wrapper wrapper-content">
+  <h1 class='text-center'>Approved Merchants(<%= @approved_accounts.count %>)</h1>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+            <thead>
+              <tr>
+                <th>Company Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>URL</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @approved_accounts.each do |mer| %>
+                <tr>
+                  <td><%= mer.business_name.capitalize %></td>
+                  <td><%= mer.business_address.titleize %></td>
+                  <td><%= mer.support_email %></td>
+                  <td><%= mer.support_phone %></td>
+                  <td><%= link_to "Website", mer.support_url, 'target' => '_blank' %></td>
+                  <td><%= link_to "Approve", approve_account_path(id: mer.id), method: :put %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/footable.all.min.js"></script>
+<script>
+  $(document).ready(function() {
+
+      $('.footable').footable();
+      $('.footable2').footable();
+
+  });
+
+</script>

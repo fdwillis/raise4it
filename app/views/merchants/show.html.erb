@@ -8,6 +8,21 @@
       <h4>
         <%= link_to @merchant.bitly_link, @merchant.bitly_link, 'target' => "_blank"  %>
       </h4>
+      <%= search_form_for @search do |f| %>
+        <div class='row form-group'>  
+          <div class='col-md-4 col-md-offset-4 col-xs-12 col-sm-12'> 
+            <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
+              <%= f.text_field :title_cont, class: 'form-control text-center', placeholder: 'Title' %>
+            </div>
+            <div class='col-md-6 col-xs-12 col-sm-12 form-group'>
+              <%= f.text_field :keywords_cont, class: 'form-control text-center', placeholder: 'Keywords' %>
+            </div>
+            <div class='actions'>
+              <%= f.submit "Search", class: 'btn btn-success col-md-12 col-xs-12 col-sm-12' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
       <% @goals.each do |goal| %>
         <div class="col-md-3">
           <div class="ibox">
@@ -27,22 +42,18 @@
                   <%= goal.description.truncate(50, omission: '...' )%>
                 </div>
                 <div class="m-t">
-                  <div class'row'>
+                  <div class='row form-group'>
                     <%= link_to "VIEW", "##{goal.uuid}", class: 'btn btn-primary col-md-12', 'data-toggle' => 'modal' %>
                   </div>
-                </div>
-                <% if policy(goal).edit? %>  
-                  <div class="m-t">
+                  <% if policy(goal).edit? %>  
                     <div class='row form-group text-center'>
                       <%= link_to 'Edit', edit_fundraising_goal_path(goal), class: 'btn btn-warning col-md-12 col-xs-12 col-sm-12' %>
                     </div>
-                  </div>
-                  <div class="m-t">
                     <div class='row form-group text-center'>
                         <%= link_to 'Destroy', goal, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-md-12 col-xs-12 col-sm-12' %>
                     </div>
-                  </div>
-                <% end %>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
