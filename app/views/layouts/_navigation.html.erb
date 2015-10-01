@@ -23,7 +23,7 @@
         <li>
             <a href="/users/edit"><i class="fa fa-cogs"></i></a>
         </li>
-        <% if current_user.account_approved?%>  
+        <% if current_user.account_approved? || current_user.admin? %>  
           <li>
               <a href="/reports"><i class="fa fa-bar-chart-o"></i></a>
           <% if current_user.text_lists.present? || current_user.email_lists.present? %>  
