@@ -10,7 +10,7 @@
         </li>
         </li>
         <li>
-            <a href="/orgs/<%= current_user.username %>"><i class="fa fa-user"></i></a>
+            <a href="/orgs/<%= current_user.username.downcase %>"><i class="fa fa-user"></i></a>
         </li>
         <% if current_user.admin? %>
           <li>
