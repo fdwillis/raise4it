@@ -1,5 +1,5 @@
 class TwilioController < ApplicationController
- 
+  before_filter :authenticate_user! 
   def text_blast
     twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])

@@ -1,4 +1,5 @@
 class PlansController < ApplicationController
+  before_filter :authenticate_user!
 	def index
     @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
 	end

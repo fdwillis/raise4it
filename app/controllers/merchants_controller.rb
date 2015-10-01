@@ -1,4 +1,5 @@
 class MerchantsController < ApplicationController
+  before_filter :authenticate_user!
   def index
     no_buyers = User.joins(:roles).where.not(roles: {title: 'buyer'})
     @accounts = no_buyers.where(account_approved: true).uniq

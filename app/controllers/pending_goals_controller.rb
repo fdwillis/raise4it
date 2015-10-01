@@ -1,4 +1,5 @@
 class PendingGoalsController < ApplicationController
+  before_filter :authenticate_user!
   def index
     if current_user.admin?
     	@pendings = FundraisingGoal.all.where(active: false)
