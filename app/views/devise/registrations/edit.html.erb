@@ -125,7 +125,11 @@
                           <div class='col-md-6'>    
                             <div class="form-group text-center">
                               <%= f.label :support_phone, 'Phone Number (For Notifications)' %>
-                              <%= f.text_field :support_phone, class: 'form-control text-center', required: true, placeholder: "4143997432", value: (current_user.support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-') || nil)%>
+                              <% if current_user.support_phone %>
+                                <%= f.text_field :support_phone, class: 'form-control text-center', required: true, placeholder: "4143997432", value: current_user.support_phone.gsub(/\D/, '').insert(3, '-').insert(7, '-')%>
+                              <% else %>
+                                <%= f.text_field :support_phone, class: 'form-control text-center', required: true, placeholder: "4143997432", value: nil%>
+                              <% end %>
                             </div>
                           </div>
                           <div class='col-md-6'>  
