@@ -1,6 +1,4 @@
 User.destroy_all
-plan = Stripe::Plan.retrieve("987654345678")
-plan.delete
 
 @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
 

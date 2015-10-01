@@ -4,44 +4,16 @@ class ReportsController < ApplicationController
   def index
     if (current_user.account_approved? && !current_user.roles.nil?) || current_user.admin? 
       if current_user.admin?
-        signup_data = [
-          {
-            'data' => sign_ups("this_month", "daily")
-          }
-        ]
-        sign_up_week = [
-          {
-            'data' => sign_ups("this_week", "daily")
-          }
-        ]
-        sign_up_year = [
-          {
-            'data' => sign_ups("this_year", "monthly")
-          }
-        ]
-        @sign_ups_month = area_chart(current_user.sign_ups, "Sign Ups This Month #{signup_data[0]['data'].map{|d| d['value']}.sum}", "Sign Ups", :start_month, DateTime.now.strftime("%m"), :start_day)
-        @sign_ups_year = area_chart(current_user.sign_ups, "Sign Ups This Year #{sign_up_week[0]['data'].map{|d| d['value']}.sum}", "Sign Ups", :start_year, DateTime.now.strftime("%Y"), :start_month) 
+        @sign_ups_month = area_chart(current_user.sign_ups, "Sign Ups This Month", "Sign Ups", :start_month, DateTime.now.strftime("%m"), :start_day)
+        @sign_ups_year = area_chart(current_user.sign_ups, "Sign Ups This Year", "Sign Ups", :start_year, DateTime.now.strftime("%Y"), :start_month) 
       else
         User.decrypt_and_verify(current_user.merchant_secret_key)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
       end
         #Donation column Chart
           #Data
-          year_data = [
-            {
-              'name' => "Total Donations",
-              'data' => donation_revenue(current_user.id, "this_year", "monthly")
-            }, 
-          ]
-          week_data = [
-            {
-              'name' => "Total Donations",
-              'data' => donation_revenue(current_user.id, "this_week", "daily")
-            }, 
-          ]
-          
-          @colum = area_chart(current_user.rake_donations, "Donations This Month #{number_to_currency(week_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Donations", :start_month, DateTime.now.strftime("%m"), :start_day)
-          @column = area_chart(current_user.rake_donations, "Donations This Year #{number_to_currency(year_data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Donations", :start_year, DateTime.now.strftime("%Y"), :start_month) 
+          @colum = area_chart(current_user.rake_donations, "Donations This Month", "Donations", :start_month, DateTime.now.strftime("%m"), :start_day)
+          @column = area_chart(current_user.rake_donations, "Donations This Year", "Donations", :start_year, DateTime.now.strftime("%Y"), :start_month) 
 
         # #Donation pie Chart
         #   pie_type_data = [
@@ -65,13 +37,7 @@ class ReportsController < ApplicationController
         #   @pie_city = pie_chart(pie_city_data, 'customer_current_city', "Donations By City")
 
         # Donation area chart  
-          data = [
-            {
-              'name' => "All Donations",
-              'data' => donation_revenue(current_user.id, "this_month", "daily")
-            },
-          ]
-          @area = area_chart(current_user.rake_donations, "Donation Revenue This Month #{number_to_currency(data[0]['data'].map{|d| d['value']}.sum, precision: 2)}", "Dollars", :start_month, DateTime.now.strftime("%m"), :start_day)        
+          @area = area_chart(current_user.rake_donations, "Donation Revenue This Month", "Dollars", :start_month, DateTime.now.strftime("%m"), :start_day)        
     else
       redirect_to plans_path
       flash[:error] = "You dont have permission to access reports. You must signup"
@@ -154,111 +120,5 @@ private
         }
       )
     end
-  end
-
-  def donation_average(id, property_name, property_value)
-    Keen.average("Donations", {
-      max_age: 1800, 
-      target_property: "donation_amount",
-      filters: [
-        {
-          property_name: "marketplace_name", 
-          operator: "eq", 
-          property_value: ENV["MARKETPLACE_NAME"]
-        },
-        {
-          property_name: "merchant_id",
-          operator: "eq",
-          property_value: id
-        },
-        {
-          property_name: property_name,
-          operator: "eq",
-          property_value: property_value
-        },
-      ]  
-    })
-  end
-
-  def sign_ups(timeframe, interval)
-    Keen.count("Sign Ups", 
-      max_age: 1800, 
-      timeframe: timeframe, 
-      interval: interval,
-      filters: [
-        {
-          property_name: "marketplace_name", 
-          operator: "eq", 
-          property_value: ENV["MARKETPLACE_NAME"]
-        }
-      ]
-    )
-  end
-
-  def donation_rev_by_type(id, timeframe, interval, property_name, property_value)
-    Keen.sum("Donations", 
-      max_age: 1800,
-      timeframe: timeframe,
-      target_property: "donation_amount", 
-      interval: interval,
-      filters: [
-        {
-          property_name: "merchant_id",
-          operator: "eq",
-          property_value: id
-        },
-        {
-          property_name: property_name,
-          operator: "eq",
-          property_value: property_value
-        },
-        {
-          property_name: "marketplace_name", 
-          operator: "eq", 
-          property_value: ENV["MARKETPLACE_NAME"]
-        }
-      ]  
-    )
-  end
-
-  def donation_revenue(id, timeframe, interval)
-    Keen.sum("Donations",
-      max_age: 1800,
-        timeframe: timeframe,
-        target_property: "donation_amount",
-        interval: interval,
-        filters: [
-          {
-            property_name: "merchant_id",
-            operator: "eq",
-            property_value: id
-          },
-          {
-            property_name: "marketplace_name", 
-            operator: "eq", 
-            property_value: ENV["MARKETPLACE_NAME"]
-          }
-        ]
-      )
-  end
-
-  def donation_pie(id, group_by)
-    Keen.count("Donations",
-      max_age: 1800,
-      timeframe: "this_year", 
-      group_by: group_by, 
-      filters: [
-        {
-          property_name: "marketplace_name",
-          operator: "eq", 
-          property_value: ENV["MARKETPLACE_NAME"]
-        }, 
-        {
-          property_name: "merchant_id", 
-          operator: "eq", 
-          property_value: id
-        },
-      ]
-    )
   end
 end
