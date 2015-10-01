@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
     def self.charge_n_process(secret_key, user, price, token, merchant_account_id)
       
       @price = price
-      @merchant60 = ((price) * 60) /100
+      @merchant60 = ((price) * 98) /100
       @fee = (@price - @merchant60)
       
       User.decrypt_and_verify(secret_key)
@@ -236,7 +236,7 @@ class User < ActiveRecord::Base
       end
 
       customer = Stripe::Customer.retrieve(@customer_account.customer_id)
-      plan = customer.subscriptions.create(:plan => donation_plan, application_fee_percent: 40)
+      plan = customer.subscriptions.create(:plan => donation_plan, application_fee_percent: 2)
     end
 
     def self.subscribe_to_admin(user, token, donation_plan)
