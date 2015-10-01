@@ -17,7 +17,7 @@ class MerchantsController < ApplicationController
 
   def show
     #Track for Merchant and Admin
-    @name = User.friendly.find(params[:id]).name
+    @name = User.friendly.find(params[:id])
     @search = current_user.fundraising_goals.search(params[:q])
     @fundraising_goals = @search.result.where(active: true).page(params[:page]).order('updated_at DESC')
     
