@@ -33,7 +33,7 @@ class MerchantsController < ApplicationController
       # end
     else
       redirect_to root_path
-      flash[:error] = "#{@name} is no longer selling items"
+      flash[:error] = "#{@name} is no longer fundraising"
     end
   end
 
