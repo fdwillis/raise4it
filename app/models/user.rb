@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  before_save :downcase_username
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
@@ -32,6 +33,10 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :donation_plans, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :team_members, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :stripe_customer_ids, reject_if: :all_blank, allow_destroy: true
+
+  def downcase_username
+    self.username = self.username.downcase
+  end
 
   def admin?
     role == "admin"
