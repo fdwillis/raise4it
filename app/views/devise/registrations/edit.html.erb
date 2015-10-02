@@ -27,7 +27,9 @@
                 <% if current_user.donations.present? %>
                   <li class=""><a href="#donations" data-toggle="tab" aria-expanded="false">My Donations</a></li>
                 <% end %>
-              <li class=""><a href="#notifications" data-toggle="tab" aria-expanded="false">Notifications</a></li>
+                <% if TextList.all.map(&:phone_number).include?(current_user.support_phone) || EmailList.all.map(&:email).include?(current_user.email) %>
+                  <li class=""><a href="#notifications" data-toggle="tab" aria-expanded="false">Notifications</a></li>
+                <% end %>
             </ul>
             <div class="tab-content">
               <div class="tab-pane" id="basic_info">
