@@ -9,9 +9,6 @@
             </a>
         </li>
         </li>
-        <li>
-            <a href="/orgs/<%= current_user.username.downcase %>"><i class="fa fa-user"></i></a>
-        </li>
         <% if current_user.admin? %>
           <li>
               <a href="/approved_accounts/"><i class="fa fa-sitemap"></i></a>
@@ -26,6 +23,7 @@
         <% if current_user.account_approved? || current_user.admin? %>  
           <li>
               <a href="/reports"><i class="fa fa-bar-chart-o"></i></a>
+          </li>
           <% if current_user.text_lists.present? || current_user.email_lists.present? %>  
             <li>
                 <a href="#"><i class="fa fa-envelope"></i></a>
@@ -38,6 +36,9 @@
                     <li><%= link_to "Email Blast", "#email_blast", 'data-toggle' => 'modal' %></li>
                   <% end %>
                 </ul>
+            </li>
+            <li>
+                <a href="/orgs/<%= current_user.username.downcase %>"><i class="fa fa-user"></i></a>
             </li>
           <% end %>
           <li>
