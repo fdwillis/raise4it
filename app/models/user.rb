@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   has_many :stripe_customer_ids, dependent: :destroy
   has_many :fundraising_goals
 
-  validates_uniqueness_of :username, :support_phone, allow_blank: false, format: { without: /\s/ }
+  validates_uniqueness_of :username, allow_blank: false, format: { without: /\s/ }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
