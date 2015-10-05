@@ -8,14 +8,12 @@ class TwilioController < ApplicationController
     blast_list = current_user.text_lists
 
     if message && blast_list.count >= 50
+      price = 1 * blast_list.count
+
+      token = User.new_token(current_user, crypt.decrypt_and_verify(current_user.card_number))
+
+      User.charge_for_admin(current_user, price, token.id)
       blast_list.each do |num| 
-
-        price = 1 * blast_list.count
-
-        token = User.new_token(current_user, crypt.decrypt_and_verify(current_user.card_number))
-
-        User.charge_for_admin(current_user, price, token.id)
-
         twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: num.phone_number, body: message
       end
     else
