@@ -5,7 +5,10 @@ class UsersController < ApplicationController
     if current_user.update_attributes(user_params)
 
       @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
-
+      if params[:user][:ein].present?
+        encrypted = @crypt.encrypt_and_sign(current_user.ein)
+        current_user.update_attributes(ein: encrypted)
+      end
       if params[:user][:username]
         current_user.update_attributes(username: params[:user][:username].gsub(" ", "_"))
       end
@@ -98,7 +101,7 @@ class UsersController < ApplicationController
 
 private
   def user_params
-     params.require(:user).permit(:logo, :return_policy, :address, :currency, :address_country, 
+     params.require(:user).permit(:logo, :return_policy, :address, :currency, :address_country, :ein,
                                   :address_state, :address_zip, :address_city, :stripe_account_type, :dob_day, 
                                   :dob_month, :dob_year, :first_name, :last_name, :statement_descriptor, :support_url, 
                                   :account_approved, :support_phone, :support_email, :business_url, :merchant_id, :business_name,

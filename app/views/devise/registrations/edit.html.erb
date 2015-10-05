@@ -393,6 +393,17 @@
                         </div>
                       </div>
                       <div class='col-md-6'>    
+                        <% if current_user.ein.present? %>
+                          <div class="form-group text-center">
+                            <%= f.label :ein, "EIN Number (Encrypted)" %>
+                            <%= f.text_field :ein, class: 'form-control text-center', placeholder: "20-957399", value:  @crypt.decrypt_and_verify(current_user.ein)%>
+                          </div>
+                        <% else %>  
+                          <div class="form-group text-center">
+                            <%= f.label :ein, "EIN Number" %>
+                            <%= f.text_field :ein, class: 'form-control text-center', placeholder: "20-957399"%>
+                          </div>
+                        <% end %>
                         <div class="form-group text-center">
                           <%= f.label :bank_currency, 'Bank Account Currency' %>
                           <%= f.text_field :bank_currency, class: 'form-control text-center', placeholder: "USD"%>
