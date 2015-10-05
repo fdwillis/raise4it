@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
   end
 
   def account_ready?
-    card?.present? && merchant_bank_account?.present? && username.present?
+    card?.present? && merchant_bank_account?.present? && username.present? && ein.present?
   end
 
   def merchant_changed

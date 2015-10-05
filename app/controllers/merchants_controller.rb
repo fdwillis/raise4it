@@ -6,6 +6,7 @@ class MerchantsController < ApplicationController
   end
 
   def pending
+    @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     if current_user.admin? 
       no_buyers = User.joins(:roles).where.not(roles: {title: 'buyer'})
       @pending = no_buyers.where(account_approved: false).uniq
@@ -38,6 +39,7 @@ class MerchantsController < ApplicationController
   end
 
   def approved_accounts
+    @crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     if current_user.admin?
       @approved_accounts = User.all.where(account_approved: true)
     else

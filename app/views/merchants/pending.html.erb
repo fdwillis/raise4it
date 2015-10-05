@@ -8,6 +8,7 @@
             <thead>
               <tr>
                 <th>Company Name</th>
+                <th>EIN</th>
                 <th>Address</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -19,6 +20,7 @@
               <% @pending.each do |mer| %>
                 <tr>
                   <td><%= mer.business_name.capitalize %></td>
+                  <td><%= @crypt.decrypt_and_verify(mer.ein) %></td>
                   <td><%= mer.business_address.titleize %></td>
                   <td><%= mer.support_email %></td>
                   <td><%= mer.support_phone %></td>
