@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :fundraising_goals
 
   validates_uniqueness_of :username, allow_blank: false, format: { without: /\s/ }
+  validates_uniqueness_of :support_phone, allow_blank: true, format: { without: /\s/ }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
