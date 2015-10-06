@@ -35,7 +35,7 @@
                   Goal: <%= number_to_currency(goal.goal_amount, precision: 2) %>
                 </span>
                 <span class="product-backers">
-                  Donations: <%= goal.backers %>
+                  Raised: <%= number_to_currency(goal.total, precision: 2) %>
                 </span>
                 <a class="product-name"> <%= goal.title %></a>
                 <div class="small m-t-xs text-justify">
@@ -70,7 +70,7 @@
                   <div class="modal-body">
                     <div class="container-fluid">  
                       <div class="col-md-9">
-                        <h1>HI</h1>
+                        <h3><%= goal.description %></h3>
                       </div>
                       <div class="col-md-3 text-center">
                         <h4>One Time Donation</h4>

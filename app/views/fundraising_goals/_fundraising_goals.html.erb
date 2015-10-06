@@ -11,7 +11,7 @@
               Goal: <%= number_to_currency(frg.goal_amount, precision: 2) %>
             </span>
             <span class="product-backers">
-              Donations: <%= frg.backers %>
+              Raised: <%= number_to_currency(frg.total, precision: 2) %>
             </span>
             <a class="product-name"> <%= frg.title %></a>
             <div class="small m-t-xs text-justify">

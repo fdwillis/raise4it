@@ -86,7 +86,7 @@ class PurchasesController < ApplicationController
         flash[:error] = "Please Specify A Donation Type"
         return
       end
-      @fund.increment!(:backers, by = 1)
+      @fund.update_attributes(total: @fund.total + params[:donate][:donation].to_f)
     else
       if params[:donate][:donation_type] != "One Time"
         @donation_plan = DonationPlan.find_by(uuid: params[:donate][:donation_type])
