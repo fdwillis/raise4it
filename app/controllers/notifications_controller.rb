@@ -92,7 +92,7 @@ class NotificationsController < ApplicationController
             @bitly_link = Bitly.client.shorten("#{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}").short_url
 
             # Link to enter card info and create user profile
-            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{ENV['NEW_DONATE_LINK']}amount=#{stripe_amount}&fundraiser_name=#{raiser_username}&phone_number=#{phone_number}&donation_plan=#{donation_plan}"})
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{@bitly_link}"})
             return
           end
         else
