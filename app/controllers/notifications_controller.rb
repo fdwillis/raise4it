@@ -45,7 +45,14 @@ class NotificationsController < ApplicationController
 
         if (fundraiser && fundraiser.merchant_secret_key?) || fundraiser.admin?
           if donater && donater.card?
-            token = User.new_token(donater, crypt.decrypt_and_verify(donater.card_number))
+            begin
+              token = User.new_token(donater, crypt.decrypt_and_verify(donater.card_number))
+            rescue Stripe::CardError => e
+              body = e.json_body
+              err  = body[:error]
+              twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
+              return
+            end
             if !fundraiser.admin?
               stripe_account_id = crypt.decrypt_and_verify(fundraiser.stripe_account_id)
               begin
@@ -58,7 +65,9 @@ class NotificationsController < ApplicationController
                   @donation = donater.donations.create(application_fee: ((Stripe::ApplicationFee.retrieve(charge.application_fee).amount) / 100).to_f , donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
                 end
               rescue Stripe::CardError => e
-                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{e}"})
+                body = e.json_body
+                err  = body[:error]
+                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
                 return
               end
             else
@@ -71,7 +80,9 @@ class NotificationsController < ApplicationController
                   @donation = donater.donations.create(donation_type: 'one-time', organization: raiser_username, amount: stripe_amount, uuid: SecureRandom.uuid)
                 end
               rescue Stripe::CardError => e
-                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{e}"})
+                body = e.json_body
+                err  = body[:error]
+                twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "#{err[:message]}"})
                 return
               end
             end
