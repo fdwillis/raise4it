@@ -21,8 +21,10 @@ class PurchasesController < ApplicationController
     begin
       @token = User.new_token(current_user, @card)
     rescue Stripe::CardError => e
+      body = e.json_body
+      err  = body[:error]
       redirect_to edit_user_registration_path
-      flash[:error] = "#{e}"
+      flash[:error] = "#{err[:message]}"
       return
     rescue => e
       redirect_to edit_user_registration_path
@@ -47,7 +49,9 @@ class PurchasesController < ApplicationController
               end
             rescue Stripe::CardError => e
               redirect_to edit_user_registration_path
-              flash[:error] = "#{e}"
+              body = e.json_body
+              err  = body[:error]
+              flash[:error] = "#{err[:message]}"
               return
             rescue => e
               redirect_to edit_user_registration_path
@@ -73,7 +77,9 @@ class PurchasesController < ApplicationController
             end
           rescue Stripe::CardError => e
             redirect_to edit_user_registration_path
-            flash[:error] = "#{e}"
+            body = e.json_body
+            err  = body[:error]
+            flash[:error] = "#{err[:message]}"
             return
           rescue => e
             redirect_to edit_user_registration_path
@@ -101,7 +107,9 @@ class PurchasesController < ApplicationController
           end
         rescue Stripe::CardError => e
           redirect_to edit_user_registration_path
-          flash[:error] = "#{e}"
+          body = e.json_body
+          err  = body[:error]
+          flash[:error] = "#{err[:message]}"
           return
         rescue => e
           redirect_to edit_user_registration_path

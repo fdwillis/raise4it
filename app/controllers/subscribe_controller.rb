@@ -42,7 +42,9 @@ before_filter :authenticate_user!
         },
       )
     rescue Stripe::CardError => e
-      flash[:error] = "#{e}"
+      body = e.json_body
+      err  = body[:error]
+      flash[:error] = "#{err[:message]}"
       redirect_to edit_user_registration_path
       return
     rescue => e
@@ -96,7 +98,9 @@ before_filter :authenticate_user!
           redirect_to edit_user_registration_path
           return
         rescue Stripe::CardError => e
-          flash[:error] = "#{e}"
+          body = e.json_body
+          err  = body[:error]
+          flash[:error] = "#{err[:message]}"
           redirect_to edit_user_registration_path
           return
         rescue => e

@@ -69,7 +69,9 @@ class DonateController < ApplicationController
           redirect_to request.referrer
         end
         new_user.destroy!
-        flash[:error] = "#{e}"
+        body = e.json_body
+        err  = body[:error]
+        flash[:error] = "#{err[:message]}"
         return
       rescue => e
         if params[:create_user][:donation_plan].present?
@@ -78,7 +80,9 @@ class DonateController < ApplicationController
           redirect_to request.referrer
         end
         new_user.destroy!
-        flash[:error] = "#{e}"
+        body = e.json_body
+        err  = body[:error]
+        flash[:error] = "#{err[:message]}"
         return
       end
     else
