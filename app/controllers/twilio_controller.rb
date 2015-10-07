@@ -13,8 +13,10 @@ class TwilioController < ApplicationController
       token = User.new_token(current_user, crypt.decrypt_and_verify(current_user.card_number))
 
       User.charge_for_admin(current_user, price, token.id)
+
       blast_list.each do |num| 
-        twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: num.phone_number, body: message
+
+        twilio_text.messages.create from: ENV['TWILIO_NUMBER'], to: num.phone_number, body: "From #{current_user.username}: #{message}"
       end
     else
       redirect_to request.referrer
