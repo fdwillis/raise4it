@@ -5,6 +5,7 @@
 <div class='row'>	
 	<%= form_for :create_user, url: create_user_path, method: :put  do |u| %>
 		<div class='col-md-6 col-md-offset-3'>	
+		<h1 class='text-center'>Donating <%= number_to_currency(params[:amount].to_f/100, precision: 2) %> To <%= params[:fundraiser_name].capitalize%></h1>
 			<div class='row'>	
 				<div class='col-md-6'>	
 					<div class='form-group'>	

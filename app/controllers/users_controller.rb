@@ -10,7 +10,7 @@ class UsersController < ApplicationController
         current_user.update_attributes(ein: encrypted)
       end
       if params[:user][:username]
-        current_user.update_attributes(username: params[:user][:username].gsub(" ", "_"))
+        current_user.update_attributes(username: params[:user][:username].gsub(" ", "_").downcase)
       end
 
       if params[:stripe_account_type]
@@ -53,9 +53,7 @@ class UsersController < ApplicationController
           return
         rescue Stripe::CardError => e
           redirect_to edit_user_registration_path
-          body = e.json_body
-          err  = body[:error]
-          flash[:error] = "#{err[:message]}"
+          flash[:error] = "#{e}"
           return
         rescue => e
           redirect_to edit_user_registration_path
@@ -82,9 +80,7 @@ class UsersController < ApplicationController
           redirect_to request.referrer
           return
         rescue Stripe::CardError => e
-          body = e.json_body
-          err  = body[:error]
-          flash[:error] = "#{err[:message]}"
+          flash[:error] = "#{e}"
           redirect_to edit_user_registration_path
           return
         rescue => e
