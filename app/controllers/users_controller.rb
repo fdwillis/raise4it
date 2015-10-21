@@ -56,13 +56,15 @@ class UsersController < ApplicationController
           end
           return
         rescue Stripe::CardError => e
+          body = e.json_body
+          err  = body[:error]
           redirect_to edit_user_registration_path
-          flash[:error] = "#{e}"
-          return
+          flash[:error] = "#{err[:message]}"
         rescue => e
+          body = e.json_body
+          err  = body[:error]
           redirect_to edit_user_registration_path
-          flash[:error] = "#{e}"
-          return
+          flash[:error] = "#{err[:message]}"
         end
       end
       
