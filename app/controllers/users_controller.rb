@@ -17,6 +17,10 @@ class UsersController < ApplicationController
         current_user.update_attributes(stripe_account_type: params[:stripe_account_type])
       end
 
+      if params[:user][:address_country]
+        current_user.update_attributes(address_country: params[:user][:address_country].upcase)
+      end
+
       if params[:user][:tax_id]
         ssn = @crypt.encrypt_and_sign(current_user.tax_id)
         current_user.update_attributes(tax_id: ssn)
