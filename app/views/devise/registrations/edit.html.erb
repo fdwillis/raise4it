@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content">  
+d<div class="wrapper wrapper-content">  
   <div class="row m-t-lg">  
     <div class="col-lg-12">
       <div class="tabs-container">
@@ -88,7 +88,7 @@
                             <div class="form-group text-center">
                               <%= f.label :username %>
                               <% if current_user.username %>
-                                <%= f.text_field :username, class: 'form-control text-center', required: true, placeholder: "Enter Username", disabled: true, value: current_user.username.downcase %>
+                                <%= f.text_field :username, class: 'form-control text-center', required: true, placeholder: "Enter Username", disabled: true, value: current_user.username %>
                               <% else %>
                                 <%= f.text_field :username, class: 'form-control text-center', required: true, placeholder: "Enter Username"%>
                               <% end %>

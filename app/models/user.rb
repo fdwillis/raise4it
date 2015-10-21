@@ -150,8 +150,9 @@ class User < ActiveRecord::Base
     def self.new_customer(token, user)
       #Keen event "New Paying Customers"
       customer = Stripe::Customer.create(
-          :description => "Customer For #{ENV["MARKETPLACE_NAME"]}",
-          :source => token
+          :description => "#{user.username}: Platform #{ENV["MARKETPLACE_NAME"]}",
+          :source => token, 
+          email: user.email
         )
       user.stripe_customer_ids.create(business_name: Stripe::Account.retrieve().business_name, 
                                       customer_card: customer.default_source, customer_id: customer.id)
