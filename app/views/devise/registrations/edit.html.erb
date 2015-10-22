@@ -276,7 +276,8 @@
                     <h3 class='text-center'>Business Information</h3>
                     <%= form_for(current_user) do |f| %>
                       <% if current_user.logo.present? %>  
-                        <%= image_tag(current_user.logo.url(:p400x400)) %>
+                        <%= image_tag(current_user.logo.url(:p303x498)) %>
+                        <%= f.file_field :logo, as: :file, label: 'Goal Image' %>
                       <% else %>
                         <div class="form-group">
                           <%= f.label "Account Logo" %>
@@ -453,7 +454,7 @@
               <div class="tab-pane" id="team">
                 <div class='panel-body'>
                   <div class='container'>
-                    <h1 class='text-center'>Team Members</h1>
+                    <h1 class='text-center'>Team Members</h1><a href="#create_member" data-toggle= 'modal' ><i class="fa fa-group"></i></a>
                     <br>
                     <div class='row'>
                       <% current_user.team_members.each do |member| %>
