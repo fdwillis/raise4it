@@ -127,7 +127,7 @@ before_filter :authenticate_user!
     merchant_funds = Donation.all.where(organization: current_user.username)
     User.merchant_cancled(current_user, ((merchant_funds.map(&:amount).sum) / 100))
 
-    current_user.update_attributes(role: 'buyer', stripe_plan_id: nil, stripe_plan_name: nil)
+    current_user.update_attributes(role: 'buyer', stripe_plan_id: nil, stripe_plan_name: nil, account_approved: nil)
     redirect_to edit_user_registration_path
     flash[:error] = "You No Longer Are A Fundraiser"
   end
