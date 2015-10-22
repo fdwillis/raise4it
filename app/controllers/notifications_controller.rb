@@ -7,7 +7,6 @@ class NotificationsController < ApplicationController
     twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     text_message = params[:Body].split
-
     amount = (text_message[0].gsub(/[^0-9]/i, '').to_i)
     if text_message[0].include?(".")
       stripe_amount = amount
@@ -42,8 +41,7 @@ class NotificationsController < ApplicationController
 
         donater = User.find_by(support_phone: phone_number)
         fundraiser = User.find_by(username: raiser_username)
-
-        if (fundraiser && fundraiser.merchant_secret_key?) || fundraiser.admin?
+        if (fundraiser && fundraiser.account_approved?) || fundraiser.admin?
           if donater && donater.card?
             begin
               token = User.new_token(donater, crypt.decrypt_and_verify(donater.card_number))
@@ -117,7 +115,7 @@ class NotificationsController < ApplicationController
           end
         else
           #Twilio message back to donater
-          twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a dollar amount first, then username of the fundraiser. Example: 90 valid_username"})
+          twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please enter a dollar amount first, followed by a valid username to donate to. Example: 90 valid_username"})
           return
         end
       else
@@ -179,8 +177,8 @@ end
   # Tracking
     # curl -X POST -d "msg[checkpoints][][message]=bar&msg[tracking_number]=1Z0F28171596013711&msg[checkpoints][][tag]=tag&msg[checkpoints][][checkpoint_time]=2014-05-02T16:24:38" http://localhost:3000/notifications
   # twilio
-    # curl -X POST -d 'Body=22 admin monthly&From=+14143997341' http://localhost:3000/notifications/twilio
-    # curl -X POST -d 'Body=90.30 admin_tes&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
+    # curl -X POST -d 'Body=22 full_ &From=+14143997341' http://localhost:3000/notifications/twilio
+    # curl -X POST -d 'Body=90.30 full_&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
 
 # Send Twilio Message
   # twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
