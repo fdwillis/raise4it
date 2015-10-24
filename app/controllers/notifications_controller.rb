@@ -111,6 +111,7 @@ class NotificationsController < ApplicationController
 
             # Link to enter card info and create user profile
             twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{@bitly_link}"})
+            # puts "Please follow link to enter Credit Card details #{@bitly_link}"})
             return
           end
         else
@@ -177,7 +178,7 @@ end
   # Tracking
     # curl -X POST -d "msg[checkpoints][][message]=bar&msg[tracking_number]=1Z0F28171596013711&msg[checkpoints][][tag]=tag&msg[checkpoints][][checkpoint_time]=2014-05-02T16:24:38" http://localhost:3000/notifications
   # twilio
-    # curl -X POST -d 'Body=22 full_ &From=+14143997341' http://localhost:3000/notifications/twilio
+    # curl -X POST -d 'Body=22 admin &From=+14143997341' http://localhost:3000/notifications/twilio
     # curl -X POST -d 'Body=90.30 full_&From=+14143997341' https://marketplace-base.herokuapp.com/notifications/twilio
 
 # Send Twilio Message

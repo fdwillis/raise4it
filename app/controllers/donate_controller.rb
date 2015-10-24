@@ -59,7 +59,7 @@ class DonateController < ApplicationController
         fundraiser.email_lists.find_or_create_by(email: email)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
         twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.username.capitalize} Thanks You For Your Donation!"})
-        redirect_to donate_path
+        redirect_to root_path
         flash[:notice] = "Thanks For The Donation"
         return
       rescue Stripe::CardError => e
