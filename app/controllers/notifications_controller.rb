@@ -111,7 +111,7 @@ class NotificationsController < ApplicationController
 
             # Link to enter card info and create user profile
             twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: params[:From] , body: "Please follow link to enter Credit Card details #{@bitly_link}"})
-            # puts "Please follow link to enter Credit Card details #{@bitly_link}"})
+            # puts "Please follow link to enter Credit Card details #{@bitly_link}"
             return
           end
         else

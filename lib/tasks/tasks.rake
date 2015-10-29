@@ -56,16 +56,16 @@ namespace :payout do
               puts "No Team Payout"
             end
           end
-          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         else
-          Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+          Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
           User.decrypt_and_verify(user.merchant_secret_key)          
           amount = Stripe::Balance.retrieve()['available'][0].amount
           if  amount > 10000  
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - (Stripe::Balance.retrieve()['available'][0].amount * 0.0051).to_i,
               :currency => "usd",
-              :destination => Stripe::Account.retrieve.bank_accounts.data[0].id,
+              :destination => Stripe::Account.retrieve.external_accounts.data[0].id,
               :description => "Transfer for #{ENV["MARKETPLACE_NAME"]} revenue"
             )
             puts "Solo Paid"
@@ -73,9 +73,9 @@ namespace :payout do
             puts "No Solo payout"
           end
         end
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
       else
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         if user.admin?  
           bal = Stripe::Balance.retrieve()['available'][0].amount
           if bal >= 10000  
@@ -95,7 +95,7 @@ namespace :payout do
       end
     end
   end
-  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
 end
 
 namespace :stripe do
@@ -111,9 +111,9 @@ namespace :stripe do
           revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100)
         })
         user.update_attributes(monthly_revenue: (Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100))
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
       else
-        Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+        Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         if user.admin?
           Keen.publish("Subscription Revenue", {
             merchant_id: user.id, 
@@ -126,7 +126,7 @@ namespace :stripe do
       end
     end
   end
-  Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
 end
 
 namespace :keen do
@@ -319,7 +319,7 @@ namespace :stripe_amounts do
           User.stripe_amounts(user)
         end
       end
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY_TEST']
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
     end
   end
 end
