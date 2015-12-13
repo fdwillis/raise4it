@@ -1,1 +1,24 @@
-<h1>Donation History For <%= current_user.username %></h1>
+<div class='text-center'>  
+  <h1>Donation History For <%= current_user.username %></h1>
+  <h3>Total Donations: <%= number_to_currency((@donations.map(&:amount).sum/100), precision: 2) %></h3>
+</div>
+<br>
+<br>
+<br>
+<div class='container'>
+  <div class='row'>
+    <ol>  
+      <% @donations.each do |d| %>
+        <div class='col-md-3'>
+          <li>  
+            <p>From: <%=d.user.legal_name %></p>
+            <p>Amount: <%= number_to_currency((d.amount/100), precision: 2) %></p>
+            <p>Date: <%= d.created_at.strftime("%d %B %Y") %></p>
+            <br>
+            <hr>
+          </li>
+        </div>
+      <% end %>
+    </ol>
+  </div>
+</div>
