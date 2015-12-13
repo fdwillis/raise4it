@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3 class='text-center'>Yesterday's Donations</h3>
+    <p>Yesterday your total gross donations were <%= number_to_currency((@data.map(&:amount).sum / 100), precision:2) %></p>
+  </body>
+</html>

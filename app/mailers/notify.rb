@@ -4,7 +4,7 @@ class Notify < ApplicationMailer
   def account_approved(user)
     @user = user
     if !@user.admin?  
-      @mail = mail(to: user.email, subject: "Fundraising Account Approved") do |format|
+      @mail = mail(to: user.email, subject: "#{MARKETPLACE_NAME}:Fundraising Account Approved") do |format|
         format.text
         format.html
       end
@@ -26,7 +26,24 @@ class Notify < ApplicationMailer
     @canceled_donor = canceled_donor
     @raiser = raiser
     @amount = (amount.to_f / 100)
-    @mail = mail(to: raiser.email, subject: "Canceled Subscription") do |format|
+    @mail = mail(to: raiser.email, subject: "#{MARKETPLACE_NAME}:Canceled Subscription") do |format|
+      format.text
+      format.html
+    end
+  end
+
+  def payout_complete(raiser)
+    @raiser = raiser
+    @mail = mail(to: raiser.email, subject: "#{MARKETPLACE_NAME}:Bank Transfer") do |format|
+      format.text
+      format.html
+    end
+  end
+
+  def yesterday_donations(raiser, data)
+    @data = data
+    @raiser = raiser
+    @mail = mail(to: raiser.email, subject: "#{MARKETPLACE_NAME}:Yesterdays Donation Revenue") do |format|
       format.text
       format.html
     end

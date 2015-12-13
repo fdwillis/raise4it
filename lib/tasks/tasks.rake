@@ -15,13 +15,13 @@ namespace :payout do
         if user.admin?
           trans_amount = Stripe::Balance.retrieve()['available'][0].amount
 
-          if trans_amount > 1000
+          if trans_amount > 10000
             
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount,
               :currency => "usd",
               :destination => crypt.decrypt_and_verify(user.stripe_account_id),
-              :description => "Transfer for #{ENV["MARKETPLACE_NAME"]} revenue"
+              :description => "#{ENV["MARKETPLACE_NAME"]} donations"
             )
           end
         end
@@ -31,13 +31,13 @@ namespace :payout do
         if user.team_members.count >= 1
           bal = Stripe::Balance.retrieve()['available'][0].amount
           user.team_members.each_with_index do |member, index|
-            if  bal > 1000  
+            if  bal > 10000  
               amounts = user.team_members.map{|t| ((bal * t.percent.to_i) / 100 )}
                 transfer = Stripe::Transfer.create(
                   :amount => amounts[index] - (amounts[index] * 0.0051).to_i,
                   :currency => "usd",
                   :destination => member.stripe_bank_id,
-                  :description => "Transfer for #{ENV["MARKETPLACE_NAME"]} revenue"
+                  :description => "#{ENV["MARKETPLACE_NAME"]} donations"
                 )
                 if member.name.downcase == 'hacknvest'
                   Keen.publish("Hacknvest", {
@@ -52,6 +52,7 @@ namespace :payout do
                     })
                 end
                 puts "Team Paid"
+                Notify.payout_complete(user).deliver
             else
               puts "No Team Payout"
             end
@@ -61,14 +62,15 @@ namespace :payout do
           Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
           User.decrypt_and_verify(user.merchant_secret_key)          
           amount = Stripe::Balance.retrieve()['available'][0].amount
-          if  amount > 1000  
+          if  amount > 10000  
             Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - (Stripe::Balance.retrieve()['available'][0].amount * 0.0051).to_i,
               :currency => "usd",
               :destination => Stripe::Account.retrieve.external_accounts.data[0].id,
-              :description => "Transfer for #{ENV["MARKETPLACE_NAME"]} revenue"
+              :description => "#{ENV["MARKETPLACE_NAME"]} donations"
             )
             puts "Solo Paid"
+            Notify.payout_complete(user).deliver
           else
             puts "No Solo payout"
           end
@@ -78,7 +80,7 @@ namespace :payout do
         Stripe.api_key = ENV['STRIPE_SECRET_KEY_LIVE']
         if user.admin?  
           bal = Stripe::Balance.retrieve()['available'][0].amount
-          if bal >= 1000  
+          if bal >= 10000  
             transfer = Stripe::Transfer.create(
               :amount => Stripe::Balance.retrieve()['available'][0].amount - 100,
               :currency => "usd",
@@ -90,6 +92,7 @@ namespace :payout do
             })
             twilio_text.account.messages.create from: ENV['TWILIO_NUMBER'], to: User.find_by(role: 'admin').support_phone, body: "Transferred #{number_to_currency((transfer.amount.to_f) / 100, precision: 2)}"
             puts "admin paid"
+            Notify.payout_complete(user).deliver
           end
         end
       end
@@ -324,6 +327,17 @@ namespace :stripe_amounts do
   end
 end
 
+namespace :yesterday_donations do 
+  desc "Email Fundraisers about revenue raised yesterday"
+  task email: :environment do
+    User.all.each do |user|
+      donation_total = user.donations.where("DATE(created_at) = ?", Date.today-1)
+      if user.account_approved? && donation_total.map(&:amount).sum >= 100.00
+        Notify.yesterday_donations(user, donation_total)
+      end
+    end
+  end
+end
 
 
 
