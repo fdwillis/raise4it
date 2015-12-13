@@ -25,4 +25,8 @@ class HomeController < ApplicationController
   def terms
       
   end
+
+  def donation_history
+      
+  end
 end

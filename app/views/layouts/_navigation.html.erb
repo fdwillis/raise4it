@@ -15,9 +15,12 @@
           </li>
         <% end %>
         <% if current_user.account_approved? || current_user.admin? %>  
-            <li>
-                <a href="/orgs/<%= current_user.username.downcase %>"><i class="fa fa-user"></i></a>
-            </li>
+          <li>
+            <a href="/orgs/<%= current_user.username.downcase %>"><i class="fa fa-user"></i></a>
+          </li>
+          <li>
+              <a href="/donation_history/"><i class="fa fa-book"></i></a>
+          </li>
           <li>
               <a href="/reports"><i class="fa fa-bar-chart-o"></i></a>
           </li>
