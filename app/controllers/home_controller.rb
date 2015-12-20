@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-
+  caches_page :home
   def home
     unless !current_user
         redirect_to fundraising_goals_path

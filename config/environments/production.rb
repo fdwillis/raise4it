@@ -79,4 +79,5 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'raise4it.com'}
 
   config.middleware.use Rack::TwilioWebhookAuthentication, ENV["TWILIO_AUTH_TOKEN"] , '/voice'
+  config.action_controller.page_cache_directory = "#{Rails.root.to_s}/public/deploy"
 end

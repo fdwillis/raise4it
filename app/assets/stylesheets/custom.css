@@ -1,0 +1,10 @@
+/****** PLACE YOUR CUSTOM STYLES HERE ******/
+a.btn.signup {
+    border: 2px solid #7B8ED6;
+    color: #7B8ED6;
+}
+
+a.btn.signup:hover {
+    color: white;
+    background-color: #7B8ED6;
+}
