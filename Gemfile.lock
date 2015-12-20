@@ -107,7 +107,6 @@ GEM
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.35.0)
-      fog-aliyun
       fog-atmos
       fog-aws (>= 0.6.0)
       fog-brightbox (~> 0.4)
@@ -132,11 +131,6 @@ GEM
       fog-xml (~> 0.1.1)
       ipaddress (~> 0.5)
       nokogiri
-    fog-aliyun (0.0.10)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      ipaddress (~> 0.8)
-      xml-simple (~> 1.1)
     fog-atmos (0.1.0)
       fog-core
       fog-xml
@@ -382,7 +376,6 @@ GEM
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
     will_paginate (3.0.7)
-    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
