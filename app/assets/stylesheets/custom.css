@@ -8,3 +8,8 @@ a.btn.signup:hover {
     color: white;
     background-color: #7B8ED6;
 }
+
+a.btn.pricing {
+    border: 2px solid white;
+   	color: white;
+}
