@@ -50,7 +50,6 @@ source 'https://rubygems.org'
   gem 'acts_as_votable'
   gem 'faker'
   gem "font-awesome-rails"
-  gem 'actionpack-page_caching'
   # ffaker
   # gem 'rack-mini-profiler', require: false
 
