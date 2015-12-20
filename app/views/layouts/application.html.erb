@@ -303,36 +303,16 @@
               <h3 class="tex-center"><%= flash[:alert] %></h3>
             </div>
           <% end %>
-        <nav>
-            <div class="nav-bar">
-                <div class="module left">
-                    <div class="module">
-                      <h4>Raise4It</h4>
-                    </div>
-                </div>
-                <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
-                    <i class="ti-menu"></i>
-                </div>
-                <div class="module-group right">
-                    <div class="module left">
-                        <ul class="menu">
-                            <li>
-                                <a href="#services">Features</a>
-                            </li>
-                            <li>
-                              <%= link_to "Login", new_user_session_path, class: 'btn btn-sm' %>
-                            </li>
-                            <li>
-                              <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-sm signup' %>
-                            </li>
-                        </ul>
-                    </div>                    
-                </div>
-                
-            </div>
-        </nav>    
-</div>
+          <%= render "layouts/found_nav" %> 
+        </div>
         <%= yield %>
+        <script src="/assets/f_jquery.min.js"></script>
+        <script src="/assets/f_bootstrap.min.js"></script>
+        <script src="/assets/f_flexslider.min.js"></script>
+        <script src="/assets/f_masonry.min.js"></script>
+        <script src="/assets/f_ytplayer.min.js"></script>
+        <script src="/assets/f_smooth-scroll.min.js"></script>
+        <script src="/assets/f_scripts.js"></script>
       </body>
   <% end %>
 </html>
