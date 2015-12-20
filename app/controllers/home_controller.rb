@@ -3,21 +3,28 @@ class HomeController < ApplicationController
     unless !current_user
         redirect_to fundraising_goals_path
     end
-    if !current_user  
+    if !current_user && Rails.env.production? 
+      get = request.location.data
       Keen.publish("Homepage Visits", { 
-        visitor_city: request.location.data["city"],
-        visitor_state: request.location.data["region_name"],
-        visitor_country: request.location.data["country_code"],
-        date: DateTime.now.to_date.strftime("%A, %B #{DateTime.now.to_date.day.ordinalize}"),
+        ip: get['ip'],
+        city: get['city'],
+        region_code: get['region_code'], 
+        region_name: get['region_name'],
+        metrocode: get['metrocode'],
+        zipcode: get['zipcode'],
+        latitude: get['latitude'], 
+        longitude: get['longitude'],
+        country_name: get['country_name'], 
+        country_code: get['country_code'], 
         year: Time.now.strftime("%Y").to_i,
         month: DateTime.now.to_date.strftime("%B"),
         day: Time.now.strftime("%d").to_i,
         hour: Time.now.strftime("%H").to_i,
-        minute: Time.now.strftime("%M"),
+        minute: Time.now.strftime("%M").to_i,
         day_of_week: DateTime.now.to_date.strftime("%A"),
-        timestamp: Time.now,
-        marketplace_name: ENV["MARKETPLACE_NAME"]
-      })
+        am_or_pm: Time.now.strftime("%p")
+        }
+      )
     end
   end
   def terms
