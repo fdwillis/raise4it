@@ -1,34 +1,33 @@
-<nav>
+<nav role="navigation">
   <div class="nav-bar">
+    <div class="module left">
+      <div class="module">
+        <h4>Raise4it</h4>
+      </div>
+    </div>
+    <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
+      <i class="ti-menu"></i>
+    </div>
+    <div class="module-group right">
       <div class="module left">
-          <div class='module'>
-              <h4>Raise4it</h4>
-          </div>
+        <ul class="menu">
+            <li>
+                <a href="/#features">Features</a>
+            </li>
+            <li>
+                <a href="/#highlight">Highlight</a>
+            </li>
+            <li>
+                <a href="/#pricing">Pricing</a>
+            </li>
+            <li>
+              <%= link_to "Login", new_user_session_path, class: 'btn btn-sm form-control' %>
+            </li>
+            <li>
+              <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-sm signup form-control' %>
+            </li>
+        </ul>
       </div>
-      <div class="module widget-handle mobile-toggle right visible-sm visible-xs">
-          <i class="ti-menu"></i>
-      </div>
-      <div class="module-group right">
-          <div class="module left">
-              <ul class="menu">
-                  <li>
-                      <a href="/#features">Features</a>
-                  </li>
-                  <li>
-                      <a href="/#highlight">Highlight</a>
-                  </li>
-                  <li>
-                      <a href="/#pricing">Pricing</a>
-                  </li>
-                  <li>
-                    <%= link_to "Login", new_user_session_path, class: 'btn btn-sm' %>
-                  </li>
-                  <li>
-                    <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-sm signup' %>
-                  </li>
-              </ul>
-          </div>
-      </div>
-      
+    </div>
   </div>
 </nav>
