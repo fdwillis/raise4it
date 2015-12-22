@@ -635,7 +635,7 @@ footer.bg-dark li,
   height: 100%;
   top: 0;
   left: 0;
-  background: rgb(0, 0, 0, 0);
+  background: rgb(0, 0, 0);
   opacity: 0.3;
   z-index: 2;
 }
