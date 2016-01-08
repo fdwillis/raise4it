@@ -29,7 +29,7 @@ class ContactUsController < ApplicationController
 
     respond_to do |format|
       if @contact_u.save
-        format.html { redirect_to root_path, notice: 'Contact u was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Contact Form Was Successfully Submitted.' }
         format.json { render :show, status: :created, location: @contact_u }
       else
         format.html { render :new }
