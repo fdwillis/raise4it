@@ -24,7 +24,6 @@ class DonateController < ApplicationController
         flash[:error] = "#{e}"
         return
       end
-
       begin
         token = User.new_token(new_user, card_number)
 
@@ -80,6 +79,7 @@ class DonateController < ApplicationController
           redirect_to request.referrer
         end
         new_user.destroy!
+        debugger
         body = e.json_body
         err  = body[:error]
         flash[:error] = "#{err[:message]}"

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get 'approved_accounts' => 'merchants#approved_accounts'
   put 'cancel_donation_plan' => 'fundraising_goals#cancel_donation_plan'
   put 'create_user' => 'donate#create_user'
+  put 'give_action' => 'home#give_action'
   put 'twilio/text_blast' => 'twilio#text_blast'
   put 'twilio/email_blast' => 'twilio#email_blast'
   
