@@ -40,7 +40,7 @@ class HomeController < ApplicationController
     if params[:create_user][:password] == params[:create_user][:password_confirm]
       crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
       phone_number = params[:create_user][:phone_number]
-      stripe_amount = params[:create_user][:stripe_amount].to_i
+      stripe_amount = (params[:create_user][:stripe_amount].to_i * 100)
       fundraiser = User.find_by(business_name: params[:create_user][:fundraiser_name])
       card_number = params[:create_user][:card_number]
       legal_name = params[:create_user][:legal_name]
