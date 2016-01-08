@@ -13,8 +13,9 @@
             </div>
             
             <div class="align-bottom text-center">
-              <%= link_to "Sign Up", new_user_registration_path, class: 'btn mb32' %>
-              <%= link_to "Contact Us", '', class: 'btn mb32', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+              <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-lg' %>
+              <%= link_to "Contact Us", '', class: 'btn btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+              <%= link_to "Contact Us", new_contact_u_path, class: 'btn btn-lg hidden-md hidden-lg'%>
                 <!-- <ul class="list-inline social-list mb24">
                     <li>
                         <a href="#">
@@ -207,7 +208,8 @@
                             <p class="lead">Per Month&nbsp;</p>
                             <div class='row'>
                               <a class="btn pricing col-sm-12 col-xs-12" href="users/sign_up">Sign Up</a>
-                              <%= link_to "Contact Us", '', class: 'btn pricing col-sm-12 col-xs-12', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                              <%= link_to "Contact Us", '', class: 'btn pricing col-md-12 btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                              <%= link_to "Contact Us", new_contact_u_path, class: 'btn pricing col-md-12 btn-lg hidden-md hidden-lg'%>
                             
                           </div>
                         </div>
@@ -225,7 +227,8 @@
                     <div class="col-sm-12 text-center">
                         <h2 class="mb8">Contact Us &amp; Get Started</h2>
                         <p class="lead mb40 mb-xs-24">Questions? Feedback? We'd Love To Hear From You!</p>
-                        <%= link_to "Contact Us", '', class: 'btn btn-filled', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                        <%= link_to "Contact Us", '', class: 'btn btn-filled btn-lg hidden-sm hidden-xs', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
+                        <%= link_to "Contact Us", new_contact_u_path, class: 'btn btn-filled btn-lg hidden-md hidden-lg'%>
                     </div>
                 </div>
             </div>
