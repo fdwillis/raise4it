@@ -1,5 +1,5 @@
 class ContactUsController < ApplicationController
-  before_filter :authenticate_user!, only: :index
+  before_filter :authenticate_user!, only: [:index, :show]
   before_action :set_contact_u, only: [:show, :edit, :update, :destroy]
 
   # GET /contact_us
