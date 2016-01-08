@@ -132,7 +132,7 @@
                     <div class="container v-align-transform">
                         <div class="row">
                             <div class="col-md-8 col-sm-8">
-                                <h1 class="mb40 mb-xs-16 large close-space">Featured Campaign</h1>
+                                <h1 class="mb40 mb-xs-16 medium close-space">Featured Campaign</h1>
                                 <h3>(Give it a try)</h3>
                                 
                                 
@@ -207,7 +207,7 @@
                             <p class="lead">Per Month&nbsp;</p>
                             <div class='row'>
                               <a class="btn pricing col-sm-12 col-xs-12" href="users/sign_up">Sign Up</a>
-                              <%= mail_to "fdwillis7@gmail.com", "Contact Us", class: 'btn pricing col-sm-12 col-xs-12' %>
+                              <%= link_to "Contact Us", '', class: 'btn pricing col-sm-12 col-xs-12', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
                             
                           </div>
                         </div>
@@ -225,7 +225,7 @@
                     <div class="col-sm-12 text-center">
                         <h2 class="mb8">Contact Us &amp; Get Started</h2>
                         <p class="lead mb40 mb-xs-24">Questions? Feedback? We'd Love To Hear From You!</p>
-                        <%= mail_to "fdwillis7@gmail.com", "Contact Us", class: 'btn btn-filled btn-lg mb0' %>
+                        <%= link_to "Contact Us", '', class: 'btn btn-filled', 'data-toggle' => 'modal', 'data-target'=> '#contacting' %>
                     </div>
                 </div>
             </div>
