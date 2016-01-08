@@ -1,0 +1,49 @@
+<%= form_for ContactU.new, url: contact_us_path, method: :post do |f| %>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="uppercase modal-title text-center" id="myModalLabel">Get In Touch</h4>
+  </div>
+  <div class="modal-body">
+     <section>
+      <div class="container-fluid">
+          <div class="row form-group">
+              <div class="col-sm-6 col-md-6">
+                        <div class="map-holder pt160 pb160 mt100 mt-xs-0 mb24">
+                            <iframe src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJL5w6kjhTBogRxSAgWlLwGYc&amp;key=AIzaSyAN0om9mFmy1QN6Wf54tXAowK4eT0ZUPrU"></iframe>
+                        </div>
+                        <div class="feature bordered text-center">
+                            <h4 class="uppercase">Contact Us</h4>
+                            <p>
+                                30 West Mifflin • 6th Floor
+                                <br> Madison, WI 53703
+                            </p>
+                        </div>
+                    </div>
+              <div class="col-sm-12 col-md-6">
+                  <div class="form-group">
+                    <div class='row form-group'>  
+                      <div class='col-md-12'>  
+                        <%= f.email_field :email, class: 'form-control', placeholder: "Valid Email Address", label: false, required: true %>
+                      </div>
+                    </div>
+                    <div class='row form-group'>  
+                      <div class='col-md-6'>  
+                        <%= f.text_field :name, class: 'form-control', placeholder: "Legal Name", label: false, required: true %>
+                      </div>
+                      <div class='col-md-6'>  
+                        <%= f.text_field :phone, class: 'form-control', placeholder: "Phone Number", label: false, required: true %>
+                      </div>
+                    </div>
+                    <div class='row form-group'>  
+                        <%= f.text_area :message, class: 'form-control', placeholder: "What's On Your Mind?", label: false, required: true %>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>

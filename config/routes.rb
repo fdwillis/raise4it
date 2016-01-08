@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :merchants, only: [:index, :show], path: 'orgs'
   
   resources :notifications, only: [:create, :destroy]
+  resources :contact_us
   
   devise_for :users
   resources :users, only: [:update]

@@ -188,6 +188,7 @@ class User < ActiveRecord::Base
           customer: @customer_account.customer_id ,
           description: ENV["MARKETPLACE_NAME"],
           application_fee: @fee,
+          receipt_email: user.email
         },
         {stripe_account: merchant_account_id}
           )  
@@ -202,6 +203,7 @@ class User < ActiveRecord::Base
             customer: @customer.customer_id,
             description: ENV["MARKETPLACE_NAME"],
             application_fee: @fee,
+            receipt_email: user.email
             
           },
           {stripe_account: merchant_account_id}
@@ -220,6 +222,7 @@ class User < ActiveRecord::Base
           currency: 'USD',
           customer: @customer_account.customer_id ,
           description: ENV["MARKETPLACE_NAME"],
+          receipt_email: user.email
         )  
       else
         @customer = User.new_customer(token, user)
@@ -229,6 +232,7 @@ class User < ActiveRecord::Base
           currency: 'USD',
           customer: @customer.customer_id,
           description: ENV["MARKETPLACE_NAME"],
+          receipt_email: user.email
         )
       end
     end
@@ -245,7 +249,7 @@ class User < ActiveRecord::Base
       end
 
       customer = Stripe::Customer.retrieve(@customer_account.customer_id)
-      plan = customer.subscriptions.create(:plan => donation_plan, application_fee_percent: 2)
+      plan = customer.subscriptions.create(:plan => donation_plan, application_fee_percent: 2, receipt_email: user.email)
     end
 
     def self.subscribe_to_admin(user, token, donation_plan)
@@ -259,7 +263,7 @@ class User < ActiveRecord::Base
       end
 
       customer = Stripe::Customer.retrieve(@customer_account.customer_id)
-      plan = customer.subscriptions.create(:plan => donation_plan)
+      plan = customer.subscriptions.create(:plan => donation_plan, receipt_email: user.email)
     end
 
     def self.create_merchant(user, ip_address, user_agent)
