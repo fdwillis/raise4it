@@ -31,6 +31,10 @@ class HomeController < ApplicationController
       
   end
 
+  def give
+    
+  end
+
   def donation_history
     @donations = Donation.all.where(organization: current_user.username)
   end

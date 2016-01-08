@@ -1,0 +1,67 @@
+<div class='row'> 
+  <%= form_for :create_user, url: create_user_path, method: :put  do |u| %>
+    <div class='col-md-6 col-md-offset-3'>  
+    <h1 class='text-center'>Donating <%= number_to_currency(params[:amount].to_f/100, precision: 2) %> To <%= params[:fundraiser_name].capitalize%></h1>
+      <div class='row'> 
+        <div class='col-md-6'>  
+          <div class='form-group'>  
+            <%= u.text_field :legal_name, placeholder: 'Name On Card', class: 'text-center form-control', required: true, value: params[:legal_name] %>
+          </div>
+        </div>
+        <div class='col-md-6'>  
+          <div class='form-group'>  
+            <%= u.text_field :card_number, placeholder: 'Credit Card Number', class: 'text-center form-control', required: true, minlength: 16, maxlength: 16, value: params[:card_number] %>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-4'>    
+          <div class='form-group'>  
+            <%= u.text_field :exp_month, placeholder: "Month: #{DateTime.now.to_date.strftime('%m')}", class: 'text-center form-control', minlength: 2, maxlength: 2, required: true, value: params[:exp_month] %>
+          </div>
+        </div>
+        <div class='col-md-4'>  
+          <div class='form-group'>  
+            <%= u.text_field :exp_year, placeholder: "Year: #{Time.now.year}", class: 'text-center form-control', minlength: 4, maxlength: 4, required: true, value: params[:exp_year]%>
+          </div>
+        </div>
+        <div class='col-md-4'>    
+          <div class='form-group'>  
+            <%= u.text_field :cvc_number, placeholder: 'Enter CVC Number: 433', class: 'text-center form-control', minlength: 3, maxlength: 4, required: true, value: params[:cvc_number]%>
+            <%= u.hidden_field :stripe_amount, class: 'text-center form-control', value: params[:amount] %>
+            <%= u.hidden_field :fundraiser_name, class: 'text-center form-control', value: params[:fundraiser_name] %>
+            <%= u.hidden_field :phone_number, class: 'text-center form-control', value: params[:phone_number] %>
+            <%= u.hidden_field :donation_plan, class: 'text-center form-control', value: params[:donation_plan] %>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-6'>    
+          <div class='form-group'>  
+            <%= u.text_field :username, placeholder: "Username (No Spaces): donor_1", class: 'text-center form-control', required: true, value: params[:exp_month] %>
+          </div>
+        </div>
+        <div class='col-md-6'>    
+          <div class='form-group'>  
+            <%= u.email_field :email, placeholder: 'Enter Email Address', class: 'text-center form-control', required: true, value: params[:email] %>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-6'>    
+          <div class='form-group'>  
+            <%= u.password_field :password, placeholder: 'Enter Desired Password', class: 'text-center form-control', required: true %>
+          </div>
+        </div>
+        <div class='col-md-6'>    
+          <div class='form-group'>  
+            <%= u.password_field :password_confirm, placeholder: 'Re-enter Desired Password', class: 'text-center form-control', required: true %>
+          </div>
+        </div>
+      </div>
+      <div class='actions form-group'>
+        <%= u.submit "Donate", class: 'btn btn-success' %>
+      </div>
+    </div>
+  <% end %>
+</div>

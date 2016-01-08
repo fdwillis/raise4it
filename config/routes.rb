@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get 'donate' => 'donate#donate'
   get 'terms' => 'home#terms'
+  get 'give' => 'home#give'
   get 'donation_history' => 'home#donation_history'
 
   put 'approve_goal' => 'pending_goals#approve_goal'
