@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   friendly_id :username, use: [:slugged, :finders]
 
   mount_uploader :logo, PhotoUploader
+
+  scope :with_biz_name, -> { where('business_name IS NOT NULL') }
   
   
   has_many :purchases

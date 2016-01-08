@@ -1,7 +1,7 @@
 <div class='row'> 
   <%= form_for :create_user, url: give_action_path, method: :put  do |u| %>
     <div class='col-md-6 col-md-offset-3'>  
-    <h1 class='text-center'>Give To<br><h5 class='text-center'>Please Choose From The Dropdown Menu Below</h5> <%= u.collection_select :fundraiser_name, User.order(:business_name),:business_name,:business_name, include_blank: false %></h1>
+    <h1 class='text-center'>Give To<br><h5 class='text-center'>Please Choose From The Dropdown Menu Below</h5> <%= u.collection_select :fundraiser_name, User.with_biz_name,:business_name,:business_name, include_blank: false %></h1>
       <div class='row'> 
         <div class='col-md-6'>  
           <div class='form-group'>  
