@@ -1,23 +1,23 @@
 <div class='row'> 
   <%= form_for :create_user, url: create_user_path, method: :put  do |u| %>
     <div class='col-md-6 col-md-offset-3'>  
-    <h1 class='text-center'>Donating <%= number_to_currency(params[:amount].to_f/100, precision: 2) %> To <%= params[:fundraiser_name].capitalize%></h1>
+    <h1 class='text-center'>Give To<br><h5 class='text-center'>Please Choose From The Dropdown Menu Below</h5> <%= u.collection_select :fundraiser_name, User.order(:business_name),:id,:business_name, include_blank: false %></h1>
       <div class='row'> 
         <div class='col-md-6'>  
           <div class='form-group'>  
-            <%= u.text_field :legal_name, placeholder: 'Name On Card', class: 'text-center form-control', required: true, value: params[:legal_name] %>
+            <%= u.text_field :legal_name, placeholder: 'Name On Card', class: 'text-center form-control', required: true%>
           </div>
         </div>
         <div class='col-md-6'>  
           <div class='form-group'>  
-            <%= u.text_field :card_number, placeholder: 'Credit Card Number', class: 'text-center form-control', required: true, minlength: 16, maxlength: 16, value: params[:card_number] %>
+            <%= u.text_field :card_number, placeholder: 'Credit Card Number', class: 'text-center form-control', required: true, minlength: 16, maxlength: 16%>
           </div>
         </div>
       </div>
       <div class='row'>
         <div class='col-md-4'>    
           <div class='form-group'>  
-            <%= u.text_field :exp_month, placeholder: "Month: #{DateTime.now.to_date.strftime('%m')}", class: 'text-center form-control', minlength: 2, maxlength: 2, required: true, value: params[:exp_month] %>
+            <%= u.text_field :exp_month, placeholder: "Month: #{DateTime.now.to_date.strftime('%m')}", class: 'text-center form-control', minlength: 2, maxlength: 2, required: true %>
           </div>
         </div>
         <div class='col-md-4'>  
@@ -27,23 +27,31 @@
         </div>
         <div class='col-md-4'>    
           <div class='form-group'>  
-            <%= u.text_field :cvc_number, placeholder: 'Enter CVC Number: 433', class: 'text-center form-control', minlength: 3, maxlength: 4, required: true, value: params[:cvc_number]%>
-            <%= u.hidden_field :stripe_amount, class: 'text-center form-control', value: params[:amount] %>
-            <%= u.hidden_field :fundraiser_name, class: 'text-center form-control', value: params[:fundraiser_name] %>
-            <%= u.hidden_field :phone_number, class: 'text-center form-control', value: params[:phone_number] %>
-            <%= u.hidden_field :donation_plan, class: 'text-center form-control', value: params[:donation_plan] %>
+            <%= u.text_field :cvc_number, placeholder: 'Enter CVC Number: 433', class: 'text-center form-control', minlength: 3, maxlength: 4, required: true%>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class='col-md-6'>
+          <div class="form-group">
+            <%= u.number_field :stripe_amount, placeholder: "Donation Amount", class: 'text-center form-control'%>
+          </div>
+        </div>
+        <div class='col-md-6'>
+          <div class="form-group">
+            <%= u.text_field :phone_number, placeholder: "Phone Number", class: 'text-center form-control'%>
           </div>
         </div>
       </div>
       <div class='row'>
         <div class='col-md-6'>    
           <div class='form-group'>  
-            <%= u.text_field :username, placeholder: "Username (No Spaces): donor_1", class: 'text-center form-control', required: true, value: params[:exp_month] %>
+            <%= u.text_field :username, placeholder: "Username (No Spaces): donor_1", class: 'text-center form-control', required: true%>
           </div>
         </div>
         <div class='col-md-6'>    
           <div class='form-group'>  
-            <%= u.email_field :email, placeholder: 'Enter Email Address', class: 'text-center form-control', required: true, value: params[:email] %>
+            <%= u.email_field :email, placeholder: 'Enter Email Address', class: 'text-center form-control', required: true %>
           </div>
         </div>
       </div>
