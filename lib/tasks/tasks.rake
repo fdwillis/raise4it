@@ -339,5 +339,20 @@ namespace :yesterday_donations do
   end
 end
 
+namespace :finish do 
+  desc "Text all who havent yet donated"
+  task donation: :environment  do
+    @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
+    @client.account.messages.list.each do |message|
+      if message.direction == 'inbound' && message.to == ENV["TWILIO_NUMBER"]
+        if !User.all.map(&:support_phone).include?(message.from.gsub(/[^0-9]/i, '')[1..10])
+          number = message.from.gsub(/[^0-9]/i, '')[1..10]
+          puts "From: #{number} \n Message: #{message.body}"
+        end
+      end
+    end
+  end
+end
+
 
 

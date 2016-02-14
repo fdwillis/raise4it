@@ -313,8 +313,9 @@ class User < ActiveRecord::Base
         decline_charge_on: {
           cvc_failure: true,
         },
-        transfer_schedule:{
-          interval: 'manual',
+        transfer_schedule: {
+          interval: 'weekly',
+          weekly_anchor: 'friday'
         },
       )
     end
