@@ -347,7 +347,16 @@ namespace :finish do
       if message.direction == 'inbound' && message.to == ENV["TWILIO_NUMBER"]
         from_number = message.from.gsub(/[^0-9]/i, '')[1..10]
         if !User.all.map(&:support_phone).include?(from_number) && from_number != "4143997341"
-          puts "From: #{from_number} \n Message: #{message.body}"
+          twilio_text = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+          message = message.body
+          raiser_name = User.find_by(username: message.split[1])
+          if raiser_name.present?
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: from_number, body: "We see you haven't completed your #{number_to_currency(message.split[0], precision:2)} donation to #{User.find_by(username: message.split[1].downcase).business_name}.  To finish your donation please respond with: #{message} ")
+            puts "text sent"
+          else
+            puts "Nothing"
+          end
+          puts "From: #{from_number} \n Message: #{message}"
         end
       end
     end
