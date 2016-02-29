@@ -178,7 +178,7 @@ class NotificationsController < ApplicationController
     current_user = User.find_by(marketplace_stripe_id: cus_id)
     plan = params['data']['object']['lines']['data'].first
     puts plan['id']
-    puts plan['name']
+    puts plan['plan']['name']
 
     # if params[:type] == "invoice.payment_succeeded"
 
