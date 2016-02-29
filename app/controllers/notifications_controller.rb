@@ -174,7 +174,7 @@ class NotificationsController < ApplicationController
 
   def stripe
     render nothing: true, status: :ok
-    puts params[:data][:customer]
+    puts "------------>#{params[:data][:object][:customer]}"
     # current_user = User.find_by(marketplace_stripe_id: params[:data][:customer])
 
     # if params[:type] == "invoice.payment_succeeded"
