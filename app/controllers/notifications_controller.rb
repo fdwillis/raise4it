@@ -171,6 +171,21 @@ class NotificationsController < ApplicationController
     redirect_to request.referrer
     flash[:notice] = "Imported Emails Successfully"
   end
+
+  def stripe
+    render nothing: true, status: :ok
+    data_json = JSON.parse request.body.read
+
+    p data_json['data']['object']['customer']
+
+    if data_json[:type] == "invoice.payment_succeeded"
+      puts "Payment Success"
+    end
+
+    if data_json[:type] == "invoice.payment_failed"
+      puts "Payment Failed"
+    end
+  end
 end
 
 # Test CURL

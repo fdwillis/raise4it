@@ -19,6 +19,7 @@ source 'https://rubygems.org'
   gem "activeuuid"
   gem 'pundit'
   gem 'friendly_id'
+  gem 'stripe_event'
 
 #Data
   gem 'geocoder'
