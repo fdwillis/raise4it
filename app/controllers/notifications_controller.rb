@@ -174,15 +174,12 @@ class NotificationsController < ApplicationController
 
   def stripe
     render nothing: true, status: :ok
-    data_json = JSON.parse request.body.read
 
-    p data_json['data']['object']['customer']
-
-    if data_json[:type] == "invoice.payment_succeeded"
+    if params[:type] == "invoice.payment_succeeded"
       puts "Payment Success"
     end
 
-    if data_json[:type] == "invoice.payment_failed"
+    if params[:type] == "invoice.payment_failed"
       puts "Payment Failed"
     end
   end
