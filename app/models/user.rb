@@ -167,7 +167,6 @@ class User < ActiveRecord::Base
     end
 
     def self.find_stripe_customer_id(user)
-      
       @customers = Stripe::Customer.all.data
       @customer_ids = @customers.map(&:id)
       @customer_account = user.stripe_customer_ids.where(business_name: Stripe::Account.retrieve().business_name).first

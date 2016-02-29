@@ -74,7 +74,7 @@ before_filter :authenticate_user!
           end
         end
 
-        current_user.update_attributes(stripe_plan_id: subscription.id , stripe_plan_name: plan.name, account_approved: false)
+        current_user.update_attributes(stripe_plan_id: subscription.id , stripe_plan_name: plan.name, account_approved: true, stripe_cus_id: customer.id)
         current_user.roles.find_or_create_by(title: 'donations')
 
         flash[:notice] = "Welcome Back! You Joined The #{plan.name} Plan"
