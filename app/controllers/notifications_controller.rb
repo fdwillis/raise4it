@@ -174,13 +174,13 @@ class NotificationsController < ApplicationController
 
   def stripe
     render nothing: true, status: :ok
-    puts "------------>#{params[:data][:object][:customer]}"
-    # current_user = User.find_by(marketplace_stripe_id: params[:data][:customer])
+    cus_id = params[:data][:object][:customer]
+    current_user = User.find_by(marketplace_stripe_id: cus_id)
+    plan = params[:data][:object][:lines][:data][:plan]
+    puts plan.id
+    puts plan.name
 
     # if params[:type] == "invoice.payment_succeeded"
-    #   puts "Payment Success"
-
-    #   puts current_user
 
     #   if current_user.fundraising_goals.present?
     #     current_user.fundraising_goals.each do |p|
@@ -188,12 +188,20 @@ class NotificationsController < ApplicationController
     #     end
     #   end
 
-    #   current_user.update_attributes(stripe_plan_id: subscription.id , stripe_plan_name: plan.name, account_approved: true, stripe_cus_id: customer.id)
+    #   current_user.update_attributes(stripe_plan_id: plan.id , stripe_plan_name: plan.name, account_approved: true)
     # end
 
-    if params[:type] == "invoice.payment_failed"
-      puts "Payment Failed"
-    end
+    # if params[:type] == "invoice.payment_failed"
+
+    #   if current_user.fundraising_goals.present?
+    #     current_user.fundraising_goals.each do |p|
+    #       p.update_attributes(active: false)
+    #     end
+    #   end
+      
+    #   current_user.update_attributes(account_approved: false)
+
+    # end
   end
 end
 
