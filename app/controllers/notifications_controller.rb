@@ -177,31 +177,29 @@ class NotificationsController < ApplicationController
     cus_id = params['data']['object']['customer']
     current_user = User.find_by(marketplace_stripe_id: cus_id)
     plan = params['data']['object']['lines']['data'].first
-    puts plan['id']
-    puts plan['plan']['name']
 
-    # if params[:type] == "invoice.payment_succeeded"
+    if params[:type] == "invoice.payment_succeeded"
 
-    #   if current_user.fundraising_goals.present?
-    #     current_user.fundraising_goals.each do |p|
-    #       p.update_attributes(active: true)
-    #     end
-    #   end
+      if current_user.fundraising_goals.present?
+        current_user.fundraising_goals.each do |p|
+          p.update_attributes(active: true)
+        end
+      end
 
-    #   current_user.update_attributes(stripe_plan_id: plan.id , stripe_plan_name: plan.name, account_approved: true)
-    # end
+      current_user.update_attributes(stripe_plan_id: plan['id'] , stripe_plan_name: plan['plan']['name'], account_approved: true)
+    end
 
-    # if params[:type] == "invoice.payment_failed"
+    if params[:type] == "invoice.payment_failed"
 
-    #   if current_user.fundraising_goals.present?
-    #     current_user.fundraising_goals.each do |p|
-    #       p.update_attributes(active: false)
-    #     end
-    #   end
+      if current_user.fundraising_goals.present?
+        current_user.fundraising_goals.each do |p|
+          p.update_attributes(active: false)
+        end
+      end
       
-    #   current_user.update_attributes(account_approved: false)
+      current_user.update_attributes(account_approved: false)
 
-    # end
+    end
   end
 end
 
