@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  protect_from_forgery except: :twilio
+  protect_from_forgery except: [:twilio, :stripe]
   include ActionView::Helpers::NumberHelper
 
   def twilio
