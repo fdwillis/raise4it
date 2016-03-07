@@ -2,6 +2,7 @@ class SubscribeController < ApplicationController
 before_filter :authenticate_user!
 
   def update
+    debugger
     #Track for admin
     # Create Multiple Records at once
       # Role.create(
@@ -84,7 +85,7 @@ before_filter :authenticate_user!
         begin
           subscription = User.subscribe_to_admin(current_user, @token.id, plan.id)
 
-          User.new_paying_merchant(request.location.data, request.remote_ip, subscription.plan.amount, current_user)
+          # User.new_paying_merchant(request.location.data, request.remote_ip, subscription.plan.amount, current_user)
           
           current_user.update_attributes(slug: @username , marketplace_stripe_id: subscription.customer, 
                                          card_number: @card_number, exp_year: @exp_year, 
