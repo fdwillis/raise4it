@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :email_lists
   has_many :donations, dependent: :destroy
   has_many :stripe_customer_ids, dependent: :destroy
-  has_many :fundraising_goals
+  has_many :fundraising_goals, dependent: :destroy
 
   validates_uniqueness_of :username, allow_blank: false, format: { without: /\s/ }
   validates_uniqueness_of :support_phone, allow_blank: true, format: { without: /\s/ }
