@@ -184,9 +184,9 @@ class NotificationsController < ApplicationController
         current_user.fundraising_goals.each do |p|
           p.update_attributes(active: true)
         end
+        current_user.update_attributes(stripe_plan_id: plan['id'] , stripe_plan_name: plan['plan']['name'], account_approved: true)
       end
 
-      current_user.update_attributes(stripe_plan_id: plan['id'] , stripe_plan_name: plan['plan']['name'], account_approved: true)
 
     elsif params[:type] == "invoice.payment_failed"
         
@@ -194,12 +194,12 @@ class NotificationsController < ApplicationController
         current_user.fundraising_goals.each do |p|
           p.update_attributes(active: false)
         end
+        current_user.update_attributes(account_approved: false)
       end
       
-      current_user.update_attributes(account_approved: false)
-
     else
       render nothing: true, status: :ok
+      puts "nothing to do"
     end
   end
 end
