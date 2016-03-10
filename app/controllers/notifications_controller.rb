@@ -199,7 +199,6 @@ class NotificationsController < ApplicationController
       end
       
     else
-      render nothing: true, status: :ok
       puts "nothing to do"
     end
   end
