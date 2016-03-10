@@ -176,9 +176,9 @@ class NotificationsController < ApplicationController
     render nothing: true, status: :ok
     cus_id = params['data']['object']['customer']
     current_user = User.find_by(marketplace_stripe_id: cus_id)
-    plan = params['data']['object']['lines']['data'].first
 
     if params[:type] == "invoice.payment_succeeded"
+      plan = params['data']['object']['lines']['data'].first
 
       if current_user && current_user.fundraising_goals.present?
         current_user.fundraising_goals.each do |p|
@@ -189,6 +189,7 @@ class NotificationsController < ApplicationController
 
 
     elsif params[:type] == "invoice.payment_failed"
+      plan = params['data']['object']['lines']['data'].first
         
       if current_user && current_user.fundraising_goals.present?
         current_user.fundraising_goals.each do |p|
