@@ -180,7 +180,7 @@ class NotificationsController < ApplicationController
 
     if params[:type] == "invoice.payment_succeeded"
 
-      if curernt_user && current_user.fundraising_goals.present?
+      if current_user && current_user.fundraising_goals.present?
         current_user.fundraising_goals.each do |p|
           p.update_attributes(active: true)
         end
@@ -190,7 +190,7 @@ class NotificationsController < ApplicationController
 
     elsif params[:type] == "invoice.payment_failed"
         
-      if curernt_user && current_user.fundraising_goals.present?
+      if current_user && current_user.fundraising_goals.present?
         current_user.fundraising_goals.each do |p|
           p.update_attributes(active: false)
         end
