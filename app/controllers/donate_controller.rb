@@ -53,7 +53,7 @@ class DonateController < ApplicationController
           end
         end
         
-        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.business_name.capitalize} Thanks You For Your Donation!"})
+        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.business_name} Thanks You For Your Donation! You can now donate anytime by texting this number and the username of the organization you'd like to donate to with a dollar amount. Example: 5 [username]"})
         redirect_to root_path
         flash[:notice] = "Thanks For The Donation"
         # Donation.donations_to_keen(@donation, request.remote_ip, request.location.data, 'text', false)

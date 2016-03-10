@@ -86,26 +86,16 @@ class HomeController < ApplicationController
           end
         end
         
-        Donation.donations_to_keen(@donation, request.remote_ip, request.location.data, 'text', false)
+        # Donation.donations_to_keen(@donation, request.remote_ip, request.location.data, 'text', false)
+
+        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.business_name} Thanks You For Your Donation! You can now donate anytime by texting this number and the username of the organization you'd like to donate to with a dollar amount. Example: 5 [username]"})
+        redirect_to root_path
+        flash[:notice] = "Thanks For The Donation"
         fundraiser.text_lists.find_or_create_by(phone_number: phone_number)
         fundraiser.email_lists.find_or_create_by(email: email)
         Stripe.api_key = Rails.configuration.stripe[:secret_key]
-        twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: phone_number , body: "#{fundraiser.username.capitalize} Thanks You For Your Donation! You can now donate anytime by texting this number and the username of the organization you'd like to donate to with a dollar amount. Example: 5 [username]"})
-        redirect_to root_path
-        flash[:notice] = "Thanks For The Donation"
         return
       rescue Stripe::CardError => e
-        if params[:create_user][:donation_plan].present?
-          redirect_to request.referrer
-        else
-          redirect_to request.referrer
-        end
-        new_user.destroy!
-        body = e.json_body
-        err  = body[:error]
-        flash[:error] = "#{err[:message]}"
-        return
-      rescue => e
         if params[:create_user][:donation_plan].present?
           redirect_to request.referrer
         else
