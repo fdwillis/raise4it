@@ -57,7 +57,7 @@
         <br>
         <div class="m-b-md">
           <i class="fa fa-bell fa-4x"></i>
-          <h1 class="m-xs"><%= number_to_currency(current_user.total_donation_revenue, precision: 2) %></h1>
+          <h1 class="m-xs"><%= number_to_currency(Donation.all.where(organization: current_user.username).map(&:amount).sum / 100, precision: 2) %></h1>
           <h3 class="font-bold no-margins">
               Donation Volume
           </h3>
