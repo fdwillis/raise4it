@@ -351,7 +351,7 @@ namespace :finish do
           message = message.body
           raiser_name = User.find_by(username: message.split[1])
           if raiser_name.present?
-            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: from_number, body: "We see you haven't completed your #{number_to_currency(message.split[0], precision:2)} donation to #{User.find_by(username: message.split[1].downcase).business_name}.  To finish your donation please respond with: 25 #{User.find_by(username: message.split[1].downcase).username}"})
+            twilio_text.account.messages.create({from: "#{ENV['TWILIO_NUMBER']}", to: from_number, body: "We see you haven't completed your #{number_to_currency(message.split[0], precision:2)} donation to #{User.find_by(username: message.split[1].downcase).business_name}.  To finish your donation please respond with: #{message.split[0]} #{User.find_by(username: message.split[1].downcase).username}"})
             puts "text sent"
           else
             puts "Nothing"
