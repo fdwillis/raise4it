@@ -110,9 +110,11 @@ class User < ActiveRecord::Base
       next_transfer = Stripe::Balance.retrieve.available[0].amount.to_f / 100
       pending_amount = Stripe::Balance.retrieve.pending[0].amount.to_f / 100
       monthly_revenue = Stripe::Customer.all.data.map(&:subscriptions).map(&:data).flatten.map(&:plan).map(&:amount).sum.to_f / 100
+      d = Stripe::Transfer.all.data
       user.update_attributes(next_transfer: next_transfer)
       user.update_attributes(pending_amount: pending_amount)
       user.update_attributes(monthly_revenue: monthly_revenue)
+      user.update_attributes(total_donation_revenue: (d.map(&:amount).sum).to_f / 100)
       puts "Successful Stripe Grab"
     end
 

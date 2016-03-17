@@ -215,8 +215,6 @@ namespace :keen do
             ]  
           })
         end
-        user.update_attributes(total_donation_revenue: total_donations.to_f)
-        puts "#{user.username} Donation revenue #{total_donations}"
       end
     end
   end
