@@ -26,4 +26,7 @@ module Clockwork
   every(15.minutes, "Update Keen Data"){
     "rake keen:donations"
   }
+  every(1.week, "Forgotten Donation", at: "Sunday 14:00"){
+    "rake keen:donations"
+  }
 end
